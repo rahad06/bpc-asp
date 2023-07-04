@@ -1,6 +1,10 @@
 using ASPBPCPANELALPHA.Data;
+using ASPBPCPANELALPHA.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -12,7 +16,9 @@ builder.Services.AddSwaggerGen();
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -36,6 +42,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

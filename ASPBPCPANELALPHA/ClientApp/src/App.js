@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
+import React, {useEffect, useState} from 'react';
 import './custom.css';
+import AppHolder from "./components/AppHolder";
+import Login from "./components/Login";
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
-    return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
-        </Routes>
-      </Layout>
-    );
-  }
+function App(props) {
+    const [show, setShow] = useState(false)
+    useEffect(() => {
+        // Check if user is logged in based on the cached login status
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        setShow(isLoggedIn);
+    }, [setShow]);
+    if (show) {
+        return <AppHolder/>
+    } else {
+        return (
+            <Login/>
+        )
+    }
 }
+
+export default App;
+

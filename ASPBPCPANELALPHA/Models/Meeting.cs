@@ -15,7 +15,7 @@ public class Meeting
     public Company? Company { get; set; }
     public MeetingStatus? MeetingStatus { get; set; }
 
-    public string CompanyName { get; set; }
+    public string? CompanyName { get; set; }
 
     [DataType(DataType.Time)]
     public TimeSpan SpainTime { get; set; }
