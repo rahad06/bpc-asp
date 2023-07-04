@@ -1,7 +1,7 @@
 import React from 'react';
-import {Layout} from "./Layout";
 import {Route, Routes} from "react-router-dom";
 import AppRoutes from "../AppRoutes";
+import {Layout} from "./Layout";
 
 function AppHolder(props) {
     return (
