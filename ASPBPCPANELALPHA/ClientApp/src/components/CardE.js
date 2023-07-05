@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Grid} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,9 +10,14 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import axios from "axios";
 
 function CardE(props) {
+    const [meetingInfo, setMeetingInfo] = useState(null)
+    const [popUp, setPopUp] = useState(false)
+  
     const getMeetingSummary = async (id) => {
         const response = await axios.get(`/api/Meetings/${id}`);
-        console.log(response)
+        console.log(response.data)
+        setMeetingInfo(response.data)
+        setPopUp(true)
     }
     const bull = (
         <Box
@@ -22,6 +27,33 @@ function CardE(props) {
             •
         </Box>
     );
+    if(popUp) return (
+        <Card sx={{minWidth: 80}}>
+            <CardContent>
+                <Typography variant="body1" component="p">
+                    {meetingInfo.Client.Name}
+                </Typography>
+                <Typography variant="body1" component="p">
+                    {meetingInfo.Company.Name}
+                </Typography>
+                <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
+                    <FormControl fullWidth>
+                        <InputLabel id="status-label">Status</InputLabel>
+                        <Select
+                            labelId="statu-label"
+                            id="meetingStatus"
+                        >
+                            {props.statuses.length > 0 ?? props.statuses.map((i) => (
+                                <MenuItem key={`${i.meetingStatusId}-statusSelect`} value={i.meetingStatusId}>
+                                    {i.status}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </CardContent>
+        </Card>
+    )
     return (
         <Card sx={{minWidth: 80}}>
             <CardContent>

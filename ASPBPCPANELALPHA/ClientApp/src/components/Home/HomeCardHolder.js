@@ -6,7 +6,11 @@ import { Grid } from '@mui/material';
 function HomeCardHolder(props) {
     const [weekMeetings, setWeekMeetings] = useState([]);
     const [clientsWithWeekMeetings, setClientsWithWeekMeetings] = useState([]);
-
+    const [statuses, setStatuses] = useState([])
+    const getStatuses = async () => {
+        const response = await axios.get(`/api/MeetingStatuses`);
+        setStatuses(response)
+    }
     useEffect(() => {
         // Fetch Week's meetings
         axios
@@ -17,7 +21,7 @@ function HomeCardHolder(props) {
             .catch((error) => {
                 console.error(error);
             });
-
+        getStatuses()
     }, []);
 
     return (
@@ -26,7 +30,7 @@ function HomeCardHolder(props) {
                 {/* Render Week's meetings */}
                 {weekMeetings.map((day, index) => (
                     <Grid key={`${day.dayOfWeek}-${index}`} xs={5/3} sx={{ padding: '0 16px' }}>
-                        <CardE day={day} />
+                        <CardE day={day} statuses={statuses}/>
                     </Grid>
                 ))}
             </Grid>
