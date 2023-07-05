@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 function Index(props) {
     return (
         <>
-        <SignUpForm/>
+        {/*<SignUpForm/>*/}
         <LoginForm/>
         </>
     );

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="31.7.69.156" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="31.7.69.156">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA.sln" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ASPBPCPANELALPHA.csproj" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/WeatherForecastController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/CompaniesController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/IndustriesController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/ClientsController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/MeetingsController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/MeetingStatusesController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Controllers/UsersController.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Pages/Error.cshtml" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Pages/_ViewImports.cshtml" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Pages/Error.cshtml" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Pages/_ViewImports.cshtml" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Pages/Error.cshtml.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Properties/launchSettings.json" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/public/favicon.ico" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/public/index.html" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/public/manifest.json" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Login/index.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Login/SignUpForm.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Login/LoginForm.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Login/Logout.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Layout/DrawerBox.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Counter.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/FetchData.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Home.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/Layout.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/NavMenu.css" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/NavMenu.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/components/AppHolder.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/Store/usePanelStore.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/App.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/App.test.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/AppRoutes.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/custom.css" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/index.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/reportWebVitals.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/service-worker.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/serviceWorkerRegistration.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/src/setupProxy.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/.env" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/.env.development" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/.gitignore" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/aspnetcore-https.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/aspnetcore-react.js" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/package-lock.json" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/package.json" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/README.md" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/ClientApp/.env.development.local" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/obj/Debug/net6.0/ASPBPCPANELALPHA.GlobalUsings.g.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/obj/Debug/net6.0/ASPBPCPANELALPHA.AssemblyInfo.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/obj/Debug/net6.0/ASPBPCPANELALPHA.RazorAssemblyInfo.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/obj/Debug/net6.0/ASPBPCPANELALPHA.GeneratedMSBuildEditorConfig.editorconfig" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Data/ApplicationDbContext.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/Company.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/Industry.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/Client.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/Meeting.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/MeetingStatus.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/UserSignUpModel.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Models/UserSignInModel.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704123632_meetingchanges.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/ApplicationDbContextModelSnapshot.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704162917_users.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704163150_usersTable.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704174438_usersStuff.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704174550_userMicrosoft.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704185800_userBug.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704194439_userBugStill.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704195257_userBugMayb.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704195754_userBugMay2.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704123632_meetingchanges.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704162917_users.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704163150_usersTable.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704174438_usersStuff.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704174550_userMicrosoft.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704185800_userBug.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704194439_userBugStill.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704195257_userBugMayb.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Migrations/20230704195754_userBugMay2.Designer.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/Program.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/WeatherForecast.cs" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/.gitignore" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/appsettings.Development.json" web="/" />
+            <mapping local="$PROJECT_DIR$/ASPBPCPANELALPHA/appsettings.json" web="/" />
+            <mapping local="/usr/local/share/dotnet/sdk/6.0.407/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_6_default.editorconfig" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

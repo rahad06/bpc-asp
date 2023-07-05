@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
+import Logout from "../Login/Logout";
 
 function DrawerBox(props) {
     const [open, setOpen] = useState(false)
@@ -33,6 +34,9 @@ function DrawerBox(props) {
                             </ListItemIcon>
                             <ListItemText primary={1} />
                         </ListItemButton>
+                    </ListItem>
+                    <ListItem key={2} disablePadding>
+                        <Logout/>
                     </ListItem>
             </List>
             <Divider />

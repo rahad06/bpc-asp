@@ -1,54 +1,88 @@
 import React, {useState} from 'react';
-import { TextField, Button } from '@mui/material';
-import axios from "axios";
+import {useForm} from 'react-hook-form';
+import axios from 'axios';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import usePanelStore from "../../Store/usePanelStore";
 
 function LoginForm() {
-    const [userName, setUserName] = useState("")
-    const [pass, setPass] = useState("")
-    const submitForm = (e) => {
-        // Handle form submission here (e.g., call the signup API)
-        e.preventDefault()
-        console.log(userName, pass)
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+    } = useForm();
+    const {setShow} = usePanelStore()
+    const [remember, setRemember] = useState(false)
+    const onSubmit = (data) => {
         axios
             .post('/api/Users/SignIn', {
-                userName: userName,
-                password: pass
+                userName: data.userName,
+                password: data.password,
             })
             .then((response) => {
-                localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    setShow(true)
             })
             .catch((error) => {
-                // Handle error
                 console.error(error);
+                setShow(false)
             });
     };
 
-
     return (
-        <form onSubmit={submitForm}>
-            <TextField
-                label="Username"
-                value={userName}
-                onChange={e => setUserName(e.target.value)}
-                // helperText={errors.username ? 'Username is required' : ''}
-            />
-
-            <TextField
-                label="Password"
-                type="password"
-                value={pass}
-                onChange={e => setPass(e.target.value)}
-
-                // error={errors.password}
-                // helperText={errors.password ? 'Password is required' : ''}
-            />
-
-            <Button type="submit" variant="contained" color="primary">
-                Sign Up
-            </Button>
-            
-        </form>
+        <>
+            <Container component="main" maxWidth="sm">
+                <Box
+                    sx={{
+                        boxShadow: 3,
+                        borderRadius: 2,
+                        px: 4,
+                        py: 6,
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="userName"
+                            label="Username"
+                            autoComplete="userName"
+                            autoFocus
+                            {...register('userName', {required: true})}
+                            error={errors.userName}
+                            helperText={errors.userName && 'Username is required'}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            autoComplete="current-password"
+                            {...register('password', {required: true})}
+                            error={errors.password}
+                            helperText={errors.password && 'Password is required'}
+                        />
+                        <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
+                            Sign In
+                        </Button>
+                    </Box>
+                </Box>
+            </Container>
+        </>
     );
-};
+}
 
 export default LoginForm;
