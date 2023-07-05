@@ -3,6 +3,7 @@ using System;
 using ASPBPCPANELALPHA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASPBPCPANELALPHA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705130414_meetingdateerror")]
+    partial class meetingdateerror
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,10 +154,7 @@ namespace ASPBPCPANELALPHA.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("IranTime")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("MeetingDate")
+                    b.Property<DateTimeOffset>("MeetingDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("MeetingStatusId")
@@ -164,8 +163,11 @@ namespace ASPBPCPANELALPHA.Migrations
                     b.Property<string>("Representative")
                         .HasColumnType("text");
 
-                    b.Property<string>("SpainTime")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("StartTimeIran")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartTimeSpain")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("MeetingId");
 

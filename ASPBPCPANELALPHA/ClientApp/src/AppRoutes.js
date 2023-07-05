@@ -1,6 +1,6 @@
-import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
+import NewMeeting from "./components/Meetings/NewMeeting";
 
 const AppRoutes = [
   {
@@ -8,8 +8,8 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/meetings',
+    element: <NewMeeting />
   },
   {
     path: '/fetch-data',

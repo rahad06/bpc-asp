@@ -17,7 +17,7 @@ function CardE(props) {
         </Box>
     );
     return (
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ minWidth: 100 }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     Meeting

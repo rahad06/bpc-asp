@@ -46,6 +46,33 @@ namespace ASPBPCPANELALPHA.Controllers
         [HttpPost]
         public async Task<ActionResult<Meeting>> CreateMeeting(Meeting meeting)
         {
+            // Convert the MeetingDateUtc property to DateTime before saving to the database
+            meeting.MeetingDate = meeting.MeetingDateUtc.UtcDateTime;
+// Convert SpainTime and IranTime to a DateTime with the same date as DateTime.MinValue
+     
+            // Convert SpainTime and IranTime to DateTime
+            if (TimeSpan.TryParse(meeting.SpainTime, out var spainTime))
+            {
+                meeting.SpainTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, spainTime.Hours, spainTime.Minutes, 0).ToString("HH:mm");
+            }
+            else
+            {
+                // Handle invalid time format
+                ModelState.AddModelError("SpainTime", "Invalid time format for SpainTime");
+                return BadRequest(ModelState);
+            }
+
+            if (TimeSpan.TryParse(meeting.IranTime, out var iranTime))
+            {
+                meeting.IranTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, iranTime.Hours, iranTime.Minutes, 0).ToString("HH:mm");
+            }
+            else
+            {
+                // Handle invalid time format
+                ModelState.AddModelError("IranTime", "Invalid time format for IranTime");
+                return BadRequest(ModelState);
+            }
+
             _context.Meetings.Add(meeting);
             await _context.SaveChangesAsync();
 
@@ -60,6 +87,9 @@ namespace ASPBPCPANELALPHA.Controllers
             {
                 return BadRequest();
             }
+
+            // Convert the MeetingDateUtc property to DateTime before saving to the database
+            meeting.MeetingDate = meeting.MeetingDateUtc.UtcDateTime;
 
             _context.Entry(meeting).State = EntityState.Modified;
 
@@ -81,6 +111,20 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return NoContent();
         }
+// GET: api/Meetings/Week
+        [HttpGet("Week")]
+        public async Task<ActionResult<IEnumerable<Meeting>>> GetWeekMeetings()
+        {
+            var startDate = DateTime.Today.ToUniversalTime();
+            var endDate = startDate.AddDays(7);
+
+            var weekMeetings = await _context.Meetings
+                .Where(m => m.MeetingDate.ToUniversalTime().Date >= startDate && m.MeetingDate.ToUniversalTime().Date <= endDate)
+                .ToListAsync();
+
+            return weekMeetings;
+        }
+
 
 // GET: api/Meetings/Client/{clientId}
         [HttpGet("Client/{clientId}")]
@@ -126,8 +170,8 @@ namespace ASPBPCPANELALPHA.Controllers
         {
             var todayMeetings = await _context.Meetings
                 .Where(m => m.MeetingDate.Date == DateTime.Today)
+                .OrderBy(m => m.MeetingDate)
                 .ToListAsync();
-
             return todayMeetings;
         }
 
@@ -137,12 +181,13 @@ namespace ASPBPCPANELALPHA.Controllers
         {
             var tomorrowMeetings = await _context.Meetings
                 .Where(m => m.MeetingDate.Date == DateTime.Today.AddDays(1))
+                .OrderBy(m => m.MeetingDate)
                 .ToListAsync();
 
             return tomorrowMeetings;
         }
 
-        // GET: api/Meetings/Clients/Today
+// GET: api/Meetings/Clients/Today
         [HttpGet("Clients/Today")]
         public async Task<ActionResult<IEnumerable<Client?>>> GetClientsWithTodayMeetings()
         {
@@ -150,12 +195,14 @@ namespace ASPBPCPANELALPHA.Controllers
                 .Where(m => m.MeetingDate.Date == DateTime.Today)
                 .Include(m => m.Client)
                 .Select(m => m.Client)
+                .OrderBy(c => c.Name)
+                .Take(2)
                 .ToListAsync();
 
             return todayMeetings;
         }
 
-        // GET: api/Meetings/Clients/Tomorrow
+// GET: api/Meetings/Clients/Tomorrow
         [HttpGet("Clients/Tomorrow")]
         public async Task<ActionResult<IEnumerable<Client?>>> GetClientsWithTomorrowMeetings()
         {
@@ -163,6 +210,8 @@ namespace ASPBPCPANELALPHA.Controllers
                 .Where(m => m.MeetingDate.Date == DateTime.Today.AddDays(1))
                 .Include(m => m.Client)
                 .Select(m => m.Client)
+                .OrderBy(c => c.Name)
+                .Take(2)
                 .ToListAsync();
 
             return tomorrowMeetings;
@@ -231,11 +280,11 @@ namespace ASPBPCPANELALPHA.Controllers
                                         var companyNameIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(companyNameIndex))
                                         {
-                                            meeting.CompanyName = ""; // Or assign a default value as needed
+                                            meeting.Representative = ""; // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.CompanyName = reader.GetString(companyNameIndex);
+                                            meeting.Representative = reader.GetString(companyNameIndex);
                                         }
 
                                         break;
@@ -243,36 +292,39 @@ namespace ASPBPCPANELALPHA.Controllers
                                         var spainTimeIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(spainTimeIndex))
                                         {
-                                            meeting.SpainTime =
-                                                TimeSpan.MinValue; // Or assign a default value as needed
+                                            meeting.SpainTime = DateTime.MinValue.ToString("HH:mm"); // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.SpainTime = TimeSpan.Parse(reader.GetString(spainTimeIndex));
+                                            var spainTime = reader.GetDateTime(spainTimeIndex);
+                                            meeting.SpainTime = spainTime.ToString("HH:mm");
                                         }
-
                                         break;
+
                                     case "IranTime":
                                         var iranTimeIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(iranTimeIndex))
                                         {
-                                            meeting.IranTime = TimeSpan.MinValue; // Or assign a default value as needed
+                                            meeting.IranTime = DateTime.MinValue.ToString("HH:mm"); // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.IranTime = TimeSpan.Parse(reader.GetString(iranTimeIndex));
+                                            var iranTime = reader.GetDateTime(iranTimeIndex);
+                                            meeting.IranTime = iranTime.ToString("HH:mm");
                                         }
-
                                         break;
+
+
+
                                     case "ContactName":
                                         var contactNameIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(contactNameIndex))
                                         {
-                                            meeting.CompanyName = null; // Or assign a default value as needed
+                                            meeting.Representative = null; // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.CompanyName = reader.GetString(contactNameIndex);
+                                            meeting.Representative = reader.GetString(contactNameIndex);
                                         }
 
                                         break;

@@ -7,6 +7,7 @@ public class Meeting
     public int MeetingId { get; set; }
     public int ClientId { get; set; }
     public int CompanyId { get; set; }
+    [DataType(DataType.Date)]
     public DateTime MeetingDate { get; set; }
     public int MeetingStatusId { get; set; } // Foreign key to MeetingStatus
 
@@ -15,11 +16,16 @@ public class Meeting
     public Company? Company { get; set; }
     public MeetingStatus? MeetingStatus { get; set; }
 
-    public string? CompanyName { get; set; }
+    public string? Representative { get; set; }
 
     [DataType(DataType.Time)]
-    public TimeSpan SpainTime { get; set; }
+    [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+    public string? SpainTime { get; set; }
 
     [DataType(DataType.Time)]
-    public TimeSpan IranTime { get; set; }
+    [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+    public string? IranTime { get; set; }
+
+    // Convert MeetingDate to UTC before saving to the database
+    public DateTimeOffset MeetingDateUtc => new DateTimeOffset(MeetingDate, TimeSpan.Zero);
 }
