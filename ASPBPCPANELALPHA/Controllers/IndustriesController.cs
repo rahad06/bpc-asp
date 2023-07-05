@@ -2,9 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ASPBPCPANELALPHA.Data;
 using ASPBPCPANELALPHA.Models;
+using Newtonsoft.Json;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace ASPBPCPANELALPHA.Controllers
 {
@@ -97,6 +101,30 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return NoContent();
         }
+        // GET: api/Industries/{id}/Companies
+        [HttpGet("{id}/Companies")]
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompaniesByIndustry(int id)
+        {
+            var industry = await _context.Industries
+                .Include(i => i.Companies)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (industry == null)
+            {
+                return NotFound();
+            }
+
+            var json = JsonConvert.SerializeObject(industry.Companies, Formatting.None, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                MaxDepth = 32 // Adjust the maximum depth value as needed
+            });
+
+            var companies = JsonConvert.DeserializeObject<List<Company>>(json);
+
+            return Ok(companies); // Explicitly return Ok with the companies list
+        }
+
 
         private bool IndustryExists(int id)
         {
