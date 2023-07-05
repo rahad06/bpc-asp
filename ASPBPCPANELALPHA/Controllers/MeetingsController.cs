@@ -112,17 +112,30 @@ namespace ASPBPCPANELALPHA.Controllers
         }
 // GET: api/Meetings/Week
         [HttpGet("Week")]
-        public async Task<ActionResult<IEnumerable<Meeting>>> GetWeekMeetings()
+        public async Task<ActionResult<IEnumerable<DayOfWeekMeetings>>> GetWeekMeetings()
         {
-            var startDate = DateTime.Today.ToUniversalTime();
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tehran"); // Use the IANA time zone identifier for Iran
+            var startDate = DateTimeOffset.Now.ToOffset(timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date;
             var endDate = startDate.AddDays(7);
 
             var weekMeetings = await _context.Meetings
-                .Where(m => m.MeetingDate.ToUniversalTime().Date >= startDate && m.MeetingDate.ToUniversalTime().Date <= endDate)
                 .ToListAsync();
 
-            return weekMeetings;
+            var dayOfWeekMeetings = weekMeetings
+                .Where(m => new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date >= startDate && new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date <= endDate)
+                .GroupBy(m => new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).DayOfWeek)
+                .Select(g => new DayOfWeekMeetings
+                {
+                    DayOfWeek = g.Key.ToString(),
+                    Meetings = g.ToList()
+                })
+                .ToList();
+
+            return dayOfWeekMeetings;
         }
+
+
+
 
 
 // GET: api/Meetings/Client/{clientId}
@@ -209,12 +222,14 @@ namespace ASPBPCPANELALPHA.Controllers
                 .Where(m => m.MeetingDate.Date == DateTime.Today)
                 .Include(m => m.Client)
                 .Select(m => m.Client)
+                .Distinct()
                 .OrderBy(c => c.Name)
-                .Take(2)
+                .Take(4)
                 .ToListAsync();
 
-            return todayMeetings;
+            return Ok(todayMeetings);
         }
+
 
 // GET: api/Meetings/Clients/Tomorrow
         [HttpGet("Clients/Tomorrow")]

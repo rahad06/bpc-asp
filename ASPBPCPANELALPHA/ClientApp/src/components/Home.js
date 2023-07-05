@@ -14,11 +14,11 @@ export class Home extends Component {
             <>
                 <HomeCardHolder/>
                 <Container sx={{marginTop: 4}}>
-                    <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0, gap: '22px'}}>
+                    <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: '0 !important', gap: '52px'}}>
                         <Grid xs={7}>
                             <HomeTodayMeetings/>
                         </Grid>
-                        <Grid xs={3}>
+                        <Grid xs={4}>
                             <HomeClientsCard/>
                         </Grid>
                     </Grid>

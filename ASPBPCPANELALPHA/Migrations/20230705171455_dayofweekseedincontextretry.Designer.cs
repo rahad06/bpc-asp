@@ -3,6 +3,7 @@ using System;
 using ASPBPCPANELALPHA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASPBPCPANELALPHA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705171455_dayofweekseedincontextretry")]
+    partial class dayofweekseedincontextretry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,8 +131,8 @@ namespace ASPBPCPANELALPHA.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DayOfWeek")
-                        .HasColumnType("text");
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -140,37 +142,37 @@ namespace ASPBPCPANELALPHA.Migrations
                         new
                         {
                             Id = 1,
-                            DayOfWeek = "Monday"
+                            DayOfWeek = 1
                         },
                         new
                         {
                             Id = 2,
-                            DayOfWeek = "Tuesday"
+                            DayOfWeek = 2
                         },
                         new
                         {
                             Id = 3,
-                            DayOfWeek = "Wednesday"
+                            DayOfWeek = 3
                         },
                         new
                         {
                             Id = 4,
-                            DayOfWeek = "Thursday"
+                            DayOfWeek = 4
                         },
                         new
                         {
                             Id = 5,
-                            DayOfWeek = "Friday"
+                            DayOfWeek = 5
                         },
                         new
                         {
                             Id = 6,
-                            DayOfWeek = "Saturday"
+                            DayOfWeek = 6
                         },
                         new
                         {
                             Id = 7,
-                            DayOfWeek = "Sunday"
+                            DayOfWeek = 0
                         });
                 });
 

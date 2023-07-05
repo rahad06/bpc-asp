@@ -3,6 +3,7 @@ using System;
 using ASPBPCPANELALPHA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASPBPCPANELALPHA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705170153_dayofweekmeeting")]
+    partial class dayofweekmeeting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,59 +123,6 @@ namespace ASPBPCPANELALPHA.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("ASPBPCPANELALPHA.Models.DayOfWeekMeetings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DayOfWeek")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DayOfWeekMeetings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DayOfWeek = "Monday"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DayOfWeek = "Tuesday"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DayOfWeek = "Wednesday"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DayOfWeek = "Thursday"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DayOfWeek = "Friday"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            DayOfWeek = "Saturday"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            DayOfWeek = "Sunday"
-                        });
-                });
-
             modelBuilder.Entity("ASPBPCPANELALPHA.Models.Industry", b =>
                 {
                     b.Property<int>("Id")
@@ -205,9 +154,6 @@ namespace ASPBPCPANELALPHA.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("DayOfWeekMeetingsId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("IranTime")
                         .HasColumnType("text");
 
@@ -228,8 +174,6 @@ namespace ASPBPCPANELALPHA.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("DayOfWeekMeetingsId");
 
                     b.HasIndex("MeetingStatusId");
 
@@ -502,10 +446,6 @@ namespace ASPBPCPANELALPHA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ASPBPCPANELALPHA.Models.DayOfWeekMeetings", null)
-                        .WithMany("Meetings")
-                        .HasForeignKey("DayOfWeekMeetingsId");
-
                     b.HasOne("ASPBPCPANELALPHA.Models.MeetingStatus", "MeetingStatus")
                         .WithMany("Meetings")
                         .HasForeignKey("MeetingStatusId")
@@ -568,11 +508,6 @@ namespace ASPBPCPANELALPHA.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ASPBPCPANELALPHA.Models.DayOfWeekMeetings", b =>
-                {
-                    b.Navigation("Meetings");
                 });
 
             modelBuilder.Entity("ASPBPCPANELALPHA.Models.Industry", b =>
