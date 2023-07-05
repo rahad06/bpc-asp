@@ -6,6 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 const columns = [
     { id: 'client', label: 'Client', minWidth: 170 },
@@ -38,6 +40,29 @@ const rows = [
 ];
 
 export default function StickyHeadTable() {
+    const [rows, setRows] = useState([]);
+
+    useEffect(() => {
+        fetchMeetings();
+    }, []);
+    const fetchMeetings = async () => {
+        try {
+            const response = await axios.get('/api/Meetings/Today');
+            const todayMeetings = response.data;
+            const updatedRows = todayMeetings.map((meeting) =>
+                createData(
+                    meeting.Client.Name,
+                    meeting.Representative,
+                    meeting.Company.Name,
+                    meeting.Company.Phone,
+                    meeting.IranTime
+                )
+            );
+            setRows(updatedRows);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>

@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ASPBPCPANELALPHA.Data;
 using ASPBPCPANELALPHA.Models;
 using ExcelDataReader;
+using Newtonsoft.Json;
+
 
 namespace ASPBPCPANELALPHA.Controllers
 {
@@ -165,15 +164,30 @@ namespace ASPBPCPANELALPHA.Controllers
         }
 
 // GET: api/Meetings/Today
+
+      
         [HttpGet("Today")]
         public async Task<ActionResult<IEnumerable<Meeting>>> GetTodayMeetings()
         {
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
             var todayMeetings = await _context.Meetings
                 .Where(m => m.MeetingDate.Date == DateTime.Today)
+                .Include(m => m.Client)
+                .Include(m => m.Company)
+                .Include(m => m.MeetingStatus)
                 .OrderBy(m => m.MeetingDate)
                 .ToListAsync();
-            return todayMeetings;
+
+            var json = JsonConvert.SerializeObject(todayMeetings, settings);
+
+            return Content(json, "application/json");
         }
+
+
 
 // GET: api/Meetings/Tomorrow
         [HttpGet("Tomorrow")]
