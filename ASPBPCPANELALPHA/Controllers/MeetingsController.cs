@@ -46,7 +46,7 @@ namespace ASPBPCPANELALPHA.Controllers
         public async Task<ActionResult<Meeting>> CreateMeeting(Meeting meeting)
         {
             // Convert the MeetingDateUtc property to DateTime before saving to the database
-            meeting.MeetingDate = meeting.MeetingDateUtc.UtcDateTime;
+            meeting.MeetingDate = TimeZoneInfo.ConvertTimeToUtc(meeting.MeetingDate, TimeZoneInfo.Utc);
 // Convert SpainTime and IranTime to a DateTime with the same date as DateTime.MinValue
      
             // Convert SpainTime and IranTime to DateTime
@@ -111,19 +111,36 @@ namespace ASPBPCPANELALPHA.Controllers
             return NoContent();
         }
 // GET: api/Meetings/Week
+        // GET: api/Meetings/Week
         [HttpGet("Week")]
         public async Task<ActionResult<IEnumerable<DayOfWeekMeetings>>> GetWeekMeetings()
         {
-            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tehran"); // Use the IANA time zone identifier for Iran
-            var startDate = DateTimeOffset.Now.ToOffset(timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date;
-            var endDate = startDate.AddDays(7);
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tehran");
 
+            var now = DateTime.Now;
+            var localTimeZone = TimeZoneInfo.Local;
+            var startDate = TimeZoneInfo.ConvertTimeToUtc(now, localTimeZone);
+
+            // var startDate = TimeZoneInfo.ConvertTimeToUtc(now.Date.AddDays(-(int)now.DayOfWeek), localTimeZone);
+
+
+            var endDate = startDate.AddDays(7).ToUniversalTime();
+
+            // Retrieve the week's meetings from the database.
             var weekMeetings = await _context.Meetings
+                .Where(m => m.MeetingDate >= startDate && m.MeetingDate < endDate)
                 .ToListAsync();
 
+            // Convert the MeetingDate values to UTC.
+            foreach (var meeting in weekMeetings)
+            {
+                meeting.MeetingDate = DateTime.SpecifyKind(meeting.MeetingDate, DateTimeKind.Local);
+                meeting.MeetingDate = TimeZoneInfo.ConvertTimeToUtc(meeting.MeetingDate, TimeZoneInfo.Local);
+            }
+
+            // Group the meetings by day of the week and create the DayOfWeekMeetings objects.
             var dayOfWeekMeetings = weekMeetings
-                .Where(m => new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date >= startDate && new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).Date <= endDate)
-                .GroupBy(m => new DateTimeOffset(m.MeetingDate, timeZoneInfo.GetUtcOffset(DateTimeOffset.Now)).DayOfWeek)
+                .GroupBy(m => TimeZoneInfo.ConvertTime(m.MeetingDate, timeZoneInfo).DayOfWeek)
                 .Select(g => new DayOfWeekMeetings
                 {
                     DayOfWeek = g.Key.ToString(),
