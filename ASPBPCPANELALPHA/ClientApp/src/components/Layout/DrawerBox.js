@@ -1,62 +1,57 @@
-import React, {useState} from 'react';
-import {
-    Box,
-    Button,
-    Divider,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    SwipeableDrawer
-} from "@mui/material";
-import InboxIcon from '@mui/icons-material/Inbox';
-import MailIcon from '@mui/icons-material/Mail';
-import Logout from "../Login/Logout";
+import React from 'react';
+import { styled } from '@mui/system';
+import {Divider, Drawer, List, ListItem, ListItemText} from '@mui/material';
+import OtherHousesIcon from '@mui/icons-material/OtherHouses';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import GroupsIcon from '@mui/icons-material/Groups';
+import FactoryIcon from '@mui/icons-material/Factory';
+const drawerWidth = '20%';
 
-function DrawerBox(props) {
-    const [open, setOpen] = useState(false)
-    const toggleDrawer = (side, con) => {
-        setOpen(con);
-    }
-    const list = (anchor) => (
-        <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-            role="presentation"
-            onClick={() => toggleDrawer(anchor, false)}
-            onKeyDown={() => toggleDrawer(anchor, false)}
-        >
-            <List>
-                    <ListItem key={1} disablePadding>
-                        <ListItemButton onClick={() => console.log(1)}>
-                            <ListItemIcon>
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={1} />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem key={2} disablePadding>
-                        <Logout/>
-                    </ListItem>
-            </List>
-            <Divider />
-           
-        </Box>
-    );
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+        width: drawerWidth,
+        boxShadow: '0px 2px 4px rgba(116, 125, 140, 0.4) !important',
+        borderRight: '0 !important',
+    },
+}));
 
+const DrawerBox = () => {
     return (
-        <>
-            <Button onClick={() => toggleDrawer('left', true)}>{'left'}</Button>
-            <SwipeableDrawer
-                anchor={'left'}
-                open={open}
-                onClose={() => toggleDrawer('left', false)}
-                onOpen={() => toggleDrawer('left', true)}
-            >
-                {list('left')}
-            </SwipeableDrawer>
-        </>
+        <StyledDrawer variant="permanent">
+            <div className={'side-nav'}>
+                <List>
+                    <ListItem button component="a" href="/" sx={{margin: 0}}>
+                        <OtherHousesIcon fontSize="large"/>
+                        <ListItemText primary="Home" sx={{fontSize: '20px'}}/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem button component="a" href="/clients" sx={{margin: 0}}>
+                        <LocationCityIcon fontSize="large"/>
+                        <ListItemText primary="Clients"  sx={{fontSize: '20px'}}/>
+                    </ListItem>
+
+                    <ListItem button component="a" href="/meetings" sx={{margin: 0}}>
+                        <GroupsIcon fontSize="large"/>
+                        <ListItemText primary="Meetings" sx={{fontSize: '20px'}} />
+                    </ListItem>
+                    <Divider/>
+
+                    <ListItem button component="a" href="/companies" sx={{margin: 0}}>
+                        <ApartmentIcon fontSize="large"/>
+                        <ListItemText primary="Companies"  sx={{fontSize: '20px'}}/>
+                    </ListItem>
+                    <ListItem button component="a" href="/industries" sx={{margin: 0}}>
+                        <FactoryIcon fontSize="large"/>
+                        <ListItemText primary="Industries"  sx={{fontSize: '20px'}}/>
+                    </ListItem>
+
+                </List>
+            </div>
+        </StyledDrawer>
     );
-}
+};
 
 export default DrawerBox;

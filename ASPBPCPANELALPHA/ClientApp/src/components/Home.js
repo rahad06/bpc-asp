@@ -13,7 +13,6 @@ export class Home extends Component {
         return (
             <>
                 <HomeCardHolder/>
-                <Container sx={{marginTop: 4}}>
                     <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: '0 !important', gap: '52px'}}>
                         <Grid xs={7}>
                             <HomeTodayMeetings/>
@@ -22,7 +21,6 @@ export class Home extends Component {
                             <HomeClientsCard/>
                         </Grid>
                     </Grid>
-                </Container>
             </>
         )
             ;

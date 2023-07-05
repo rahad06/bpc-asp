@@ -1,9 +1,12 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASPBPCPANELALPHA.Data;
 using ASPBPCPANELALPHA.Models;
 using ExcelDataReader;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 
 namespace ASPBPCPANELALPHA.Controllers
@@ -20,25 +23,28 @@ namespace ASPBPCPANELALPHA.Controllers
             _context = context;
         }
 
-        // GET: api/Meetings
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetings()
-        {
-            return await _context.Meetings.ToListAsync();
-        }
 
-        // GET: api/Meetings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Meeting>> GetMeeting(int id)
         {
-            var meeting = await _context.Meetings.FindAsync(id);
+            var meeting = await _context.Meetings
+                .Include(m => m.Client)
+                .Include(m => m.Company)
+                .Include(m => m.MeetingStatus)
+                .FirstOrDefaultAsync(m => m.MeetingId == id);
 
             if (meeting == null)
             {
                 return NotFound();
             }
 
-            return meeting;
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            var json = JsonConvert.SerializeObject(meeting, settings);
+            return Content(json, "application/json");
         }
 
         // POST: api/Meetings
@@ -144,7 +150,8 @@ namespace ASPBPCPANELALPHA.Controllers
                 .Select(g => new DayOfWeekMeetings
                 {
                     DayOfWeek = g.Key.ToString(),
-                    Meetings = g.ToList()
+                    Meetings = g.Where(m => m.MeetingStatusId != 3)
+                        .ToList()
                 })
                 .ToList();
 
