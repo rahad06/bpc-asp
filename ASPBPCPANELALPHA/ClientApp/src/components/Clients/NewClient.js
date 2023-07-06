@@ -4,7 +4,7 @@ import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typo
 import axios from 'axios';
 import {useParams} from "react-router-dom";
 
-const AddClientPage = () => {
+const NewClient = () => {
     const {id} = useParams()
     const {handleSubmit, register, reset} = useForm();
     const [industries, setIndustries] = useState([]);
@@ -192,4 +192,4 @@ const AddClientPage = () => {
     );
 };
 
-export default AddClientPage;
+export default NewClient;

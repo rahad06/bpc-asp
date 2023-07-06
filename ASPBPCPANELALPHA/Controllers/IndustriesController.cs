@@ -24,11 +24,27 @@ namespace ASPBPCPANELALPHA.Controllers
             _context = context;
         }
 
-        // GET: api/Industries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Industry>>> GetIndustries()
+        public async Task<ActionResult<IEnumerable<Industry>>> GetIndustries(
+            [FromQuery(Name = "searchQuery")] string? searchQuery = "",
+            [FromQuery] int pageIndex = 0,
+            [FromQuery] int pageSize = 10)
         {
-            return await _context.Industries.ToListAsync();
+            var queryable = _context.Industries.AsQueryable();
+
+            // Apply search
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                queryable = queryable.Where(c =>
+                    c.Name.Contains(searchQuery));
+            }
+
+            // Apply pagination
+            queryable = queryable.Skip(pageIndex * pageSize).Take(pageSize);
+
+            var industries = await queryable.ToListAsync();
+
+            return industries;
         }
 
         // GET: api/Industries/5
