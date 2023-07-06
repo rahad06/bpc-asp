@@ -6,18 +6,23 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
 
 function CardE(props) {
     const [meetingInfo, setMeetingInfo] = useState(null)
     const [popUp, setPopUp] = useState(false)
-  
+
     const getMeetingSummary = async (id) => {
         const response = await axios.get(`/api/Meetings/${id}`);
         console.log(response.data)
         setMeetingInfo(response.data)
         setPopUp(true)
+    }
+    const handleStatusChange = async (e, i) => {
+        console.log(e, i.meetingStatusId, meetingInfo)
+        const res = axios.put(`/api/Meetings/UpdateMeetingStatus/${meetingInfo.MeetingId}?meetingStatusId=${i.meetingStatusId}`)
+        console.log(res)
     }
     const bull = (
         <Box
@@ -27,32 +32,44 @@ function CardE(props) {
             •
         </Box>
     );
-    if(popUp) return (
-        <Card sx={{minWidth: 80}}>
-            <CardContent>
-                <Typography variant="body1" component="p">
-                    {meetingInfo.Client.Name}
-                </Typography>
-                <Typography variant="body1" component="p">
-                    {meetingInfo.Company.Name}
-                </Typography>
-                <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
-                    <FormControl fullWidth>
-                        <InputLabel id="status-label">Status</InputLabel>
-                        <Select
-                            labelId="statu-label"
-                            id="meetingStatus"
-                        >
-                            {props.statuses.length > 0 ?? props.statuses.map((i) => (
-                                <MenuItem key={`${i.meetingStatusId}-statusSelect`} value={i.meetingStatusId}>
-                                    {i.status}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-            </CardContent>
-        </Card>
+    if (!props) return;
+    if (popUp) return (
+        <div className={'home-card-w-select'}>
+            <Card sx={{minWidth: 80}}>
+                <CardContent>
+                    <div className={'close-icon'}>
+                        <CloseIcon onClick={() => {
+                            props.getWeekMeetings().then(() => {
+                                setPopUp(false)
+                            })
+                        }}/>
+                    </div>
+                    <Typography variant="body1" component="p">
+                        {meetingInfo.Client.Name}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                        {meetingInfo.Company.Name}
+                    </Typography>
+                    <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
+                        <FormControl fullWidth>
+                            <InputLabel id="status-label">Status</InputLabel>
+                            <Select
+                                labelId="statu-label"
+                                id="meetingStatus"
+                            >
+                                {props.statuses.map((i) => (
+                                    <MenuItem key={`${i.meetingStatusId}-statusSelect`} value={i.meetingStatusId}
+                                              onClick={(e) => handleStatusChange(e, i)}
+                                    >
+                                        {i.status}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </CardContent>
+            </Card>
+        </div>
     )
     return (
         <Card sx={{minWidth: 80}}>
@@ -62,12 +79,16 @@ function CardE(props) {
                 </Typography>
                 <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
                     {props.day.meetings.map((m) => (
-                        <Grid key={m.meetingId} xs={12} sx={{padding: '4px 8px 0 0'}}>
-                            <Typography>
-                            <span style={{cursor: 'pointer'}} onClick={()=> getMeetingSummary(m.meetingId)}>
+                        <Grid key={m.meetingId} xs={12} sx={{padding: '4px 8px 0 0', position: 'relative'}}>
+                            <Box sx={{textAlign: 'center', 
+                                
+                            }}>
+                            <span style={{cursor: 'pointer'}}
+                                  className={`meeting-card-time-span ${m.meetingStatusId === 1 ? "yellow-status" : "green-status"}`}
+                                  onClick={() => getMeetingSummary(m.meetingId)}>
                             {m.iranTime}
                                 </span>
-                            </Typography>
+                            </Box>
                         </Grid>
                     ))}
                 </Grid>

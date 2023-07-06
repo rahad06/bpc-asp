@@ -6,7 +6,7 @@ using ASPBPCPANELALPHA.Data;
 using ASPBPCPANELALPHA.Models;
 using ExcelDataReader;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 
 namespace ASPBPCPANELALPHA.Controllers
@@ -116,7 +116,6 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return NoContent();
         }
-// GET: api/Meetings/Week
         // GET: api/Meetings/Week
         [HttpGet("Week")]
         public async Task<ActionResult<IEnumerable<DayOfWeekMeetings>>> GetWeekMeetings()
@@ -125,9 +124,8 @@ namespace ASPBPCPANELALPHA.Controllers
 
             var now = DateTime.Now;
             var localTimeZone = TimeZoneInfo.Local;
-            var startDate = TimeZoneInfo.ConvertTimeToUtc(now, localTimeZone);
+            var startDate = DateTime.Today.ToUniversalTime();
 
-            // var startDate = TimeZoneInfo.ConvertTimeToUtc(now.Date.AddDays(-(int)now.DayOfWeek), localTimeZone);
 
 
             var endDate = startDate.AddDays(7).ToUniversalTime();
@@ -144,7 +142,20 @@ namespace ASPBPCPANELALPHA.Controllers
                 meeting.MeetingDate = TimeZoneInfo.ConvertTimeToUtc(meeting.MeetingDate, TimeZoneInfo.Local);
             }
 
-            // Group the meetings by day of the week and create the DayOfWeekMeetings objects.
+            // Define the custom day order
+            var dayOrder = new Dictionary<DayOfWeek, int>()
+            {
+                { DayOfWeek.Saturday, 0 },
+                { DayOfWeek.Sunday, 1 },
+                { DayOfWeek.Monday, 2 },
+                { DayOfWeek.Tuesday, 3 },
+                { DayOfWeek.Wednesday, 4 },
+                { DayOfWeek.Thursday, 5 },
+                { DayOfWeek.Friday, 6 }
+            };
+
+// Group the meetings by day of the week and create the DayOfWeekMeetings objects,
+// sorted based on the custom day order.
             var dayOfWeekMeetings = weekMeetings
                 .GroupBy(m => TimeZoneInfo.ConvertTime(m.MeetingDate, timeZoneInfo).DayOfWeek)
                 .Select(g => new DayOfWeekMeetings
@@ -153,29 +164,83 @@ namespace ASPBPCPANELALPHA.Controllers
                     Meetings = g.Where(m => m.MeetingStatusId != 3)
                         .ToList()
                 })
+                .OrderBy(g => g.DayOfWeek != null ? dayOrder[Enum.Parse<DayOfWeek>(g.DayOfWeek)] : int.MaxValue)
                 .ToList();
 
+
             return dayOfWeekMeetings;
+
         }
 
 
 
+        [HttpPut("UpdateMeetingStatus/{id}")]
+        public async Task<IActionResult> UpdateMeetingStatus(int id, int meetingStatusId)
+        {
+            
+            var meeting = await _context.Meetings.FindAsync(id);
+            if (meeting == null)
+            {
+                return NotFound();
+            }
+
+            var newMeetingStatus = await _context.MeetingStatuses.FindAsync(meetingStatusId);
+            if (newMeetingStatus == null)
+            {
+                return NotFound("Invalid meeting status ID");
+            }
+
+            meeting.MeetingStatusId = meetingStatusId;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MeetingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+            var updatedMeeting = await _context.Meetings
+                .Include(m => m.MeetingStatus)
+                .FirstOrDefaultAsync(m => m.MeetingId == id);
+            var json = JsonSerializer.Serialize(updatedMeeting, options);
+            return Content(json, "application/json");
+        }
 
 
 // GET: api/Meetings/Client/{clientId}
         [HttpGet("Client/{clientId}")]
         public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetingsByClientId(int clientId)
         {
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
             var clientMeetings = await _context.Meetings
                 .Where(m => m.ClientId == clientId)
+                .Include(m => m.Client)
+                .Include(m => m.Company)
+                .Include(m => m.MeetingStatus)
                 .ToListAsync();
 
             if (clientMeetings.Count == 0)
             {
                 return NotFound(); // Return 404 Not Found if no meetings are found for the client
             }
+            var json = JsonConvert.SerializeObject(clientMeetings, settings);
 
-            return clientMeetings;
+            return Content(json, "application/json");
         }
 
         // GET: api/Meetings?meetingTime=2023-07-04T12:41:07.178Z&meetingStatusId=1

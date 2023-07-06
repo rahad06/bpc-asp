@@ -9,10 +9,9 @@ function HomeCardHolder(props) {
     const [statuses, setStatuses] = useState([])
     const getStatuses = async () => {
         const response = await axios.get(`/api/MeetingStatuses`);
-        setStatuses(response)
+        setStatuses(response.data)
     }
-    useEffect(() => {
-        // Fetch Week's meetings
+    const getWeekMeetings = async () => {
         axios
             .get('/api/Meetings/Week')
             .then((response) => {
@@ -21,7 +20,10 @@ function HomeCardHolder(props) {
             .catch((error) => {
                 console.error(error);
             });
-        getStatuses()
+    }
+    useEffect(() => {
+        // Fetch Week's meetings
+        getStatuses().then(() => getWeekMeetings())
     }, []);
 
     return (
@@ -30,7 +32,7 @@ function HomeCardHolder(props) {
                 {/* Render Week's meetings */}
                 {weekMeetings.map((day, index) => (
                     <Grid key={`${day.dayOfWeek}-${index}`} xs={5/3} sx={{ padding: '0 16px' }}>
-                        <CardE day={day} statuses={statuses}/>
+                        <CardE day={day} statuses={statuses} getWeekMeetings={getWeekMeetings}/>
                     </Grid>
                 ))}
             </Grid>

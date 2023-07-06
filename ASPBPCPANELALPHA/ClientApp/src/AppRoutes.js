@@ -1,7 +1,7 @@
 import { Home } from "./components/Home";
-import NewMeeting from "./components/Meetings/NewMeeting";
 import NewCompany from "./components/Companies/NewCompany";
 import NewClient from "./components/Clients/NewClient";
+import MeetingsTable from "./components/Meetings/MeetingsTable";
 
 const AppRoutes = [
   {
@@ -10,7 +10,7 @@ const AppRoutes = [
   },
   {
     path: '/meetings',
-    element: <NewMeeting />
+    element: <MeetingsTable />
   },
   {
     path: '/clients',

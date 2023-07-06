@@ -1,14 +1,54 @@
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
 
 code {
-  color: #E01A76;
+    color: #E01A76;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.home-card-w-select #meetingStatus {
+    padding: 4px 16px 4px 10px;
+}
+
+.home-card-w-select label {
+    line-height: 13px;
+    font-size: 12px;
+    transform: translate(10px, 10px);
+}
+
+.close-icon {
+    display: flex;
+    justify-content: end;
+}
+
+.close-icon svg {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.close-icon svg:hover {
+    color: darkred !important;
+}
+
+.meeting-card-time-span {
+    padding: 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.yellow-status {
+    background-color: #FFD700 !important;
+}
+
+.green-status {
+    background-color: #5e8c31 !important;
+    color: #fff !important;
+}
+
+.red-status {
+    background-color: #FF6347 !important;
 }
