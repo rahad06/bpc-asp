@@ -159,7 +159,7 @@ const CompaniesTable = () => {
 
     return (
         <>
-            <Stack spacing={2} direction="row" sx={{justifyContent: 'end'}}>
+            <Stack spacing={2} direction="row">
                 <Button variant="outlined" className={'btn-outlined-custom'} href={'/newCompany'}>Add</Button>
             </Stack>
             <MaterialReactTable

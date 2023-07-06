@@ -11,6 +11,7 @@ public class Company
 
 
     public string ContactName { get; set; }
+    public string Pusto { get; set; }
 
     public string Salutation { get; set; }
 

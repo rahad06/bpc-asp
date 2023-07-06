@@ -7,6 +7,9 @@ using ASPBPCPANELALPHA.Models;
 using ExcelDataReader;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace ASPBPCPANELALPHA.Controllers
@@ -21,6 +24,61 @@ namespace ASPBPCPANELALPHA.Controllers
         public MeetingsController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MeetingDto>>> GetMeetings(
+            [FromQuery(Name = "searchQuery")] string? searchQuery = "",
+            [FromQuery] int pageIndex = 0,
+            [FromQuery] int pageSize = 10)
+        {
+            IQueryable<Meeting> queryable = _context.Meetings
+                .Include(m => m.Client)
+                .ThenInclude(c => c.Industry)
+                .Include(m => m.Company)
+                .ThenInclude(c => c.Industry)
+                .Include(m => m.MeetingStatus);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                queryable = queryable.Where(m =>
+                    m.Client.Name.Contains(searchQuery) ||
+                    m.Client.Representative.Contains(searchQuery) ||
+                    m.Company.Name.Contains(searchQuery) ||
+                    m.MeetingStatus.Status.Contains(searchQuery) ||
+                    m.Client.Industry.Name.Contains(searchQuery) ||
+                    m.Company.Industry.Name.Contains(searchQuery));
+            }
+
+            // Apply pagination
+            queryable = queryable.Skip(pageIndex * pageSize).Take(pageSize);
+
+            var meetings = await queryable.ToListAsync();
+
+            var meetingDtos = meetings.Select(m => new MeetingDto
+            {
+                MeetingId = m.MeetingId,
+                ClientName = m.Client.Name,
+                CompanyName = m.Company.Name,
+                MeetingDate = m.MeetingDate,
+                MeetingStatus = m.MeetingStatus.Status,
+                Representative = m.Representative,
+                SpainTime = m.SpainTime,
+                IranTime = m.IranTime,
+                Employees = m.Company.Employees,
+                Comments = m.Company.Comments,
+                Address = m.Company.Address,
+                WebPage = m.Company.WebPage,
+                Mobile = m.Company.Mobile,
+                Phone = m.Company.Phone,
+                Email = m.Company.Email,
+                ContactName = m.Company.ContactName,
+                Pusto = m.Company.Pusto,
+                Salutation = m.Company.Salutation,
+                RegistroMercantil = m.Company.RegistroMercantil,
+                IdentificacionNacional = m.Company.IdentificacionNacional,
+            }).ToList();
+
+            return meetingDtos;
         }
 
 
@@ -487,5 +545,30 @@ namespace ASPBPCPANELALPHA.Controllers
         {
             return _context.Meetings.Any(e => e.MeetingId == id);
         }
+    }
+
+    public class MeetingDto
+    {
+        public int MeetingId { get; set; }
+        public string ClientName { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime MeetingDate { get; set; }
+        public string MeetingStatus { get; set; }
+        public string Representative { get; set; }
+        public string SpainTime { get; set; }
+        public string IranTime { get; set; }
+        public int? Employees { get; set; }
+        public string ContactName { get; set; }
+        public string Salutation { get; set; }
+        public string Comments { get; set; }
+        public string Pusto { get; set; }
+        public string Mobile { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string WebPage { get; set; }
+        public string Address { get; set; }
+        public string Experience { get; set; }
+        public string RegistroMercantil { get; set; }
+        public string IdentificacionNacional { get; set; }
     }
 }

@@ -13,6 +13,7 @@ const NewCompany = () => {
     const [website, setWebsite] = useState("")
     const [rep, setRep] = useState("")
     const [industryId, setIndustryId] = useState(null)
+    const [post, setPost] = useState('')
     const [salutation, setSalutation] = useState('')
     const [mobile, setMobile] = useState('')
     const [phone, setPhone] = useState('')
@@ -37,6 +38,7 @@ const NewCompany = () => {
             setCompanyName(response.data.name)
             setWebsite(response.data.website)
             setRep(response.data.representative)
+            setPost(response.data.pusto)
             setIndustryId(response.data.industry.id)
         } catch (error) {
             console.error(error);
@@ -60,6 +62,7 @@ const NewCompany = () => {
                     industryId: industryId,
                     contactName: rep,
                     salutation: salutation,
+                    pusto: post,
                     mobile: mobile,
                     phone: phone,
                     email: email,
@@ -81,6 +84,7 @@ const NewCompany = () => {
                     industryId: industryId,
                     contactName: rep, 
                     salutation: salutation,
+                    pusto: post,
                     mobile: mobile,
                     phone: phone,
                     email: email,
@@ -151,6 +155,14 @@ const NewCompany = () => {
                                     label="Contact Name"
                                     value={rep}
                                     onChange={e => setRep(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Pusto"
+                                    value={post}
+                                    onChange={e => setPost(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6}>

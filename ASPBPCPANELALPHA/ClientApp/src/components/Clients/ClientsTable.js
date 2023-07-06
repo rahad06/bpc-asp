@@ -115,7 +115,7 @@ const ClientsTable = () => {
 
     return (
         <>
-            <Stack spacing={2} direction="row" sx={{justifyContent: 'end'}}>
+            <Stack spacing={2} direction="row">
                 <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
             </Stack>
             <MaterialReactTable
