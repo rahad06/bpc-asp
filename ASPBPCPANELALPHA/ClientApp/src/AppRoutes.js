@@ -5,6 +5,7 @@ import MeetingsTable from "./components/Meetings/MeetingsTable";
 import ClientsTable from "./components/Clients/ClientsTable";
 import NewIndustry from "./components/Industries/NewIndustry";
 import IndustriesTable from "./components/Industries/IndustriesTable";
+import CompaniesTable from "./components/Companies/CompaniesTable";
 
 const AppRoutes = [
   {
@@ -41,8 +42,16 @@ const AppRoutes = [
   },
   {
     path: '/companies',
+    element: <CompaniesTable />
+  },
+  {
+    path: '/newCompany',
     element: <NewCompany />
-  }
+  },
+  {
+    path: '/newCompany/:id', // Add the route for /editclient/[id]
+    element: <NewCompany />
+  },
 ];
 
 export default AppRoutes;

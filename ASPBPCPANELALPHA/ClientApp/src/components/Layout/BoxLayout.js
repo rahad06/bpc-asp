@@ -12,11 +12,14 @@ const BoxLayout = ({ children }) => {
             sx={{
                 marginTop: '100px',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'end',
                 alignItems: 'center',
                 // minHeight: '100vh',
                 // height: '100%',
                 backgroundColor: backgroundColor,
+                width: '1200px',
+                marginLeft: 'auto',
+                marginRight: '23px'
             }}
         >
             <Paper
@@ -29,7 +32,8 @@ const BoxLayout = ({ children }) => {
                     display: 'grid',
                     gridTemplateColumns: '1fr',
                     gridTemplateRows: '1fr 10fr',
-                    gap: '18px'
+                    gap: '18px',
+                    overflow: 'auto'
                 }}
             >
                 {children}
