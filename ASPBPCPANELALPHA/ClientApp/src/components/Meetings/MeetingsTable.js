@@ -1,10 +1,120 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Table, TableHead, TableRow, TableCell, TableBody} from '@mui/material';
-import ReactExport from "react-data-export/src";
+import AppPrim from "../AppPrim";
+import Import from "../Import";
+import BatchCreateForm from "./BatchCreateForm";
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+
+const rows = [
+    {
+        jobTitle: 'Head of Human Resources',
+        recruitmentDate: new Date(2020, 8, 12),
+        contract: 'full time',
+        id: 0,
+    },
+    {
+        jobTitle: 'Head of Sales',
+        recruitmentDate: new Date(2017, 3, 4),
+        contract: 'full time',
+        id: 1,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2020, 11, 20),
+        contract: 'full time',
+        id: 2,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2020, 10, 14),
+        contract: 'part time',
+        id: 3,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2017, 10, 29),
+        contract: 'part time',
+        id: 4,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2020, 7, 21),
+        contract: 'full time',
+        id: 5,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2020, 7, 20),
+        contract: 'intern',
+        id: 6,
+    },
+    {
+        jobTitle: 'Sales Person',
+        recruitmentDate: new Date(2019, 6, 28),
+        contract: 'full time',
+        id: 7,
+    },
+    {
+        jobTitle: 'Head of Engineering',
+        recruitmentDate: new Date(2016, 3, 14),
+        contract: 'full time',
+        id: 8,
+    },
+    {
+        jobTitle: 'Tech lead front',
+        recruitmentDate: new Date(2016, 5, 17),
+        contract: 'full time',
+        id: 9,
+    },
+    {
+        jobTitle: 'Front-end developer',
+        recruitmentDate: new Date(2019, 11, 7),
+        contract: 'full time',
+        id: 10,
+    },
+    {
+        jobTitle: 'Tech lead devops',
+        recruitmentDate: new Date(2021, 7, 1),
+        contract: 'full time',
+        id: 11,
+    },
+    {
+        jobTitle: 'Tech lead back',
+        recruitmentDate: new Date(2017, 0, 12),
+        contract: 'full time',
+        id: 12,
+    },
+    {
+        jobTitle: 'Back-end developer',
+        recruitmentDate: new Date(2019, 2, 22),
+        contract: 'intern',
+        id: 13,
+    },
+    {
+        jobTitle: 'Back-end developer',
+        recruitmentDate: new Date(2018, 4, 19),
+        contract: 'part time',
+        id: 14,
+    },
+];
+
+const columns = [
+    { field: 'jobTitle', headerName: 'Job Title', width: 200 },
+    {
+        field: 'recruitmentDate',
+        headerName: 'Recruitment Date',
+        type: 'date',
+        width: 150,
+    },
+    {
+        field: 'contract',
+        headerName: 'Contract Type',
+        type: 'singleSelect',
+        valueOptions: ['full time', 'part time', 'intern'],
+        width: 150,
+    },
+];
+
 const MeetingsTable = ({clientId}) => {
     const [meetings, setMeetings] = useState([]);
 
@@ -21,51 +131,28 @@ const MeetingsTable = ({clientId}) => {
             });
     }, [clientId]);
 
-    const DataSet = [
-        {
-            columns: [
-                {title: "Meeting Id", style: {font: {sz: '18', bold: true}, width: {wpx: 125}}},
-                {title: "Meeting Date", style: {font: {sz: '18', bold: false}, width: {wpx: 125}}},
-                {title: "Meeting Status", style: {font: {sz: '18', bold: true}, width: {wpx: 125}}},
-            ],
-            data: meetings.map((data) => [
-                {value: data.MeetingId, style: {font: {sz: '14', bold: true}}},
-                {value: data.MeetingDate, style: {font: {sz: '14', bold: false}}},
-                {
-                    value: data.MeetingStatus.Status,
-                    style: {font: {sz: '14', bold: true}, fill: {patternType: "solid", fgColor: 'green'}}
-                }
-            ])
-        }
-    ]
+    // const DataSet = [
+    //     {
+    //         columns: [
+    //             {title: "Meeting Id", style: {font: {sz: '18', bold: true}, width: {wpx: 125}}},
+    //             {title: "Meeting Date", style: {font: {sz: '18', bold: false}, width: {wpx: 125}}},
+    //             {title: "Meeting Status", style: {font: {sz: '18', bold: true}, width: {wpx: 125}}},
+    //         ],
+    //         data: meetings.map((data) => [
+    //             {value: data.MeetingId, style: {font: {sz: '14', bold: true}}},
+    //             {value: data.MeetingDate, style: {font: {sz: '14', bold: false}}},
+    //             {
+    //                 value: data.MeetingStatus.Status,
+    //                 style: {font: {sz: '14', bold: true}, fill: {patternType: "solid", fgColor: 'green'}}
+    //             }
+    //         ])
+    //     }
+    // ]
     return (
         <>
-            <ExcelFile filename={'test'} element={
-                <>
-                    <button>get excel</button>
-                    <ExcelSheet dataSet={DataSet} name={'test sheet'}/>
-                </>
-            }>
-            </ExcelFile>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Meeting ID</TableCell>
-                        <TableCell>Meeting Date</TableCell>
-                        <TableCell>Meeting Status</TableCell>
-                        {/* Add more table headers */}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {meetings.map((meeting) => (
-                        <TableRow key={meeting.MeetingId}>
-                            <TableCell>{meeting.MeetingId}</TableCell>
-                            <TableCell>{meeting.MeetingDate}</TableCell>
-                            <TableCell>{meeting.MeetingStatus.Status}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <Import/>
+            <BatchCreateForm/>
+            <AppPrim/>
         </>
     );
 };

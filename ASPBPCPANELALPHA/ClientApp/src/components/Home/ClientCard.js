@@ -6,26 +6,25 @@ import {Grid} from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 function ClientCard(props) {
+    const client = props.client;
+    if(!client) return 
     return (
         <Card sx={{ minWidth: 180 }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Meeting
+                    {client.representative}
                 </Typography>
                 <Typography variant="h5" component="div">
-                    14.03
+                    {client.name}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Today
+                    {client.industry?.name}
                 </Typography>
                 <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
                     <Grid xs={6} sx={{padding: '0 16px'}}>
                         <Typography>
-                            ALN - Khak
+                            {client.website}
                         </Typography>
-                    </Grid>
-                    <Grid xs={6} sx={{padding: '0 16px', textAlign:'right'}} >
-                        <MoreHorizIcon/>
                     </Grid>
                 </Grid>
             </CardContent>

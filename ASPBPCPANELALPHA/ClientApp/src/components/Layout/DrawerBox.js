@@ -15,6 +15,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
         width: drawerWidth,
         boxShadow: '0px 2px 4px rgba(116, 125, 140, 0.4) !important',
         borderRight: '0 !important',
+        backgroundColor: '#2c3e50'
     },
 }));
 

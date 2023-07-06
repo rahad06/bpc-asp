@@ -20,12 +20,35 @@ namespace ASPBPCPANELALPHA.Controllers
             _context = context;
         }
 
-        // GET: api/Clients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetClients()
+        public async Task<ActionResult<IEnumerable<Client>>> GetClients(
+            [FromQuery(Name = "searchQuery")] string? searchQuery = "",
+            [FromQuery] int pageIndex = 0,
+            [FromQuery] int pageSize = 10)
         {
-            return await _context.Clients.ToListAsync();
+            var queryable = _context.Clients.AsQueryable();
+
+            // Apply search
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                queryable = queryable.Where(c =>
+                    c.Name.Contains(searchQuery) ||
+                    c.Representative.Contains(searchQuery) ||
+                    c.Website.Contains(searchQuery) ||
+                    c.IndustryId.ToString().Contains(searchQuery));
+            }
+
+            // Apply pagination
+            queryable = queryable.Skip(pageIndex * pageSize).Take(pageSize);
+
+            var clients = await queryable.ToListAsync();
+
+            return clients;
         }
+
+
+
+
 
         // GET: api/Clients/5
         [HttpGet("{id}")]

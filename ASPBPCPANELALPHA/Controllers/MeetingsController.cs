@@ -303,12 +303,14 @@ namespace ASPBPCPANELALPHA.Controllers
             return tomorrowMeetings;
         }
 
-// GET: api/Meetings/Clients/Today
-        [HttpGet("Clients/Today")]
-        public async Task<ActionResult<IEnumerable<Client?>>> GetClientsWithTodayMeetings()
+        [HttpGet("Clients/ThisMonth")]
+        public async Task<ActionResult<IEnumerable<Client?>>> GetClientsThisMonth()
         {
-            var todayMeetings = await _context.Meetings
-                .Where(m => m.MeetingDate.Date == DateTime.Today)
+            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+
+            var thisMonthClients = await _context.Meetings
+                .Where(m => m.MeetingDate >= startDate && m.MeetingDate <= endDate)
                 .Include(m => m.Client)
                 .Select(m => m.Client)
                 .Distinct()
@@ -316,8 +318,10 @@ namespace ASPBPCPANELALPHA.Controllers
                 .Take(4)
                 .ToListAsync();
 
-            return Ok(todayMeetings);
+
+            return Ok(thisMonthClients);
         }
+
 
 
 // GET: api/Meetings/Clients/Tomorrow

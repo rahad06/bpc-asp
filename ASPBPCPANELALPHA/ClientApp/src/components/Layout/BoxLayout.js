@@ -10,12 +10,12 @@ const BoxLayout = ({ children }) => {
     return (
         <Box
             sx={{
-                
+                marginTop: '100px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                minHeight: '100vh',
-                height: '100%',
+                // minHeight: '100vh',
+                // height: '100%',
                 backgroundColor: backgroundColor,
             }}
         >
@@ -25,10 +25,11 @@ const BoxLayout = ({ children }) => {
                     backgroundColor: 'white',
                     boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                     width: '90%',
-                    height: '84vh',
+                    height: 'max-content',
                     display: 'grid',
                     gridTemplateColumns: '1fr',
-                    gridTemplateRows: '1fr 1fr'
+                    gridTemplateRows: '1fr 10fr',
+                    gap: '18px'
                 }}
             >
                 {children}

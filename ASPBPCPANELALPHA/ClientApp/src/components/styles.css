@@ -1,31 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Varta:wght@300;400;500;600;700&display=swap');
 
+html, body {
+    background-color: #f1f2f6;
+}
+
 html, body, h1, h2, h3, h4, h5, h6, p, span, div, li, th, td, a {
     font-family: 'Varta', sans-serif !important;
 }
+
 p, span, div, td {
     color: #2f3542 !important;
 }
+
 h1, h2, h3, h4, h5, th {
     color: #57606f !important;
 }
+
 i, svg {
     color: #748c7d !important;
 }
+
 hr {
     background-color: #748c7d !important;
 }
+
 .side-nav hr {
     width: 88%;
     margin: 0 auto;
 }
+
 .side-nav a {
     gap: 12px;
 }
+
 .side-nav .MuiListItemText-root {
     margin: 0;
 }
+
 .side-nav span {
     padding-top: 8px;
     font-size: 20px !important;
+    color: #fff !important;
+}
+
+.btn-outlined-custom {
+    background-color: #414141 !important;
+    border: 1px solid #414141 !important;
+    color: #fff !important;
+}
+
+.btn-outlined-custom:hover {
+    background-color: #748c7d !important;
+    border: 1px solid #748c7d !important;
+    color: #fff;
 }

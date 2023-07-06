@@ -5,6 +5,7 @@ import {Layout} from "./Layout";
 import BoxLayout from "./Layout/BoxLayout";
 import {Grid} from "@mui/material";
 import DrawerBox from "./Layout/DrawerBox";
+import TopAppBar from "./Layout/TopAppBar";
 
 function AppHolder(props) {
     return (
@@ -19,6 +20,7 @@ function AppHolder(props) {
                     <DrawerBox/>
                 </Grid>
                 <Grid xs={7}>
+                    <TopAppBar/>
                     <BoxLayout>
                         <Routes>
                             {AppRoutes.map((route, index) => {

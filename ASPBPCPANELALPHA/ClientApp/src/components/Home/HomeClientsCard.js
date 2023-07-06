@@ -13,7 +13,7 @@ function HomeClientsCard(props) {
     const fetchClientsWithTodayMeetings = async () => {
         try {
             const today = new Date().toISOString().split('T')[0]; // Get today's date in the format "YYYY-MM-DD"
-            const response = await axios.get(`/api/Meetings/Clients/Today`);
+            const response = await axios.get(`/api/Meetings/Clients/ThisMonth`);
             setClients(response.data);
         } catch (error) {
             console.error(error);
