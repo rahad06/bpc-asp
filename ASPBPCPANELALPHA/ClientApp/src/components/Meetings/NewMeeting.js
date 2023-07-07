@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import {
     Button,
     Grid,
@@ -16,10 +16,13 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
+import CustomSearchable from "../CustomSearchable";
+import NewCompany from "../Companies/NewCompany";
+import NewClient from "../Clients/NewClient";
 
 const NewMeeting = () => {
     const {id} = useParams()
-    
+
     const [companies, setCompanies] = useState([]);
     const [clients, setClients] = useState([]);
     const [statuses, setStatuses] = useState([]);
@@ -47,7 +50,7 @@ const NewMeeting = () => {
             } catch (error) {
                 console.error(error);
             }
-            if(id) {
+            if (id) {
                 const meetingData = await axios.get(`/api/Meetings/${id}`)
                 let data = meetingData.data
                 const formattedMeetingDate = format(new Date(data.MeetingDate), 'yyyy-MM-dd');
@@ -64,7 +67,7 @@ const NewMeeting = () => {
     const loadCompaniesOptions = async (inputValue) => {
         try {
             const response = await axios.get('/api/Companies', {
-                params: { searchQuery: inputValue },
+                params: {searchQuery: inputValue},
             });
             setCompanyId(response?.data[0].id);
 
@@ -78,7 +81,7 @@ const NewMeeting = () => {
     const loadClientsOptions = async (inputValue) => {
         try {
             const response = await axios.get('/api/Clients', {
-                params: { searchQuery: inputValue },
+                params: {searchQuery: inputValue},
             });
             setClientId(response.data[0].id);
             return response.data;
@@ -107,7 +110,7 @@ const NewMeeting = () => {
 
     const onSubmit = async () => {
         let data;
-        if(id) {
+        if (id) {
             data = {
                 meetingId: parseInt(id),
                 clientId,
@@ -164,30 +167,20 @@ const NewMeeting = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
-                                    <AsyncSelect
-                                        id="company"
-                                        placeholder="Company"
-                                        options={companies}
-                                        getOptionLabel={(option) => option.name}
-                                        getOptionValue={(option) => option.id}
-                                        loadOptions={loadCompaniesOptions}
-                                        value={companies.find((company) => company.id === companyId)}
-                                        
-                                    />
+                                    <CustomSearchable
+                                        title={'Company'}
+                                        data={companies} clickFn={setCompanyId} value={companyId}>
+                                        <NewCompany/>
+                                    </CustomSearchable>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
-                                    <AsyncSelect
-                                        id="client"
-                                        placeholder="Client"
-                                        options={clients}
-                                        getOptionLabel={(option) => option.name}
-                                        getOptionValue={(option) => option.id}
-                                        loadOptions={loadClientsOptions}
-                                        value={clients.find((client) => client.id === clientId)}
-
-                                    />
+                                    <CustomSearchable
+                                        title={'Client'}
+                                        data={clients} clickFn={setClientId} value={clientId}>
+                                        <NewClient/>
+                                    </CustomSearchable>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
@@ -200,7 +193,7 @@ const NewMeeting = () => {
                                     >
                                         {statuses.map((status) => (
                                             <MenuItem key={status.meetingStatusId} value={status.meetingStatusId}
-                                            onClick={(e) => handleStatusChange(e, status)}>
+                                                      onClick={(e) => handleStatusChange(e, status)}>
                                                 {status.status}
                                             </MenuItem>
                                         ))}

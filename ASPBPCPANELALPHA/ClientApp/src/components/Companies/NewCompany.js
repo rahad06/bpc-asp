@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form';
 import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material';
 import axios from 'axios';
 import {useParams} from "react-router-dom";
+import CustomSearchable from "../CustomSearchable";
+import NewIndustry from "../Industries/NewIndustry";
 
 const NewCompany = () => {
     const {id} = useParams()
@@ -112,17 +114,11 @@ const NewCompany = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
-                                    <InputLabel id="industry-label">Industry</InputLabel>
-                                    <Select
-                                        labelId="industry-label"
-                                        id="industryId"
-                                    >
-                                        {industries.map((i) => (
-                                            <MenuItem key={i.id} value={i.id} onClick={() => setIndustryId(i.id)}>
-                                                {i.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
+                                    <CustomSearchable
+                                        title={'Industry'}
+                                        data={industries} clickFn={setIndustryId} value={industryId}>
+                                        <NewIndustry/>
+                                    </CustomSearchable>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
