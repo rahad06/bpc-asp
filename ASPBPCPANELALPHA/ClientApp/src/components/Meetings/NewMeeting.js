@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
 import {
     Button,
     Grid,
     Typography,
-    FormControlLabel,
-    FormGroup,
-    InputLabel,
 } from '@mui/material';
 
-import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -17,18 +14,12 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {useForm, useController} from "react-hook-form";
+import {useParams} from "react-router-dom";
+import {useForm} from "react-hook-form";
 
 const NewMeeting = () => {
-    const {
-        handleSubmit,
-        reset,
-        register,
-        setValue,
-        watch,
-        formState: { errors },
-        
-    } = useForm();
+    const {id} = useParams()
+    
     const [companies, setCompanies] = useState([]);
     const [clients, setClients] = useState([]);
     const [statuses, setStatuses] = useState([]);
@@ -36,10 +27,10 @@ const NewMeeting = () => {
     const [statusId, setStatusId] = useState(null);
     const [statusName, setStatusName] = useState('');
     const [clientId, setClientId] = useState(null);
-    const [date, setDate] = useState('');
+    const [meetingDate, setMeetingDate] = useState('');
     const [spainTime, setSpainTime] = useState('');
     const [iranTime, setIranTime] = useState('');
-
+    const {reset, handleSubmit} = useForm()
     useEffect(() => {
         // Fetch the companies, clients, and statuses from the API
         const fetchData = async () => {
@@ -56,18 +47,26 @@ const NewMeeting = () => {
             } catch (error) {
                 console.error(error);
             }
+            if(id) {
+                const meetingData = await axios.get(`/api/Meetings/${id}`)
+                let data = meetingData.data
+                const formattedMeetingDate = format(new Date(data.MeetingDate), 'yyyy-MM-dd');
+                setClientId(data.ClientId)
+                setCompanyId(data.CompanyId)
+                setStatusId(data.MeetingStatusId)
+                setMeetingDate(formattedMeetingDate)
+                setSpainTime(data.SpainTime)
+                setIranTime(data.IranTime)
+            }
         };
-
         fetchData();
     }, []);
-
     const loadCompaniesOptions = async (inputValue) => {
         try {
             const response = await axios.get('/api/Companies', {
                 params: { searchQuery: inputValue },
             });
             setCompanyId(response?.data[0].id);
-            setValue("companyId", response.data[0].id )
 
             return response?.data;
         } catch (error) {
@@ -81,9 +80,7 @@ const NewMeeting = () => {
             const response = await axios.get('/api/Clients', {
                 params: { searchQuery: inputValue },
             });
-            console.log(response);
             setClientId(response.data[0].id);
-            setValue("clientId", response.data[0].id )
             return response.data;
         } catch (error) {
             console.error(error);
@@ -93,32 +90,64 @@ const NewMeeting = () => {
 
     const handleStatusChange = (event, status) => {
         setStatusId(status.meetingStatusId)
-        setValue("meetingStatusId", status.meetingStatusId)
         setStatusName(status.status)
     };
 
     const handleDate = (event) => {
-        setDate(event.target.value);
-        setValue("meetingDate", event.target.value)
+        setMeetingDate(event.target.value);
     };
 
     const handleSpTime = (event) => {
         setSpainTime(event.target.value);
-        setValue("spainTime", event.target.value)
     };
 
     const handleIrTime = (event) => {
         setIranTime(event.target.value);
-        setValue("iranTime", event.target.value)
     };
 
-    const onSubmit = async (data) => {
-        try {
-            const response = await axios.post('/api/Meetings', data);
-            console.log(response.data); // Handle the response as needed
-            reset(); // Reset the form after successful submission
-        } catch (error) {
-            console.error(error);
+    const onSubmit = async () => {
+        let data;
+        if(id) {
+            data = {
+                meetingId: parseInt(id),
+                clientId,
+                companyId,
+                meetingDate,
+                iranTime,
+                spainTime,
+                meetingStatusId: statusId
+            }
+            console.log(data)
+            try {
+                const res = await axios.put(`/api/Meetings/${id}`, {
+                    meetingId: parseInt(id),
+                    clientId,
+                    companyId,
+                    meetingDate,
+                    iranTime,
+                    spainTime,
+                    meetingStatusId: statusId
+                })
+                console.log(res)
+            } catch (err) {
+                console.log(err)
+            }
+        } else {
+            data = {
+                clientId,
+                companyId,
+                meetingDate,
+                iranTime,
+                spainTime,
+                meetingStatusId: statusId
+            }
+            try {
+                const response = await axios.post('/api/Meetings', data);
+                console.log(response.data); // Handle the response as needed
+                reset(); // Reset the form after successful submission
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
@@ -142,6 +171,7 @@ const NewMeeting = () => {
                                         getOptionLabel={(option) => option.name}
                                         getOptionValue={(option) => option.id}
                                         loadOptions={loadCompaniesOptions}
+                                        value={companies.find((company) => company.id === companyId)}
                                         
                                     />
                                 </FormControl>
@@ -155,6 +185,8 @@ const NewMeeting = () => {
                                         getOptionLabel={(option) => option.name}
                                         getOptionValue={(option) => option.id}
                                         loadOptions={loadClientsOptions}
+                                        value={clients.find((client) => client.id === clientId)}
+
                                     />
                                 </FormControl>
                             </Grid>
@@ -164,6 +196,7 @@ const NewMeeting = () => {
                                         labelId="status-id"
                                         id="status"
                                         label="Status"
+                                        value={statusId}
                                     >
                                         {statuses.map((status) => (
                                             <MenuItem key={status.meetingStatusId} value={status.meetingStatusId}
@@ -183,7 +216,8 @@ const NewMeeting = () => {
                                         shrink: true,
                                     }}
                                     fullWidth
-                                    {...register('meetingDate')}
+                                    value={meetingDate}
+                                    onChange={(e) => handleDate(e)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -195,7 +229,8 @@ const NewMeeting = () => {
                                         shrink: true,
                                     }}
                                     fullWidth
-                                    {...register('spainTime')}
+                                    value={spainTime}
+                                    onChange={(e) => handleSpTime(e)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -207,7 +242,8 @@ const NewMeeting = () => {
                                         shrink: true,
                                     }}
                                     fullWidth
-                                    {...register('iranTime')}
+                                    value={iranTime}
+                                    onChange={(e) => handleIrTime(e)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
