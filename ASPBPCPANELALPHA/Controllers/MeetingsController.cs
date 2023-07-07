@@ -25,6 +25,7 @@ namespace ASPBPCPANELALPHA.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MeetingDto>>> GetMeetings(
             [FromQuery(Name = "searchQuery")] string? searchQuery = "",
@@ -54,29 +55,39 @@ namespace ASPBPCPANELALPHA.Controllers
 
             var meetings = await queryable.ToListAsync();
 
-            var meetingDtos = meetings.Select(m => new MeetingDto
+            var meetingDtos = new List<MeetingDto>();
+            int rowNumber = 1;
+
+            foreach (var m in meetings)
             {
-                MeetingId = m.MeetingId,
-                ClientName = m.Client.Name,
-                CompanyName = m.Company.Name,
-                MeetingDate = m.MeetingDate,
-                MeetingStatus = m.MeetingStatus.Status,
-                Representative = m.Representative,
-                SpainTime = m.SpainTime,
-                IranTime = m.IranTime,
-                Employees = m.Company.Employees,
-                Comments = m.Company.Comments,
-                Address = m.Company.Address,
-                WebPage = m.Company.WebPage,
-                Mobile = m.Company.Mobile,
-                Phone = m.Company.Phone,
-                Email = m.Company.Email,
-                ContactName = m.Company.ContactName,
-                Pusto = m.Company.Pusto,
-                Salutation = m.Company.Salutation,
-                RegistroMercantil = m.Company.RegistroMercantil,
-                IdentificacionNacional = m.Company.IdentificacionNacional,
-            }).ToList();
+                var meetingDto = new MeetingDto
+                {
+                    RowNumber = rowNumber,
+                    MeetingId = m.MeetingId,
+                    ClientName = m.Client.Name,
+                    CompanyName = m.Company.Name,
+                    MeetingDate = m.MeetingDate,
+                    MeetingStatus = m.MeetingStatus.Status,
+                    Representative = m.Representative,
+                    SpainTime = m.SpainTime,
+                    IranTime = m.IranTime,
+                    Employees = m.Company.Employees,
+                    Comments = m.Company.Comments,
+                    Address = m.Company.Address,
+                    WebPage = m.Company.WebPage,
+                    Mobile = m.Company.Mobile,
+                    Phone = m.Company.Phone,
+                    Email = m.Company.Email,
+                    ContactName = m.Company.ContactName,
+                    Pusto = m.Company.Pusto,
+                    Salutation = m.Company.Salutation,
+                    RegistroMercantil = m.Company.RegistroMercantil,
+                    IdentificacionNacional = m.Company.IdentificacionNacional
+                };
+
+                meetingDtos.Add(meetingDto);
+                rowNumber++;
+            }
 
             return meetingDtos;
         }
@@ -112,11 +123,12 @@ namespace ASPBPCPANELALPHA.Controllers
             // Convert the MeetingDateUtc property to DateTime before saving to the database
             meeting.MeetingDate = TimeZoneInfo.ConvertTimeToUtc(meeting.MeetingDate, TimeZoneInfo.Utc);
 // Convert SpainTime and IranTime to a DateTime with the same date as DateTime.MinValue
-     
+
             // Convert SpainTime and IranTime to DateTime
             if (TimeSpan.TryParse(meeting.SpainTime, out var spainTime))
             {
-                meeting.SpainTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, spainTime.Hours, spainTime.Minutes, 0).ToString("HH:mm");
+                meeting.SpainTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day,
+                    spainTime.Hours, spainTime.Minutes, 0).ToString("HH:mm");
             }
             else
             {
@@ -127,7 +139,8 @@ namespace ASPBPCPANELALPHA.Controllers
 
             if (TimeSpan.TryParse(meeting.IranTime, out var iranTime))
             {
-                meeting.IranTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, iranTime.Hours, iranTime.Minutes, 0).ToString("HH:mm");
+                meeting.IranTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day,
+                    iranTime.Hours, iranTime.Minutes, 0).ToString("HH:mm");
             }
             else
             {
@@ -174,6 +187,7 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return NoContent();
         }
+
         // GET: api/Meetings/Week
         [HttpGet("Week")]
         public async Task<ActionResult<IEnumerable<DayOfWeekMeetings>>> GetWeekMeetings()
@@ -183,7 +197,6 @@ namespace ASPBPCPANELALPHA.Controllers
             var now = DateTime.Now;
             var localTimeZone = TimeZoneInfo.Local;
             var startDate = DateTime.Today.ToUniversalTime();
-
 
 
             var endDate = startDate.AddDays(7).ToUniversalTime();
@@ -227,15 +240,12 @@ namespace ASPBPCPANELALPHA.Controllers
 
 
             return dayOfWeekMeetings;
-
         }
-
 
 
         [HttpPut("UpdateMeetingStatus/{id}")]
         public async Task<IActionResult> UpdateMeetingStatus(int id, int meetingStatusId)
         {
-            
             var meeting = await _context.Meetings.FindAsync(id);
             if (meeting == null)
             {
@@ -265,6 +275,7 @@ namespace ASPBPCPANELALPHA.Controllers
                     throw;
                 }
             }
+
             var options = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.Preserve
@@ -277,16 +288,35 @@ namespace ASPBPCPANELALPHA.Controllers
         }
 
 
-// GET: api/Meetings/Client/{clientId}
-        [HttpGet("Client/{clientId}")]
-        public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetingsByClientId(int clientId)
+        [HttpPost("Client/{clientId}")]
+        public async Task<ActionResult<IEnumerable<MeetingDto>>> GetMeetingsByClientId(
+            int clientId,
+            [FromQuery(Name = "fromDate")] DateTime? fromDate,
+            [FromQuery(Name = "toDate")] DateTime? toDate,
+            [FromBody] List<int> meetingStatusIds)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-            var clientMeetings = await _context.Meetings
+            var query = _context.Meetings
                 .Where(m => m.ClientId == clientId)
+                .Include(m => m.Client)
+                .Include(m => m.Company);
+
+            var filteredQuery = _context.Meetings
+                .Where(m => m.ClientId == clientId);
+
+            if (fromDate.HasValue && toDate.HasValue)
+            {
+                var utcFromDate = DateTime.SpecifyKind(fromDate.Value, DateTimeKind.Utc);
+                var utcToDate = DateTime.SpecifyKind(toDate.Value, DateTimeKind.Utc);
+
+                filteredQuery = filteredQuery.Where(m => m.MeetingDate >= utcFromDate && m.MeetingDate <= utcToDate);
+            }
+
+            if (meetingStatusIds.Count > 0)
+            {
+                filteredQuery = filteredQuery.Where(m => meetingStatusIds.Contains(m.MeetingStatusId));
+            }
+
+            var clientMeetings = await filteredQuery
                 .Include(m => m.Client)
                 .Include(m => m.Company)
                 .Include(m => m.MeetingStatus)
@@ -296,10 +326,43 @@ namespace ASPBPCPANELALPHA.Controllers
             {
                 return NotFound(); // Return 404 Not Found if no meetings are found for the client
             }
-            var json = JsonConvert.SerializeObject(clientMeetings, settings);
+
+            var meetingDtos = clientMeetings
+                .Select((m, index) => new MeetingDto
+                {
+                    RowNumber = index + 1,
+                    MeetingDate = m.MeetingDate,
+                    MeetingStatus = m.MeetingStatus.Status,
+                    CompanyName = m.Company.Name,
+                    SpainTime = m.SpainTime,
+                    IranTime = m.IranTime,
+                    ContactName = m.Company.ContactName,
+                    Pusto = m.Company.Pusto,
+                    Salutation = m.Company.Salutation,
+                    Mobile = m.Company.Mobile,
+                    Phone = m.Company.Phone,
+                    Email = m.Company.Email,
+                    WebPage = m.Company.WebPage,
+                    Address = m.Company.Address,
+                    Comments = m.Company.Comments,
+                    Employees = m.Company.Employees,
+                    Experience = m.Company.Experience,
+                    RegistroMercantil = m.Company.RegistroMercantil,
+                    IdentificacionNacional = m.Company.IdentificacionNacional,
+                    // MeetingId = m.MeetingId,
+                    // ClientName = m.Client.Name,
+                    // Representative = m.Representative,
+                })
+                .ToList();
+
+            var json = JsonConvert.SerializeObject(meetingDtos, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
 
             return Content(json, "application/json");
         }
+
 
         // GET: api/Meetings?meetingTime=2023-07-04T12:41:07.178Z&meetingStatusId=1
         [HttpGet("filter")]
@@ -325,7 +388,7 @@ namespace ASPBPCPANELALPHA.Controllers
 
 // GET: api/Meetings/Today
 
-      
+
         [HttpGet("Today")]
         public async Task<ActionResult<IEnumerable<Meeting>>> GetTodayMeetings()
         {
@@ -346,7 +409,6 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return Content(json, "application/json");
         }
-
 
 
 // GET: api/Meetings/Tomorrow
@@ -379,7 +441,6 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return Ok(thisMonthClients);
         }
-
 
 
 // GET: api/Meetings/Clients/Tomorrow
@@ -472,28 +533,33 @@ namespace ASPBPCPANELALPHA.Controllers
                                         var spainTimeIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(spainTimeIndex))
                                         {
-                                            meeting.SpainTime = DateTime.MinValue.ToString("HH:mm"); // Or assign a default value as needed
+                                            meeting.SpainTime =
+                                                DateTime.MinValue
+                                                    .ToString("HH:mm"); // Or assign a default value as needed
                                         }
                                         else
                                         {
                                             var spainTime = reader.GetDateTime(spainTimeIndex);
                                             meeting.SpainTime = spainTime.ToString("HH:mm");
                                         }
+
                                         break;
 
                                     case "IranTime":
                                         var iranTimeIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(iranTimeIndex))
                                         {
-                                            meeting.IranTime = DateTime.MinValue.ToString("HH:mm"); // Or assign a default value as needed
+                                            meeting.IranTime =
+                                                DateTime.MinValue
+                                                    .ToString("HH:mm"); // Or assign a default value as needed
                                         }
                                         else
                                         {
                                             var iranTime = reader.GetDateTime(iranTimeIndex);
                                             meeting.IranTime = iranTime.ToString("HH:mm");
                                         }
-                                        break;
 
+                                        break;
 
 
                                     case "ContactName":
@@ -549,6 +615,8 @@ namespace ASPBPCPANELALPHA.Controllers
 
     public class MeetingDto
     {
+        [JsonProperty("RowNumber")] public int RowNumber { get; set; }
+
         public int MeetingId { get; set; }
         public string ClientName { get; set; }
         public string CompanyName { get; set; }

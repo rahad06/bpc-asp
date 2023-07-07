@@ -8,6 +8,7 @@ import Delete from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
+import Groups2Icon from '@mui/icons-material/Groups2';
 
 const ClientsTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -21,7 +22,7 @@ const ClientsTable = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    
+
     const fetchData = async () => {
         setIsLoading(true);
 
@@ -73,45 +74,52 @@ const ClientsTable = () => {
         }
     };
 
+    const handleMeetings = (id) => {
+        navigate(`/clientMeetings/${id}`);
+    }
     const columns = useMemo(
-        () => [
-            {
-                accessorKey: 'id',
-                header: 'Id'
-            },
-            {
-                accessorKey: 'name',
-                header: 'Name',
-            },
-            {
-                accessorKey: 'website',
-                header: 'Website',
-            },
-            {
-                accessorKey: 'representative',
-                header: 'Representative',
-            },
-            {
-                accessorKey: 'industryId',
-                header: 'Industry',
-            },
-            {
-                accessorKey: 'actions',
-                header: 'Actions',
-                Cell: ({row}) => (
-                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.id)}>
+            () => [
+                {
+                    accessorKey: 'id',
+                    header: 'Id'
+                },
+                {
+                    accessorKey: 'name',
+                    header: 'Name',
+                },
+                {
+                    accessorKey: 'website',
+                    header: 'Website',
+                },
+                {
+                    accessorKey: 'representative',
+                    header: 'Representative',
+                },
+                {
+                    accessorKey: 'industryId',
+                    header: 'Industry',
+                },
+                {
+                    accessorKey: 'actions',
+                    header: 'Actions',
+                    Cell: ({row}) => (
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                             <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.id)}>
                         <EditIcon sx={{fontSize: '18px'}}/>
                     </span>
-                        <span style={{cursor: "pointer"}} onClick={() => handleDelete(row.original.id)}>
+                            <span style={{cursor: "pointer"}} onClick={() => handleDelete(row.original.id)}>
                         <Delete sx={{fontSize: '18px'}}/>
                     </span>
-                    </div>
-                ),
-            },
-        ],
-        []
-    );
+                            <span style={{cursor: "pointer"}} onClick={() => handleMeetings(row.original.id)}>
+                                <Groups2Icon sx={{fontSize: '18px'}}/>
+                            </span>
+                        </div>
+                    ),
+                },
+            ],
+            []
+        )
+    ;
 
     return (
         <>
@@ -121,7 +129,7 @@ const ClientsTable = () => {
             <MaterialReactTable
                 columns={columns}
                 data={data}
-                initialState={{showColumnFilters: false, columnVisibility: { id: false } }}
+                initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
                 manualPagination
                 manualGlobalFilter
                 muiToolbarAlertBannerProps={
