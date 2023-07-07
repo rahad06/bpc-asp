@@ -6,6 +6,7 @@ import ClientsTable from "./components/Clients/ClientsTable";
 import NewIndustry from "./components/Industries/NewIndustry";
 import IndustriesTable from "./components/Industries/IndustriesTable";
 import CompaniesTable from "./components/Companies/CompaniesTable";
+import NewMeeting from "./components/Meetings/NewMeeting";
 
 const AppRoutes = [
   {
@@ -51,6 +52,14 @@ const AppRoutes = [
   {
     path: '/newCompany/:id', // Add the route for /editclient/[id]
     element: <NewCompany />
+  },
+  {
+    path: '/newMeeting',
+    element: <NewMeeting />
+  },
+  {
+    path: '/newMeeting/:id', // Add the route for /editclient/[id]
+    element: <NewMeeting />
   },
 ];
 

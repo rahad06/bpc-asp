@@ -26,12 +26,27 @@ namespace ASPBPCPANELALPHA.Controllers
             _context = context;
         }
 
-        // GET: api/companies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Company>>> GetAllCompanies()
+        public async Task<ActionResult<IEnumerable<Company>>> GetClients(
+            [FromQuery(Name = "searchQuery")] string? searchQuery = "")
         {
-            return await _context.Companies.ToListAsync();
+            var queryable = _context.Companies.AsQueryable();
+
+            // Apply search
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                queryable = queryable.Where(c =>
+                    c.Name.Contains(searchQuery)
+                    );
+            }
+
+
+            var companies = await queryable.ToListAsync();
+
+            return companies;
         }
+
+
 
         // GET: api/companies/{id}
         [HttpGet("{id}")]

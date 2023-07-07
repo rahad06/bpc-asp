@@ -22,12 +22,16 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         // Seed meeting statuses
         modelBuilder.Entity<MeetingStatus>().HasData(
-            new MeetingStatus { MeetingStatusId = 1, Status = MeetingStatus.Pending },
-            new MeetingStatus { MeetingStatusId = 2, Status = MeetingStatus.InProgress },
-            new MeetingStatus { MeetingStatusId = 3, Status = MeetingStatus.Done }
+            new MeetingStatus { MeetingStatusId = 1, Status = MeetingStatus.Confirmed },
+            new MeetingStatus { MeetingStatusId = 2, Status = MeetingStatus.Pending },
+            new MeetingStatus { MeetingStatusId = 3, Status = MeetingStatus.InProgress },
+            new MeetingStatus { MeetingStatusId = 4, Status = MeetingStatus.Done },
+            new MeetingStatus { MeetingStatusId = 5, Status = MeetingStatus.PendingHour },
+            new MeetingStatus { MeetingStatusId = 6, Status = MeetingStatus.PendingDate },
+            new MeetingStatus { MeetingStatusId = 7, Status = MeetingStatus.Probably },
+            new MeetingStatus { MeetingStatusId = 8, Status = MeetingStatus.Cancelled }
         );
 
         // Configure the Company-Industry relationship
@@ -35,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             .HasOne(c => c.Industry)
             .WithMany(i => i.Companies)
             .HasForeignKey(c => c.IndustryId);
-        
+
         // Seed days of the week
         modelBuilder.Entity<DayOfWeekMeetings>().HasData(
             new DayOfWeekMeetings { Id = 1, DayOfWeek = "Monday" },
