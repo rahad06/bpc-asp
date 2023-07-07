@@ -15,16 +15,15 @@ import NewClient from "./Clients/NewClient";
 const Import = () => {
     const [data, setData] = useState([]);
 
-    const [industries, setIndustries] = useState(null)
-    const [industryId, setIndustryId] = useState(null)
-    const [industryName, setIndustryName] = useState(null)
+    const [clients, setClients] = useState(null)
+    const [clientId, setClientId] = useState(1)
     useEffect(() => {
         fetchIndustries();
     }, []);
     const fetchIndustries = async () => {
         try {
-            const response = await axios.get('/api/Industries');
-            setIndustries(response.data);
+            const response = await axios.get('/api/Clients');
+            setClients(response.data);
         } catch (error) {
             console.error(error);
         }
@@ -35,7 +34,7 @@ const Import = () => {
         if (files.length) {
             const file = files[0];
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = async (event) => {
                 const wb = read(event.target.result);
                 const sheets = wb.SheetNames;
                 console.log(wb)
@@ -66,6 +65,10 @@ const Import = () => {
                     })
                     setData(rows)
                     console.log(rows)
+                    try {
+                        const res = await axios.post(`/api/BatchCreate?clientId=${clientId}`, rows)
+                        console.log(res)
+                    } catch (err) {console.log(err)}
                 }
             }
             reader.readAsArrayBuffer(file);
@@ -174,7 +177,7 @@ const Import = () => {
                 <FormControl fullWidth>
                     <CustomSearchable
                         title={'Client'}
-                        data={industries} clickFn={setIndustryId} value={industryId}>
+                        data={clients} clickFn={setClientId} value={clientId}>
                         <NewClient/>
                     </CustomSearchable>
                 </FormControl>
