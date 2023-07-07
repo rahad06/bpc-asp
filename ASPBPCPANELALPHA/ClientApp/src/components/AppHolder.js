@@ -14,7 +14,7 @@ function AppHolder(props) {
                   sx={{margin: '0 !important', gap: '52px',     
                       display: 'grid',
                       gridTemplateColumns: '2fr 10fr',
-                      background: '#f1f2f6'
+                      background: '#E6E6EC82'
             }}>
                 <Grid xs={3}>
                     <DrawerBox/>

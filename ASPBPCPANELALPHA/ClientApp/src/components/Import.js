@@ -173,11 +173,6 @@ const Import = () => {
                 <input type="file" onChange={(e) => handleImport(e)} />
                 <FormControl fullWidth>
                     <CustomSearchable
-                        title={'Industry'}
-                        data={industries} clickFn={setIndustryId} value={industryId}>
-                        <NewIndustry/>
-                    </CustomSearchable>
-                    <CustomSearchable
                         title={'Client'}
                         data={industries} clickFn={setIndustryId} value={industryId}>
                         <NewClient/>

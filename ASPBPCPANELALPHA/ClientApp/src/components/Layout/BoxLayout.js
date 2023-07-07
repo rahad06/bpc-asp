@@ -5,7 +5,7 @@ const BoxLayout = ({ children }) => {
     // Define color variables
     const primaryColor = '#F44336';
     const secondaryColor = '#3F51B5';
-    const backgroundColor = '#f1f2f6';
+    const backgroundColor = '#E6E6EC82';
 
     return (
         <Box
@@ -18,8 +18,8 @@ const BoxLayout = ({ children }) => {
                 // height: '100%',
                 backgroundColor: backgroundColor,
                 width: '1200px',
-                marginLeft: 'auto',
-                marginRight: '23px'
+                marginLeft: '28px',
+                marginRight: '28px'
             }}
         >
             <Paper
