@@ -97,7 +97,7 @@ const NewClient = () => {
                                     <CustomSearchable
                                         title={'Industry'}
                                         data={industries} clickFn={setIndustryId} value={industryId}>
-                                        <NewClient/>
+                                        <NewIndustry/>
                                     </CustomSearchable>
                                 </FormControl>
                             </Grid>
