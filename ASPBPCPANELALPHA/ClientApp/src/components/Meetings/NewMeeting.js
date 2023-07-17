@@ -30,6 +30,7 @@ const NewMeeting = () => {
     const [statusId, setStatusId] = useState(null);
     const [statusName, setStatusName] = useState('');
     const [clientId, setClientId] = useState(null);
+    const [interpreter, setInterpreter] = useState('');
     const [meetingDate, setMeetingDate] = useState('');
     const [spainTime, setSpainTime] = useState('');
     const [iranTime, setIranTime] = useState('');
@@ -60,6 +61,7 @@ const NewMeeting = () => {
                 setMeetingDate(formattedMeetingDate)
                 setSpainTime(data.SpainTime)
                 setIranTime(data.IranTime)
+                setInterpreter(data.interpreter)
             }
         };
         fetchData();
@@ -106,6 +108,9 @@ const NewMeeting = () => {
 
     const handleIrTime = (event) => {
         setIranTime(event.target.value);
+    };
+    const handleInterpreter = (event) => {
+        setInterpreter(event.target.value);
     };
 
     const onSubmit = async () => {
@@ -199,6 +204,19 @@ const NewMeeting = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="interpreter"
+                                    label="Interpreter"
+                                    type="text"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    fullWidth
+                                    value={interpreter}
+                                    onChange={(e) => handleInterpreter(e)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField

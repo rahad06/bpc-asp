@@ -16,7 +16,7 @@ public class Meeting
     public Company? Company { get; set; }
     public MeetingStatus? MeetingStatus { get; set; }
 
-    public string? Representative { get; set; }
+    public string? Interpreter { get; set; }
 
     [DataType(DataType.Time)]
     [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]

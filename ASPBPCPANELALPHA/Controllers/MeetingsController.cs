@@ -68,7 +68,7 @@ namespace ASPBPCPANELALPHA.Controllers
                     CompanyName = m.Company.Name,
                     MeetingDate = m.MeetingDate,
                     MeetingStatus = m.MeetingStatus.Status,
-                    Representative = m.Representative,
+                    Interpretor = m.Interpreter,
                     SpainTime = m.SpainTime,
                     IranTime = m.IranTime,
                     Employees = m.Company.Employees,
@@ -362,6 +362,33 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return Content(json, "application/json");
         }
+        [HttpGet("CompaniesByClient/{clientId}")]
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompaniesByClient(int clientId)
+        {
+            var companies = await _context.Meetings
+                .Where(m => m.ClientId == clientId)
+                .Select(m => m.Company)
+                .Distinct()
+                .ToListAsync();
+
+            return companies;
+        }
+        [HttpGet("ClientsByCompany/{companyId}")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetClientsByCompany(int companyId)
+        {
+            var clients = await _context.Meetings
+                .Where(m => m.CompanyId == companyId)
+                .Select(m => m.Client)
+                .Distinct()
+                .ToListAsync();
+
+            if (clients.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return clients;
+        }
 
 
         // GET: api/Meetings?meetingTime=2023-07-04T12:41:07.178Z&meetingStatusId=1
@@ -521,11 +548,11 @@ namespace ASPBPCPANELALPHA.Controllers
                                         var companyNameIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(companyNameIndex))
                                         {
-                                            meeting.Representative = ""; // Or assign a default value as needed
+                                            meeting.Interpreter = ""; // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.Representative = reader.GetString(companyNameIndex);
+                                            meeting.Interpreter = reader.GetString(companyNameIndex);
                                         }
 
                                         break;
@@ -566,11 +593,11 @@ namespace ASPBPCPANELALPHA.Controllers
                                         var contactNameIndex = reader.GetOrdinal(header);
                                         if (reader.IsDBNull(contactNameIndex))
                                         {
-                                            meeting.Representative = null; // Or assign a default value as needed
+                                            meeting.Interpreter = null; // Or assign a default value as needed
                                         }
                                         else
                                         {
-                                            meeting.Representative = reader.GetString(contactNameIndex);
+                                            meeting.Interpreter = reader.GetString(contactNameIndex);
                                         }
 
                                         break;
@@ -622,7 +649,7 @@ namespace ASPBPCPANELALPHA.Controllers
         public string CompanyName { get; set; }
         public DateTime MeetingDate { get; set; }
         public string MeetingStatus { get; set; }
-        public string Representative { get; set; }
+        public string Interpretor { get; set; }
         public string SpainTime { get; set; }
         public string IranTime { get; set; }
         public int? Employees { get; set; }
