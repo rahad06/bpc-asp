@@ -6,6 +6,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import GroupsIcon from '@mui/icons-material/Groups';
 import FactoryIcon from '@mui/icons-material/Factory';
+import PersonIcon from '@mui/icons-material/Person';
 const drawerWidth = '20%';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -37,6 +38,10 @@ const DrawerBox = () => {
                     <ListItem button component="a" href="/meetings" sx={{margin: 0}}>
                         <GroupsIcon fontSize="large"/>
                         <ListItemText primary="Meetings" sx={{fontSize: '20px'}} />
+                    </ListItem>
+                    <ListItem button component="a" href="/intrepreters" sx={{margin: 0}}>
+                        <PersonIcon fontSize="large"/>
+                        <ListItemText primary="Interepreters" sx={{fontSize: '20px'}} />
                     </ListItem>
                     <Divider/>
 

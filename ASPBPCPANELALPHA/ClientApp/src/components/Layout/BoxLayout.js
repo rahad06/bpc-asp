@@ -17,9 +17,10 @@ const BoxLayout = ({ children }) => {
                 // minHeight: '100vh',
                 // height: '100%',
                 backgroundColor: backgroundColor,
-                width: '1200px',
-                marginLeft: '28px',
-                marginRight: '28px'
+                width: '100%',
+                paddingRight: '50px',
+                marginLeft: 'auto',
+                marginRight: 'auto'
             }}
         >
             <Paper

@@ -11,7 +11,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import GetAppIcon from '@mui/icons-material/GetApp';
 import {utils, writeFile} from "xlsx";
-
+import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
 const ClientMeetings = () => {
     const {id} = useParams()
     const [first, setFirst] = useState(true)
@@ -51,7 +51,19 @@ const ClientMeetings = () => {
         setIsLoading(false);
         setLoading(false)
     }
-
+    const fetchAll = async () => {
+        setIsLoading(true)
+        setLoading(true)
+        try {
+            const response = await axios.get(`/api/Meetings/CompaniesByClient/${id}`)
+            setData(response.data)
+            setIsError(false);
+        } catch (error) {
+            setIsError(true);
+        }
+        setIsLoading(false);
+        setLoading(false)
+    }
     useEffect(() => {
         if (first) {
             setFirst(false)
@@ -74,6 +86,9 @@ const ClientMeetings = () => {
     };
     const handleSearch = async () => {
         fetchData().then(r => r)
+    }
+    const allMeetings = async () => {
+        fetchAll().then(r => r)
     }
     const columns = useMemo(
         () => [
@@ -185,6 +200,7 @@ const ClientMeetings = () => {
                 {loading ? null : (
                     <Button onClick={() => handleExport()}><GetAppIcon/></Button>
                 )}
+                <Button onClick={() => allMeetings()}><LocalConvenienceStoreIcon/></Button>
                 <TextField
                     id="startDate"
                     label="Start Date"

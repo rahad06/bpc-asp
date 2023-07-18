@@ -11,9 +11,9 @@ function AppHolder(props) {
     return (
         <>
             <Grid rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}}
-                  sx={{margin: '0 !important', gap: '52px',     
+                  sx={{margin: '0 !important',  
                       display: 'grid',
-                      gridTemplateColumns: '2fr 10fr',
+                      gridTemplateColumns: '2.5fr 14fr',
                       background: '#E6E6EC82'
             }}>
                 <Grid xs={3}>

@@ -19,6 +19,7 @@ import {useForm} from "react-hook-form";
 import CustomSearchable from "../CustomSearchable";
 import NewCompany from "../Companies/NewCompany";
 import NewClient from "../Clients/NewClient";
+import NewInterpreter from "../Interpreters/NewInterpreter";
 
 const NewMeeting = () => {
     const {id} = useParams()
@@ -26,11 +27,12 @@ const NewMeeting = () => {
     const [companies, setCompanies] = useState([]);
     const [clients, setClients] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    const [interpreters, setInterpreters] = useState([]);
     const [companyId, setCompanyId] = useState(null);
     const [statusId, setStatusId] = useState(null);
     const [statusName, setStatusName] = useState('');
     const [clientId, setClientId] = useState(null);
-    const [interpreter, setInterpreter] = useState('');
+    const [interpreterId, setInterpreterId] = useState(null);
     const [meetingDate, setMeetingDate] = useState('');
     const [spainTime, setSpainTime] = useState('');
     const [iranTime, setIranTime] = useState('');
@@ -39,15 +41,17 @@ const NewMeeting = () => {
         // Fetch the companies, clients, and statuses from the API
         const fetchData = async () => {
             try {
-                const [companiesResponse, clientsResponse, statusesResponse] = await Promise.all([
+                const [companiesResponse, clientsResponse, statusesResponse, interpreterResponse] = await Promise.all([
                     axios.get('/api/Companies'),
                     axios.get('/api/Clients'),
                     axios.get('/api/MeetingStatuses'),
+                    axios.get(`/api/Interpreters`)
                 ]);
 
                 setCompanies(companiesResponse.data);
                 setClients(clientsResponse.data);
                 setStatuses(statusesResponse.data);
+                setInterpreters(interpreterResponse.data)
             } catch (error) {
                 console.error(error);
             }
@@ -61,7 +65,7 @@ const NewMeeting = () => {
                 setMeetingDate(formattedMeetingDate)
                 setSpainTime(data.SpainTime)
                 setIranTime(data.IranTime)
-                setInterpreter(data.interpreter)
+                setInterpreterId(data.InterpreterId)
             }
         };
         fetchData();
@@ -110,7 +114,7 @@ const NewMeeting = () => {
         setIranTime(event.target.value);
     };
     const handleInterpreter = (event) => {
-        setInterpreter(event.target.value);
+        // setInterpreter(event.target.value);
     };
 
     const onSubmit = async () => {
@@ -124,7 +128,7 @@ const NewMeeting = () => {
                 iranTime,
                 spainTime,
                 meetingStatusId: statusId,
-                interpreter
+                interpreterId
             }
             console.log(data)
             try {
@@ -136,7 +140,7 @@ const NewMeeting = () => {
                     iranTime,
                     spainTime,
                     meetingStatusId: statusId,
-                    interpreter,
+                    interpreterId,
                 })
                 console.log(res)
             } catch (err) {
@@ -150,7 +154,7 @@ const NewMeeting = () => {
                 iranTime,
                 spainTime,
                 meetingStatusId: statusId,
-                interpreter
+                interpreterId
             }
             try {
                 const response = await axios.post('/api/Meetings', data);
@@ -209,17 +213,13 @@ const NewMeeting = () => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField
-                                    id="interpreter"
-                                    label="Interpreter"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    fullWidth
-                                    value={interpreter}
-                                    onChange={(e) => handleInterpreter(e)}
-                                />
+                                <FormControl fullWidth>
+                                    <CustomSearchable
+                                        title={'Interpreters'}
+                                        data={interpreters} clickFn={setInterpreterId} value={interpreterId}>
+                                        <NewInterpreter/>
+                                    </CustomSearchable>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
