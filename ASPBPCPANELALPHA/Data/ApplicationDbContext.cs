@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Company> Companies { get; set; }
     public DbSet<Industry> Industries { get; set; }
+    public DbSet<Interpreter> Interpreters { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<MeetingStatus> MeetingStatuses { get; set; }
     public DbSet<Meeting> Meetings { get; set; }
