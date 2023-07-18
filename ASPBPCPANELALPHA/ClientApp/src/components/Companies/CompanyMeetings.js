@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import GetAppIcon from '@mui/icons-material/GetApp';
 import {utils, writeFile} from "xlsx";
 import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
-const ClientMeetings = () => {
+const CompanyMeetings = () => {
     const {id} = useParams()
     const [first, setFirst] = useState(true)
     const [columnFilters, setColumnFilters] = useState([]);
@@ -55,7 +55,7 @@ const ClientMeetings = () => {
         setIsLoading(true)
         setLoading(true)
         try {
-            const response = await axios.get(`/api/Meetings/CompaniesByClient/${id}`)
+            const response = await axios.get(`/api/Meetings/ClientsByCompany/${id}`)
             setData(response.data)
             setIsError(false);
         } catch (error) {
@@ -69,7 +69,7 @@ const ClientMeetings = () => {
             setFirst(false)
             return
         }
-        fetchData().then(r => r)
+        fetchAll().then(r => r)
     }, [pagination, globalFilter]);
     const navigate = useNavigate();
 
@@ -192,8 +192,8 @@ const ClientMeetings = () => {
         utils.book_append_sheet(wb, ws, 'Meetings');
         writeFile(wb, 'Meetings Report.xlsx');
     }
-    
-    
+
+
     return (
         <>
             <Stack spacing={2} direction="row">
@@ -263,4 +263,4 @@ const ClientMeetings = () => {
     );
 };
 
-export default ClientMeetings;
+export default CompanyMeetings;

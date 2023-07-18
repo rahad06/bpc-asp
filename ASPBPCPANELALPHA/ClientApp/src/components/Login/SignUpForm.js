@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import { TextField, Button } from '@mui/material';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function SignUpForm() {
     const [userName, setUserName] = useState("")
     const [pass, setPass] = useState("")
+    const navigate = useNavigate();
+
     const submitForm = (e) => {
         // Handle form submission here (e.g., call the signup API)
         e.preventDefault()
-        console.log(userName, pass)
         axios
             .post('/api/Users/SignUp', {
                 username: userName,
@@ -16,12 +18,14 @@ function SignUpForm() {
             })
             .then((response) => {
                 // Handle successful response
-                console.log(response.data);
+                navigate('/login')
+
             })
             .catch((error) => {
                 // Handle error
                 console.error(error);
             });
+
     };
     
 

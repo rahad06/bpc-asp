@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import usePanelStore from "../../Store/usePanelStore";
+import SignUpForm from "./SignUpForm";
 
 function LoginForm() {
     const {
@@ -14,7 +15,7 @@ function LoginForm() {
         register,
         formState: {errors},
     } = useForm();
-    const {setShow} = usePanelStore()
+    const {setShow, showSignup, setShowSignup} = usePanelStore()
     const [remember, setRemember] = useState(false)
     const onSubmit = (data) => {
         axios
@@ -32,6 +33,11 @@ function LoginForm() {
             });
     };
 
+    if(showSignup) {
+        return (
+           <SignUpForm/>
+        )
+    }
     return (
         <>
             <Container component="main" maxWidth="sm">
@@ -77,6 +83,11 @@ function LoginForm() {
                         />
                         <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
                             Sign In
+                        </Button>
+                        <Button type="button"
+                                onClick={() => setShowSignup(true)}
+                                fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
+                            Sign Up
                         </Button>
                     </Box>
                 </Box>

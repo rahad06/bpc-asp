@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button} from "@mui/material";
 import axios from "axios";
 import UsePanelStore from "../../Store/usePanelStore";
+import {useNavigate} from "react-router-dom";
 
 function Logout(props) {
-    const {setShow} = UsePanelStore()
+    const {setShow, setShowSignup} = UsePanelStore()
+    const {navigate} = useNavigate()
     const logout = async () => {
         try {
             await axios.post('/api/Users/LogOut');
@@ -15,13 +17,15 @@ function Logout(props) {
             // Handle the error accordingly
         } finally {
             setShow(false)
+            setShowSignup(false)
+            navigate("/signup")
         }
     };
+    useEffect(()=>{
+        logout()
+    },[])
     return (
-        <Button type="button" variant="contained" color="primary"
-                onClick={() => logout()}>
-            logout
-        </Button>
+        <></>
     );
 }
 

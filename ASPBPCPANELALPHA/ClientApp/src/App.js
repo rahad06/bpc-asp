@@ -15,7 +15,6 @@ function App(props) {
         setShow(isLoggedIn);
     }, [localStorage]);
     if (show) {
-
         return (
             <QueryClientProvider client={queryClient}>
                 <AppHolder/>

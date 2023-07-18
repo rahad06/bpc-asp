@@ -8,6 +8,7 @@ import Delete from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
+import Groups2Icon from "@mui/icons-material/Groups2";
 
 const CompaniesTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -72,7 +73,9 @@ const CompaniesTable = () => {
             console.error('Error deleting company:', error);
         }
     };
-
+    const handleMeetings = (id) => {
+        navigate(`/companyMeetings/${id}`);
+    }
     const columns = useMemo(
         () => [
             {
@@ -150,6 +153,9 @@ const CompaniesTable = () => {
                         <span style={{cursor: "pointer"}} onClick={() => handleDelete(row.original.id)}>
                         <Delete sx={{fontSize: '18px'}}/>
                     </span>
+                        <span style={{cursor: "pointer"}} onClick={() => handleMeetings(row.original.id)}>
+                                <Groups2Icon sx={{fontSize: '18px'}}/>
+                            </span>
                     </div>
                 ),
             },
@@ -165,7 +171,7 @@ const CompaniesTable = () => {
             <MaterialReactTable
                 columns={columns}
                 data={data}
-                initialState={{showColumnFilters: false, columnVisibility: { id: false } }}
+                initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
                 manualPagination
                 manualGlobalFilter
                 muiToolbarAlertBannerProps={

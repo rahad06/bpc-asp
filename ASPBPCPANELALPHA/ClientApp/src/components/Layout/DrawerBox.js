@@ -7,6 +7,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import GroupsIcon from '@mui/icons-material/Groups';
 import FactoryIcon from '@mui/icons-material/Factory';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 const drawerWidth = '20%';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -53,7 +54,12 @@ const DrawerBox = () => {
                         <FactoryIcon fontSize="large"/>
                         <ListItemText primary="Industries"  sx={{fontSize: '20px'}}/>
                     </ListItem>
+                    <Divider/>
 
+                    <ListItem button component="a" href="/logout" sx={{margin: 0}}>
+                        <LogoutIcon fontSize="large"/>
+                        <ListItemText primary="Logout"  sx={{fontSize: '20px'}}/>
+                    </ListItem>
                 </List>
             </div>
         </StyledDrawer>
