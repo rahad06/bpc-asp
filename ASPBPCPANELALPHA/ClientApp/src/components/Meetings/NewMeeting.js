@@ -123,7 +123,8 @@ const NewMeeting = () => {
                 meetingDate,
                 iranTime,
                 spainTime,
-                meetingStatusId: statusId
+                meetingStatusId: statusId,
+                interpreter
             }
             console.log(data)
             try {
@@ -134,7 +135,8 @@ const NewMeeting = () => {
                     meetingDate,
                     iranTime,
                     spainTime,
-                    meetingStatusId: statusId
+                    meetingStatusId: statusId,
+                    interpreter,
                 })
                 console.log(res)
             } catch (err) {
@@ -147,7 +149,8 @@ const NewMeeting = () => {
                 meetingDate,
                 iranTime,
                 spainTime,
-                meetingStatusId: statusId
+                meetingStatusId: statusId,
+                interpreter
             }
             try {
                 const response = await axios.post('/api/Meetings', data);
