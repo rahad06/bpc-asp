@@ -68,6 +68,10 @@ const AppRoutes = [
     path: '/newCompany/:id', // Add the route for /editclient/[id]
     element: <NewCompany />
   },
+  // {
+  //   path: '/logout',
+  //   element: <Logout/>
+  // },
   {
     path: '/import',
     element: <Import />
@@ -83,14 +87,6 @@ const AppRoutes = [
   {
     path: '/clientMeetings/:id', // Add the route for /editclient/[id]
     element: <ClientMeetings />
-  },
-  {
-    path: '/logout',
-    element: <Logout />
-  },
-  {
-    path: '/signUp',
-    element: <SignUpForm />
   },
 ];
 

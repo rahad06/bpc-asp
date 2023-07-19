@@ -4,7 +4,7 @@ import './components/styles.css';
 import AppHolder from "./components/AppHolder";
 import Login from "./components/Login";
 import UsePanelStore from "./Store/usePanelStore";
-import { QueryClient, QueryClientProvider} from "react-query";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 function App(props) {
     const {show, setShow} = UsePanelStore()
@@ -16,9 +16,9 @@ function App(props) {
     }, [localStorage]);
     if (show) {
         return (
-            <QueryClientProvider client={queryClient}>
-                <AppHolder/>
-            </QueryClientProvider>
+                <QueryClientProvider client={queryClient}>
+                    <AppHolder/>
+                </QueryClientProvider>
         )
     } else {
         return (

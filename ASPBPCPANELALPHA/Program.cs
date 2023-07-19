@@ -19,6 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddTransient<RoleInitializer>();
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -43,6 +44,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+using (var scope = app.Services.CreateScope())
+{
+    var roleInitializer = scope.ServiceProvider.GetRequiredService<RoleInitializer>();
+    await roleInitializer.CreateRoles();
+}
 
 app.MapControllerRoute(
     name: "default",

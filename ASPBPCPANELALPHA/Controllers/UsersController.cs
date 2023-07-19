@@ -12,11 +12,36 @@ namespace ASPBPCPANELALPHA.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+        }
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = _userManager.Users.Select(user => new
+            {
+                Id = user.Id,
+                UserName = user.UserName
+            }).ToList();
+
+            return Ok(users);
+        }
+        [HttpGet("{userId}/roles")]
+        public async Task<IActionResult> GetUserRoles(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            return Ok(new { roles });
         }
 
         [HttpPost("SignUp")]
@@ -46,15 +71,37 @@ namespace ASPBPCPANELALPHA.Controllers
 
             if (result.Succeeded)
             {
-                return Ok();
+                var roles = await _userManager.GetRolesAsync(user);
+                return Ok(new { roles });
             }
 
             return BadRequest("Invalid username or password.");
         }
+
         [HttpPost("LogOut")]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+            return Ok();
+        }
+        [HttpPost("{userId}/roles")]
+        public async Task<IActionResult> AssignRolesToUser(string userId, [FromBody] List<string> roleNames)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var roleName in roleNames)
+            {
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role != null)
+                {
+                    await _userManager.AddToRoleAsync(user, roleName);
+                }
+            }
+
             return Ok();
         }
     }

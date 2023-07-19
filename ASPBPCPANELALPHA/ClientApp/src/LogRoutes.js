@@ -9,14 +9,6 @@ const LogRoutes = [
         index: true,
         element: <LoginForm />
     },
-    {
-        path: '/logout',
-        element: <Logout />
-    },
-    {
-        path: '/signup',
-        element: <SignUpForm />
-    },
     
 ];
 

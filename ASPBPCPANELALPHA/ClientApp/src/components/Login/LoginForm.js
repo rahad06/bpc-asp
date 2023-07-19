@@ -15,7 +15,7 @@ function LoginForm() {
         register,
         formState: {errors},
     } = useForm();
-    const {setShow, showSignup, setShowSignup} = usePanelStore()
+    const {setShow, showSignup, setRoles} = usePanelStore()
     const [remember, setRemember] = useState(false)
     const onSubmit = (data) => {
         axios
@@ -24,8 +24,10 @@ function LoginForm() {
                 password: data.password,
             })
             .then((response) => {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    setShow(true)
+                console.log(response)
+                localStorage.setItem('isLoggedIn', 'true');
+                setRoles(response.data.roles)
+                setShow(true)
             })
             .catch((error) => {
                 console.error(error);
@@ -33,9 +35,9 @@ function LoginForm() {
             });
     };
 
-    if(showSignup) {
+    if (showSignup) {
         return (
-           <SignUpForm/>
+            <SignUpForm/>
         )
     }
     return (
@@ -84,11 +86,11 @@ function LoginForm() {
                         <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
                             Sign In
                         </Button>
-                        <Button type="button"
-                                onClick={() => setShowSignup(true)}
-                                fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
-                            Sign Up
-                        </Button>
+                        {/*<Button type="button"*/}
+                        {/*        onClick={() => setShowSignup(true)}*/}
+                        {/*        fullWidth variant="contained" sx={{mt: 3, mb: 2}}>*/}
+                        {/*    Sign Up*/}
+                        {/*</Button>*/}
                     </Box>
                 </Box>
             </Container>

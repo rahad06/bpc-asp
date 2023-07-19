@@ -3,6 +3,7 @@ import {Button} from "@mui/material";
 import axios from "axios";
 import UsePanelStore from "../../Store/usePanelStore";
 import {useNavigate} from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 function Logout(props) {
     const {setShow, setShowSignup} = UsePanelStore()
@@ -16,16 +17,17 @@ function Logout(props) {
             console.error('Error occurred during logout:', error);
             // Handle the error accordingly
         } finally {
-            setShow(false)
+            localStorage.removeItem('isLoggedIn');
+
+            // setShow(false)
             setShowSignup(false)
-            navigate("/signup")
         }
     };
     useEffect(()=>{
-        logout()
+        logout().then(r => r)
     },[])
     return (
-        <></>
+        <><LoginForm/></>
     );
 }
 
