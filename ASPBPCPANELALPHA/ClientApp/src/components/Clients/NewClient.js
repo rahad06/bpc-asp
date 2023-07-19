@@ -92,7 +92,7 @@ const NewClient = () => {
                 {id ? (
                     <form onSubmit={handleSubmit(onEdit)}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <FormControl fullWidth>
                                     <CustomSearchable
                                         title={'Industry'}
@@ -101,7 +101,7 @@ const NewClient = () => {
                                     </CustomSearchable>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Client Name"
@@ -109,7 +109,7 @@ const NewClient = () => {
                                     onChange={e => setClientName(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Website"
@@ -117,7 +117,7 @@ const NewClient = () => {
                                     onChange={e => setWebsite(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Representative"
@@ -126,7 +126,7 @@ const NewClient = () => {
                                 />
                             </Grid>
                             {/* Add more form fields as needed */}
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button type="submit" variant="contained" color="primary">
                                     Submit
                                 </Button>
@@ -136,7 +136,7 @@ const NewClient = () => {
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <FormControl fullWidth>
                                     <CustomSearchable
                                         title={'Industry'}
@@ -145,7 +145,7 @@ const NewClient = () => {
                                     </CustomSearchable>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Client Name"
@@ -153,14 +153,14 @@ const NewClient = () => {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Website"
                                     {...register('website')}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Representative"
@@ -168,7 +168,7 @@ const NewClient = () => {
                                 />
                             </Grid>
                             {/* Add more form fields as needed */}
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button type="submit" variant="contained" color="primary">
                                     Submit
                                 </Button>

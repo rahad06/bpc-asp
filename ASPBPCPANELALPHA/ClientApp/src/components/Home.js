@@ -22,7 +22,6 @@ export class Home extends Component {
                         </Grid>
                     </Grid>
             </>
-        )
-            ;
+        );
     }
 }

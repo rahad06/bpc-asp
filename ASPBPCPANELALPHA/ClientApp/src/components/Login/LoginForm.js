@@ -24,7 +24,6 @@ function LoginForm() {
                 password: data.password,
             })
             .then((response) => {
-                console.log(response)
                 localStorage.setItem('isLoggedIn', 'true');
                 setRoles(response.data.roles)
                 setShow(true)

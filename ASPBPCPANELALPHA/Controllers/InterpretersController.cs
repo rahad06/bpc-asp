@@ -25,7 +25,7 @@ namespace ASPBPCPANELALPHA.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Interpreter>>> GetIndustries(
+        public async Task<ActionResult<IEnumerable<Interpreter>>> GetInterpreters(
             [FromQuery(Name = "searchQuery")] string? searchQuery = "",
             [FromQuery] int pageIndex = 0,
             [FromQuery] int pageSize = 10)
@@ -139,6 +139,29 @@ namespace ASPBPCPANELALPHA.Controllers
             var companies = JsonConvert.DeserializeObject<List<Company>>(json);
 
             return Ok(companies); // Explicitly return Ok with the companies list
+        }
+
+        [HttpGet("{id}/Clients")]
+        public async Task<ActionResult<IEnumerable<Company>>> GetClientsByInterpreter(int id)
+        {
+            var interpreter = await _context.Interpreters
+                .Include(i => i.Meetings)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (interpreter == null)
+            {
+                return NotFound();
+            }
+
+            var json = JsonConvert.SerializeObject(interpreter.Meetings, Formatting.None, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                MaxDepth = 32 // Adjust the maximum depth value as needed
+            });
+
+            var clients = JsonConvert.DeserializeObject<List<Client>>(json);
+
+            return Ok(clients); // Explicitly return Ok with the companies list
         }
 
 

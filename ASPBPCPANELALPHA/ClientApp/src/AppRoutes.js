@@ -11,13 +11,11 @@ import ClientMeetings from "./components/Meetings/ClientMeetings";
 import Import from "./components/Import";
 import InterpretersTable from "./components/Interpreters/InterpretersTable";
 import NewInterpreter from "./components/Interpreters/NewInterpreter";
-import Logout from "./components/Login/Logout";
-import SignUpForm from "./components/Login/SignUpForm";
-import Login from "./components/Login";
 
 const AppRoutes = [
   {
     index: true,
+    path: "/",
     element: <Home />
   },
   {
@@ -68,10 +66,6 @@ const AppRoutes = [
     path: '/newCompany/:id', // Add the route for /editclient/[id]
     element: <NewCompany />
   },
-  // {
-  //   path: '/logout',
-  //   element: <Logout/>
-  // },
   {
     path: '/import',
     element: <Import />

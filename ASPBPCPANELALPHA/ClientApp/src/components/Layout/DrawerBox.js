@@ -44,7 +44,6 @@ const DrawerBox = () => {
     return (
         <StyledDrawer variant="permanent">
             <div className={'side-nav'}>
-                {roles && roles.includes("Admin") ?
                     <List>
                         <ListItem button component="a" href="/" sx={{margin: 0}}>
                             <OtherHousesIcon fontSize="large"/>
@@ -81,34 +80,7 @@ const DrawerBox = () => {
                             <ListItemText primary="Logout" sx={{fontSize: '20px'}}/>
                         </ListItem>
                     </List>
-                    :
-                    <List>
-                        <ListItem button component="a" href="/" sx={{margin: 0}}>
-                            <OtherHousesIcon fontSize="large"/>
-                            <ListItemText primary="Home" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
-                        <ListItem button component="a" href="/intrepreters" sx={{margin: 0}}>
-                            <PersonIcon fontSize="large"/>
-                            <ListItemText primary="Interepreters" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
-
-                        <ListItem button component="a" href="/companies" sx={{margin: 0}}>
-                            <ApartmentIcon fontSize="large"/>
-                            <ListItemText primary="Companies" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <ListItem button component="a" href="/industries" sx={{margin: 0}}>
-                            <FactoryIcon fontSize="large"/>
-                            <ListItemText primary="Industries" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
-
-                        <ListItem button component="a" onClick={() => logout()} sx={{margin: 0}}>
-                            <LogoutIcon fontSize="large"/>
-                            <ListItemText primary="Logout" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                    </List>
+                
                 }
             </div>
         </StyledDrawer>

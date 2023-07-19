@@ -228,5 +228,66 @@ namespace ASPBPCPANELALPHA.Controllers
                 }
             }
         }
+        // GET: api/companies/export-table
+        [HttpGet("export-table")]
+        public async Task<ActionResult<List<TableData>>> ExportTableData([FromQuery] int clientId, [FromQuery] List<int> companyIds)
+        {
+            var client = await _context.Clients.FindAsync(clientId);
+
+            if (client == null)
+            {
+                return NotFound("Client not found.");
+            }
+
+            var companies = await _context.Companies
+                .Where(c => companyIds.Contains(c.Id))
+                .ToListAsync();
+
+            var tableData = new List<TableData>();
+
+            // Add client row
+            var clientRow = new TableData
+            {
+                ClientName = client.Name,
+                Companies = new List<Company>()
+            };
+
+            tableData.Add(clientRow);
+
+            // Add company rows
+            foreach (var company in companies)
+            {
+                var companyData = new Company
+                {
+                    Name = company.Name,
+                    RegistroMercantil = company.RegistroMercantil,
+                    IdentificacionNacional = company.IdentificacionNacional,
+                    Salutation = company.Salutation,
+                    ContactName = company.ContactName,
+                    Pusto = company.Pusto,
+                    Email = company.Email,
+                    WebPage = company.WebPage,
+                    Phone = company.Phone,
+                    Mobile = company.Mobile,
+                    Stage = company.Stage,
+                    Industry = company.Industry,
+                    Type = company.Type,
+                    Address = company.Address,
+                    City = company.City,
+                    Country = company.Country,
+                    Comments = company.Comments,
+                    Rating = company.Rating,
+                    Research = company.Research,
+                    Experience = company.Experience,
+                    Employees = company.Employees
+                };
+
+                clientRow.Companies.Add(companyData);
+            }
+
+            return Ok(tableData);
+        }
+
+
     }
 }

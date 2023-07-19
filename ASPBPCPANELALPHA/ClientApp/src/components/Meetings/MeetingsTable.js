@@ -130,6 +130,7 @@ const MeetingsTable = () => {
             {
                 accessorKey: 'comments',
                 header: 'Comments',
+                size: 1000
             },
             {
                 accessorKey: 'employees',
@@ -168,10 +169,15 @@ const MeetingsTable = () => {
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newMeeting'}>Add</Button>
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/import'}>Import</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newMeeting'} sx={{height: '40px'}}>Add</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/import'} sx={{height: '40px'}}>Import</Button>
             </Stack>
             <MaterialReactTable
+                options={{
+                    rowStyle: {
+                        overflowWrap: 'break-word'
+                    }
+                }}
                 columns={columns}
                 data={data}
                 initialState={{showColumnFilters: false, columnVisibility: { id: false } }}

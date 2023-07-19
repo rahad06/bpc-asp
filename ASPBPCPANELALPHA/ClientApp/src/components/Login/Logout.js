@@ -19,7 +19,7 @@ function Logout(props) {
         } finally {
             localStorage.removeItem('isLoggedIn');
 
-            // setShow(false)
+            setShow(false)
             setShowSignup(false)
         }
     };

@@ -11,10 +11,6 @@ import usePanelStore from '../Store/usePanelStore';
 function AppHolder(props) {
     const {setAuthenticated, roles} = usePanelStore();
 
-    useEffect(() => {
-        setAuthenticated(localStorage.getItem('isLoggedIn') === 'true');
-        // fetchUserRoles();
-    }, []);
 
 
     return (
@@ -36,14 +32,9 @@ function AppHolder(props) {
                     <TopAppBar/>
                     <BoxLayout>
                         <Routes>
-                            {roles && roles.includes("Admin") ?
+                            {
                                 AppRoutes.map((route, index) => {
-                                    const {element} = route;
-                                    return (<Route key={index} element={element}/>)
-                                }) : 
-                                LimitedRoutes.map((route, index) => {
-                                    const {element} = route;
-                                    return (<Route key={index} element={element}/>)
+                                    return (<Route exact={route.path === "/"} key={index} element={route.element} path={route.path}/>)
                                 })}
                         </Routes>
                     </BoxLayout>

@@ -1,23 +1,17 @@
 import { Home } from "./components/Home";
 import NewCompany from "./components/Companies/NewCompany";
-import NewClient from "./components/Clients/NewClient";
-import MeetingsTable from "./components/Meetings/MeetingsTable";
-import ClientsTable from "./components/Clients/ClientsTable";
 import NewIndustry from "./components/Industries/NewIndustry";
 import IndustriesTable from "./components/Industries/IndustriesTable";
 import CompaniesTable from "./components/Companies/CompaniesTable";
-import NewMeeting from "./components/Meetings/NewMeeting";
-import ClientMeetings from "./components/Meetings/ClientMeetings";
 import Import from "./components/Import";
 import InterpretersTable from "./components/Interpreters/InterpretersTable";
 import NewInterpreter from "./components/Interpreters/NewInterpreter";
 import Logout from "./components/Login/Logout";
-import SignUpForm from "./components/Login/SignUpForm";
-import Login from "./components/Login";
 
 const LimitedRoutes = [
     {
         index: true,
+        path: "/",
         element: <Home />
     },
     {
