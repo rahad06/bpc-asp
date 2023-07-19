@@ -125,6 +125,8 @@ const CompaniesTable = () => {
             {
                 accessorKey: 'comments',
                 header: 'Comments',
+                size: 1000
+
             },
             {
                 accessorKey: 'employees',
@@ -166,7 +168,7 @@ const CompaniesTable = () => {
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newCompany'}>Add</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newCompany'} sx={{height: '40px'}}>Add</Button>
             </Stack>
             <MaterialReactTable
                 columns={columns}

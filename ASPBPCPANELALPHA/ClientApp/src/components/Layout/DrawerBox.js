@@ -59,7 +59,7 @@ const DrawerBox = () => {
                             <GroupsIcon fontSize="large"/>
                             <ListItemText primary="Meetings" sx={{fontSize: '20px'}}/>
                         </ListItem>
-                        <ListItem button component="a" href="/intrepreters" sx={{margin: 0}}>
+                        <ListItem button component="a" href="/interpreters" sx={{margin: 0}}>
                             <PersonIcon fontSize="large"/>
                             <ListItemText primary="Interepreters" sx={{fontSize: '20px'}}/>
                         </ListItem>

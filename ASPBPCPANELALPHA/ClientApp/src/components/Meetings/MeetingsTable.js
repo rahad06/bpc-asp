@@ -170,7 +170,7 @@ const MeetingsTable = () => {
         <>
             <Stack spacing={2} direction="row">
                 <Button variant="outlined" className={'btn-outlined-custom'} href={'/newMeeting'} sx={{height: '40px'}}>Add</Button>
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/import'} sx={{height: '40px'}}>Import</Button>
+                {/*<Button variant="outlined" className={'btn-outlined-custom'} href={'/import'} sx={{height: '40px'}}>Import</Button>*/}
             </Stack>
             <MaterialReactTable
                 options={{

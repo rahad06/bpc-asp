@@ -30,7 +30,7 @@ namespace ASPBPCPANELALPHA.Controllers
             [FromQuery] int pageIndex = 0,
             [FromQuery] int pageSize = 10)
         {
-            var queryable = _context.Industries.AsQueryable();
+            var queryable = _context.Interpreters.AsQueryable();
 
             // Apply search
             if (!string.IsNullOrEmpty(searchQuery))

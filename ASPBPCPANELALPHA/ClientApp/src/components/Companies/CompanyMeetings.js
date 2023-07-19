@@ -201,29 +201,29 @@ const CompanyMeetings = () => {
                     <Button onClick={() => handleExport()}><GetAppIcon/></Button>
                 )}
                 <Button onClick={() => allMeetings()}><LocalConvenienceStoreIcon/></Button>
-                <TextField
-                    id="startDate"
-                    label="Start Date"
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    value={dateFrom}
-                    onChange={(e) => handleDateFrom(e)}
-                />
-                <TextField
-                    id="startDate"
-                    label="Start Date"
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    value={dateTo}
-                    onChange={(e) => handleDateTo(e)}
-                />
-                <Button onClick={() => {
-                    handleSearch()
-                }}>Search</Button>
+                {/*<TextField*/}
+                {/*    id="startDate"*/}
+                {/*    label="Start Date"*/}
+                {/*    type="date"*/}
+                {/*    InputLabelProps={{*/}
+                {/*        shrink: true,*/}
+                {/*    }}*/}
+                {/*    value={dateFrom}*/}
+                {/*    onChange={(e) => handleDateFrom(e)}*/}
+                {/*/>*/}
+                {/*<TextField*/}
+                {/*    id="startDate"*/}
+                {/*    label="Start Date"*/}
+                {/*    type="date"*/}
+                {/*    InputLabelProps={{*/}
+                {/*        shrink: true,*/}
+                {/*    }}*/}
+                {/*    value={dateTo}*/}
+                {/*    onChange={(e) => handleDateTo(e)}*/}
+                {/*/>*/}
+                {/*<Button onClick={() => {*/}
+                {/*    handleSearch()*/}
+                {/*}}>Search</Button>*/}
             </Stack>
             {loading ? null : (
                 <MaterialReactTable

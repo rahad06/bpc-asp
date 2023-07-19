@@ -26,6 +26,12 @@ const NewCompany = () => {
     const [comments, setComments] = useState('')
     const [registroMercantil, setRegistroMercantil] = useState('')
     const [identificacionNacional, setIdentificacionNacional] = useState('')
+    const [country, setCountry] = useState("Iran")
+    const [city, setCity] = useState("Tehran")
+    const [research, setResearch] = useState("")
+    const [stage, setStage] = useState("")
+    const [rating, setRating] = useState(0)
+    const [type, setType] = useState("")
     useEffect(() => {
         fetchIndustries();
         if (id) {
@@ -36,11 +42,26 @@ const NewCompany = () => {
     const fetchCompany = async () => {
         try {
             const response = await axios.get(`/api/Companies/${id}`);
-            console.log(response.data)
             setCompanyName(response.data.name)
             setWebsite(response.data.website)
             setRep(response.data.representative)
             setPost(response.data.pusto)
+            setSalutation(response.data.salutation)
+            setMobile(response.data.mobile)
+            setPhone(response.data.phone)
+            setEmail(response.data.email)
+            setAddress(response.data.address)
+            setEmployees(response.data.employees)
+            setExperience(response.data.experience)
+            setComments(response.data.comments)
+            setRegistroMercantil(response.data.registroMercantil)
+            setIdentificacionNacional(response.data.identificacionNacional)
+            setCountry(response.data.country)
+            setCity(response.data.city)
+            setResearch(response.data.research)
+            setStage(response.data.stage)
+            setRating(response.data.rating)
+            setType(response.data.type)
             setIndustryId(response.data.industry.id)
         } catch (error) {
             console.error(error);
@@ -74,7 +95,13 @@ const NewCompany = () => {
                     employees: employees,
                     experience: experience,
                     registroMercantil: registroMercantil,
-                    identificacionNacional: identificacionNacional
+                    identificacionNacional: identificacionNacional,
+                    country: country,
+                    city: city,
+                    stage: stage,
+                    type: type,
+                    rating: rating,
+                    research: research
                 })
             } catch (err) {
                 console.log(err)
@@ -96,7 +123,13 @@ const NewCompany = () => {
                     employees: employees,
                     experience: experience,
                     registroMercantil: registroMercantil,
-                    identificacionNacional: identificacionNacional
+                    identificacionNacional: identificacionNacional,
+                    country: country,
+                    city: city,
+                    stage: stage,
+                    type: type,
+                    rating: rating,
+                    research: research
                 })
             } catch (err) {}
         }
@@ -127,6 +160,14 @@ const NewCompany = () => {
                                     label="Company Name"
                                     value={companyName}
                                     onChange={e => setCompanyName(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Type of Company"
+                                    value={type}
+                                    onChange={e => setType(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -205,6 +246,15 @@ const NewCompany = () => {
                             <Grid item xs={6}>
                                 <TextField
                                     fullWidth
+                                    label="Rating"
+                                    type={'number'}
+                                    value={rating}
+                                    onChange={e => setRating(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
                                     label="Registro Mercantil"
                                     value={registroMercantil}
                                     onChange={e => setRegistroMercantil(e.target.value)}
@@ -216,6 +266,22 @@ const NewCompany = () => {
                                     label="Identificacion Nacional"
                                     value={identificacionNacional}
                                     onChange={e => setIdentificacionNacional(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="City"
+                                    value={city}
+                                    onChange={e => setCity(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Country"
+                                    value={country}
+                                    onChange={e => setCountry(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -236,6 +302,16 @@ const NewCompany = () => {
                                     label="Comments"
                                     value={comments}
                                     onChange={e => setComments(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    rows={4}
+                                    label="Research"
+                                    value={research}
+                                    onChange={e => setResearch(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>

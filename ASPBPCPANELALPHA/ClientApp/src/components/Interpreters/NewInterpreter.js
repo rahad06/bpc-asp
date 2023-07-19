@@ -11,13 +11,13 @@ const NewInterpreter = () => {
     const [name, setName] = useState("")
     useEffect(() => {
         if (id) {
-            fetchIndustry()
+            fetchInterpreter()
         }
     }, []);
 
-    const fetchIndustry = async () => {
+    const fetchInterpreter = async () => {
         try {
-            const response = await axios.get(`/api/Industries/${id}`);
+            const response = await axios.get(`/api/Interpreters/${id}`);
             console.log(response.data)
             setName(response.data.name)
         } catch (error) {
@@ -27,7 +27,7 @@ const NewInterpreter = () => {
 
     const onEdit = async () => {
         try {
-            const res = axios.put(`/api/Industries/${id}`, {
+            const res = axios.put(`/api/Interpreters/${id}`, {
                 id: id,
                 name: name,
             })
@@ -39,7 +39,7 @@ const NewInterpreter = () => {
         console.log(data)
         
         try {
-            const response = await axios.post('/api/Industries/Create', data);
+            const response = await axios.post('/api/Interpreters/Create', data);
             console.log(response.data); // Handle the response as needed
             reset(); // Reset the form after successful submission
         } catch (error) {

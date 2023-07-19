@@ -27,20 +27,20 @@ const InterpretersTable = () => {
 
         try {
             if (globalFilter !== "") {
-                const response = await axios.get('/api/Industries', {
+                const response = await axios.get('/api/Interpreters', {
                     params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
+                        pageIndex: pagination.pageIndex * pagination.pageSize,
+                        pageSize: pagination.pageSize,
                         searchQuery: globalFilter,
                     },
                 });
                 setData(response.data);
                 setIsError(false);
             } else {
-                const response = await axios.get('/api/Industries', {
+                const response = await axios.get('/api/Interpreters/', {
                     params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
+                        pageIndex: pagination.pageIndex * pagination.pageSize,
+                        pageSize: pagination.pageSize,
                     },
                 });
                 setData(response.data);
@@ -59,17 +59,16 @@ const InterpretersTable = () => {
     }, [pagination, globalFilter]);
     const navigate = useNavigate();
 
-    const handleEdit = (industryId) => {
-        navigate(`/newIndustry/${industryId}`);
+    const handleEdit = (id) => {
+        navigate(`/newInterpreter/${id}`);
     };
-    const handleDelete = async (industryId) => {
+    const handleDelete = async (id) => {
         try {
-            await axios.delete(`/api/Industries/${industryId}`);
-            console.log('Successfully deleted industry:', industryId);
+            await axios.delete(`/api/Interpreters/${id}`);
             // Refresh the data after deletion
             fetchData();
         } catch (error) {
-            console.error('Error deleting industry:', error);
+            console.error('Error deleting:', error);
         }
     };
 
@@ -104,7 +103,7 @@ const InterpretersTable = () => {
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newIndustry'}>Add</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newInterpreter'}>Add</Button>
             </Stack>
             <MaterialReactTable
                 columns={columns}

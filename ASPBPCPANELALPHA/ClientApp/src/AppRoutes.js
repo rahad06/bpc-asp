@@ -11,6 +11,7 @@ import ClientMeetings from "./components/Meetings/ClientMeetings";
 import Import from "./components/Import";
 import InterpretersTable from "./components/Interpreters/InterpretersTable";
 import NewInterpreter from "./components/Interpreters/NewInterpreter";
+import CompanyMeetings from "./components/Companies/CompanyMeetings";
 
 const AppRoutes = [
   {
@@ -63,6 +64,10 @@ const AppRoutes = [
     element: <NewInterpreter />
   },
   {
+    path: '/newInterpreter/:id',
+    element: <NewInterpreter />
+  },
+  {
     path: '/newCompany/:id', // Add the route for /editclient/[id]
     element: <NewCompany />
   },
@@ -81,6 +86,10 @@ const AppRoutes = [
   {
     path: '/clientMeetings/:id', // Add the route for /editclient/[id]
     element: <ClientMeetings />
+  },
+  {
+    path: '/companyMeetings/:id', // Add the route for /editclient/[id]
+    element: <CompanyMeetings />
   },
 ];
 
