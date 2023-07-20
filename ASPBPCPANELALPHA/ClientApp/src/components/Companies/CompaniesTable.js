@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useEffect} from 'react';
+import React, {useMemo, useState, useEffect, useRef} from 'react';
 import {MaterialReactTable} from 'material-react-table';
 import {IconButton, Tooltip} from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -22,6 +22,11 @@ const CompaniesTable = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
+    const tableContent = useRef()
+    const [tableWidth, setTableWidth] = useState(null)
+    useEffect(() => {
+        setTableWidth(tableContent.current?.scrollWidth + 20)
+    }, [data])
 
     const fetchData = async () => {
         setIsLoading(true);
@@ -168,40 +173,49 @@ const CompaniesTable = () => {
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newCompany'} sx={{height: '40px'}}>Add</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newCompany'}
+                        sx={{height: '40px'}}>Add</Button>
             </Stack>
-            <MaterialReactTable
-                columns={columns}
-                data={data}
-                initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
-                manualPagination
-                manualGlobalFilter
-                muiToolbarAlertBannerProps={
-                    isError
-                        ? {
-                            color: 'error',
-                            children: 'Error loading data',
-                        }
-                        : undefined
-                }
-                onPaginationChange={setPagination}
-                onGlobalFilterChange={setGlobalFilter}
-                renderTopToolbarCustomActions={() => (
-                    <Tooltip arrow title="Refresh Data">
-                        <IconButton onClick={fetchData}>
-                            <RefreshIcon/>
-                        </IconButton>
-                    </Tooltip>
-                )}
-                rowCount={data.length}
-                state={{
-                    isLoading,
-                    pagination,
-                    showAlertBanner: isError,
-                    showProgressBars: false,
-                    globalFilter,
-                }}
-            />
+            <div className="table-container">
+                <div className="react-perfect-scrollbar-container"
+                     style={{width: "100%", maxHeight: '70vh', overflow: 'auto'}}
+                >
+                    <div ref={tableContent}>
+                        <MaterialReactTable
+                            columns={columns}
+                            data={data}
+                            initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
+                            manualPagination
+                            manualGlobalFilter
+                            muiToolbarAlertBannerProps={
+                                isError
+                                    ? {
+                                        color: 'error',
+                                        children: 'Error loading data',
+                                    }
+                                    : undefined
+                            }
+                            onPaginationChange={setPagination}
+                            onGlobalFilterChange={setGlobalFilter}
+                            renderTopToolbarCustomActions={() => (
+                                <Tooltip arrow title="Refresh Data">
+                                    <IconButton onClick={fetchData}>
+                                        <RefreshIcon/>
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            rowCount={data.length}
+                            state={{
+                                isLoading,
+                                pagination,
+                                showAlertBanner: isError,
+                                showProgressBars: false,
+                                globalFilter,
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

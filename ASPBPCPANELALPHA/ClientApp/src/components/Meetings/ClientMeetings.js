@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useEffect} from 'react';
+import React, {useMemo, useState, useEffect, useRef} from 'react';
 import {MaterialReactTable} from 'material-react-table';
 import {IconButton, Tooltip} from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import GetAppIcon from '@mui/icons-material/GetApp';
 import {utils, writeFile} from "xlsx";
 import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
+
 const ClientMeetings = () => {
     const {id} = useParams()
     const [first, setFirst] = useState(true)
@@ -29,6 +30,11 @@ const ClientMeetings = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
+    const tableContent = useRef()
+    const [tableWidth, setTableWidth] = useState(null)
+    useEffect(() => {
+        setTableWidth(tableContent.current?.scrollWidth + 20)
+    }, [data])
     const handleDateFrom = async (e) => {
         setDateFrom(e.target.value)
     }
@@ -169,9 +175,9 @@ const ClientMeetings = () => {
                     <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.meetingId)}>
                         <EditIcon sx={{fontSize: '18px'}}/>
                     </span>
-                    {/*    <span style={{cursor: "pointer"}} onClick={() => handleDelete(row)}>*/}
-                    {/*    <Delete sx={{fontSize: '18px'}}/>*/}
-                    {/*</span>*/}
+                        {/*    <span style={{cursor: "pointer"}} onClick={() => handleDelete(row)}>*/}
+                        {/*    <Delete sx={{fontSize: '18px'}}/>*/}
+                        {/*</span>*/}
                     </div>
                 ),
             },
@@ -189,12 +195,12 @@ const ClientMeetings = () => {
         const wb = utils.book_new();
         const ws = utils.json_to_sheet([]);
         utils.sheet_add_aoa(ws, headings);
-        utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
+        utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
         utils.book_append_sheet(wb, ws, 'Meetings');
         writeFile(wb, 'Meetings Report.xlsx');
     }
-    
-    
+
+
     return (
         <>
             <Stack spacing={2} direction="row">
@@ -227,38 +233,47 @@ const ClientMeetings = () => {
                 }}>Search</Button>
             </Stack>
             {loading ? null : (
-                <MaterialReactTable
-                    columns={columns}
-                    data={data}
-                    initialState={{showColumnFilters: false}}
-                    manualPagination
-                    manualGlobalFilter
-                    muiToolbarAlertBannerProps={
-                        isError
-                            ? {
-                                color: 'error',
-                                children: 'Error loading data',
-                            }
-                            : undefined
-                    }
-                    onPaginationChange={setPagination}
-                    onGlobalFilterChange={setGlobalFilter}
-                    renderTopToolbarCustomActions={() => (
-                        <Tooltip arrow title="Refresh Data">
-                            <IconButton onClick={fetchData}>
-                                <RefreshIcon/>
-                            </IconButton>
-                        </Tooltip>
-                    )}
-                    rowCount={data.length}
-                    state={{
-                        isLoading,
-                        pagination,
-                        showAlertBanner: isError,
-                        showProgressBars: false,
-                        globalFilter,
-                    }}
-                />
+                <div className="table-container">
+                    <div className="react-perfect-scrollbar-container"
+                         style={{width: "100%", maxHeight: '70vh', overflow: 'auto'}}
+                    >
+                        <div ref={tableContent}>
+                            <MaterialReactTable
+                                columns={columns}
+                                data={data}
+                                initialState={{showColumnFilters: false}}
+                                manualPagination
+                                manualGlobalFilter
+                                muiToolbarAlertBannerProps={
+                                    isError
+                                        ? {
+                                            color: 'error',
+                                            children: 'Error loading data',
+                                        }
+                                        : undefined
+                                }
+                                onPaginationChange={setPagination}
+                                onGlobalFilterChange={setGlobalFilter}
+                                renderTopToolbarCustomActions={() => (
+                                    <Tooltip arrow title="Refresh Data">
+                                        <IconButton onClick={fetchData}>
+                                            <RefreshIcon/>
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                                rowCount={data.length}
+                                state={{
+                                    isLoading,
+                                    pagination,
+                                    showAlertBanner: isError,
+                                    showProgressBars: false,
+                                    globalFilter,
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                
             )}
         </>
     );

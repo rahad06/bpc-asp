@@ -1,5 +1,4 @@
-
-import React, {useMemo, useState, useEffect} from 'react';
+import React, {useMemo, useState, useEffect, useRef} from 'react';
 import {MaterialReactTable} from 'material-react-table';
 import {IconButton, Tooltip} from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -9,6 +8,7 @@ import Delete from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const MeetingsTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -21,11 +21,15 @@ const MeetingsTable = () => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-
-
+    const doubleScroll = useRef()
+    const table = useRef()
+    const tableContent = useRef()
+    const [tableWidth, setTableWidth] = useState(null)
+    useEffect(() => {
+        setTableWidth(tableContent.current?.scrollWidth + 20)
+    }, [data])
     const fetchData = async () => {
         setIsLoading(true);
-
         try {
             if (globalFilter !== "") {
                 const response = await axios.get('/api/Meetings', {
@@ -169,46 +173,54 @@ const MeetingsTable = () => {
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newMeeting'} sx={{height: '40px'}}>Add</Button>
-                {/*<Button variant="outlined" className={'btn-outlined-custom'} href={'/import'} sx={{height: '40px'}}>Import</Button>*/}
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newMeeting'}
+                        sx={{height: '40px'}}>Add</Button>
             </Stack>
-            <MaterialReactTable
-                options={{
-                    rowStyle: {
-                        overflowWrap: 'break-word'
-                    }
-                }}
-                columns={columns}
-                data={data}
-                initialState={{showColumnFilters: false, columnVisibility: { id: false } }}
-                manualPagination
-                manualGlobalFilter
-                muiToolbarAlertBannerProps={
-                    isError
-                        ? {
-                            color: 'error',
-                            children: 'Error loading data',
-                        }
-                        : undefined
-                }
-                onPaginationChange={setPagination}
-                onGlobalFilterChange={setGlobalFilter}
-                renderTopToolbarCustomActions={() => (
-                    <Tooltip arrow title="Refresh Data">
-                        <IconButton onClick={fetchData}>
-                            <RefreshIcon/>
-                        </IconButton>
-                    </Tooltip>
-                )}
-                rowCount={data.length}
-                state={{
-                    isLoading,
-                    pagination,
-                    showAlertBanner: isError,
-                    showProgressBars: false,
-                    globalFilter,
-                }}
-            />
+            <div className="table-container">
+                <div className="react-perfect-scrollbar-container"
+                     style={{width: "100%", maxHeight: '70vh', overflow: 'auto'}}
+                >
+                    <div ref={tableContent}>
+                        <MaterialReactTable
+                            options={{
+                                rowStyle: {
+                                    overflowWrap: 'break-word'
+                                }
+                            }}
+                            columns={columns}
+                            data={data}
+                            initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
+                            manualPagination
+                            manualGlobalFilter
+                            muiToolbarAlertBannerProps={
+                                isError
+                                    ? {
+                                        color: 'error',
+                                        children: 'Error loading data',
+                                    }
+                                    : undefined
+                            }
+                            onPaginationChange={setPagination}
+                            onGlobalFilterChange={setGlobalFilter}
+                            renderTopToolbarCustomActions={() => (
+                                <Tooltip arrow title="Refresh Data">
+                                    <IconButton onClick={fetchData}>
+                                        <RefreshIcon/>
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            rowCount={data.length}
+                            state={{
+                                isLoading,
+                                pagination,
+                                showAlertBanner: isError,
+                                showProgressBars: false,
+                                globalFilter,
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
         </>
     );
 };
