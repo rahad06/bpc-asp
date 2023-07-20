@@ -143,6 +143,7 @@ const ClientMeetings = () => {
             {
                 accessorKey: 'comments',
                 header: 'Comments',
+                size: 700
             },
             {
                 accessorKey: 'employees',

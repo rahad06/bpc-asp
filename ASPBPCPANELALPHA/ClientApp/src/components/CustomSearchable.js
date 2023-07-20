@@ -1,21 +1,21 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
 import {Box} from "@mui/material";
+import {useEffect, useState} from "react";
 
 const filter = createFilterOptions();
 
 export default function CustomSearchable(props) {
-    const [value, setValue] = React.useState(null);
+    const [valueT, setValueT] = React.useState(null);
     const [open, toggleOpen] = React.useState(false);
-
+    const [name, setName] = useState("")
     const handleClose = () => {
         toggleOpen(false);
     };
 
-
-    if(!props) return;
+    if (!props) return;
     return (
         <React.Fragment>
             <Autocomplete
@@ -37,7 +37,10 @@ export default function CustomSearchable(props) {
                         //     year: '',
                         // });
                     } else {
-                        setValue(newValue);
+                        console.log(newValue)
+                        setValueT(newValue);
+                        setName(newValue.name)
+                        props.clickFn(newValue.id)
                     }
                 }}
                 filterOptions={(options, params) => {
@@ -55,21 +58,20 @@ export default function CustomSearchable(props) {
                 id={props.title}
                 options={props.data}
                 getOptionLabel={(option) => {
-                    // e.g value selected with enter, right from the input
                     if (typeof option === 'string') {
                         return option;
                     }
                     if (option.inputValue) {
                         return option.inputValue;
                     }
-                    return option.name;
+                    return option.name ?? name;
                 }}
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 freeSolo
-                renderInput={(params) => <TextField {...params} label={props.title} />}
+                renderInput={(params) => <TextField {...params} label={props.title}/>}
             />
             <Dialog open={open} onClose={handleClose}>
                 <Box sx={{padding: '10px'}}>
