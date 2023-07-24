@@ -12,6 +12,7 @@ import Import from "./components/Import";
 import InterpretersTable from "./components/Interpreters/InterpretersTable";
 import NewInterpreter from "./components/Interpreters/NewInterpreter";
 import CompanyMeetings from "./components/Companies/CompanyMeetings";
+import ClientOffers from "./components/Clients/ClientOffers";
 
 const AppRoutes = [
   {
@@ -36,7 +37,7 @@ const AppRoutes = [
     element: <NewClient />
   },
   {
-    path: '/newClient/:id', // Add the route for /editclient/[id]
+    path: '/newClient/:id', 
     element: <NewClient />
   },
   {
@@ -44,7 +45,7 @@ const AppRoutes = [
     element: <NewIndustry />
   },
   {
-    path: '/newIndustry/:id', // Add the route for /editclient/[id]
+    path: '/newIndustry/:id', 
     element: <NewIndustry />
   },
   {
@@ -68,7 +69,7 @@ const AppRoutes = [
     element: <NewInterpreter />
   },
   {
-    path: '/newCompany/:id', // Add the route for /editclient/[id]
+    path: '/newCompany/:id', 
     element: <NewCompany />
   },
   {
@@ -80,15 +81,19 @@ const AppRoutes = [
     element: <NewMeeting />
   },
   {
-    path: '/newMeeting/:id', // Add the route for /editclient/[id]
+    path: '/newMeeting/:id', 
     element: <NewMeeting />
   },
   {
-    path: '/clientMeetings/:id', // Add the route for /editclient/[id]
+    path: '/clientMeetings/:id', 
     element: <ClientMeetings />
   },
   {
-    path: '/companyMeetings/:id', // Add the route for /editclient/[id]
+    path: '/clientOffers/:id', 
+    element: <ClientOffers />
+  },
+  {
+    path: '/companyMeetings/:id',
     element: <CompanyMeetings />
   },
 ];

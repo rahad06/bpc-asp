@@ -229,8 +229,8 @@ namespace ASPBPCPANELALPHA.Controllers
             }
         }
         // GET: api/companies/export-table
-        [HttpGet("export-table")]
-        public async Task<ActionResult<List<TableData>>> ExportTableData([FromQuery] int clientId, [FromQuery] List<int> companyIds)
+        [HttpPost("export-table")]
+        public async Task<ActionResult<List<TableData>>> ExportTableData([FromQuery] int clientId, [FromBody] List<int> companyIds)
         {
             var client = await _context.Clients.FindAsync(clientId);
 
@@ -287,7 +287,5 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return Ok(tableData);
         }
-
-
     }
 }

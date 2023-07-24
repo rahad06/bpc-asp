@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
 import Groups2Icon from '@mui/icons-material/Groups2';
+import {Webhook} from "@mui/icons-material";
 
 const ClientsTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -63,6 +64,9 @@ const ClientsTable = () => {
     const handleEdit = (clientId) => {
         navigate(`/newClient/${clientId}`);
     };
+    const handleOffers = (clientId) => {
+        navigate(`/clientOffers/${clientId}`);
+    };
     const handleDelete = async (clientId) => {
         try {
             await axios.delete(`/api/Clients/${clientId}`);
@@ -112,6 +116,9 @@ const ClientsTable = () => {
                     </span>
                             <span style={{cursor: "pointer"}} onClick={() => handleMeetings(row.original.id)}>
                                 <Groups2Icon sx={{fontSize: '18px'}}/>
+                            </span>
+                            <span style={{cursor: "pointer"}} onClick={() => handleOffers(row.original.id)}>
+                                <Webhook sx={{fontSize: '18px'}}/>
                             </span>
                         </div>
                     ),
