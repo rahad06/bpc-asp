@@ -13,6 +13,7 @@ import InterpretersTable from "./components/Interpreters/InterpretersTable";
 import NewInterpreter from "./components/Interpreters/NewInterpreter";
 import CompanyMeetings from "./components/Companies/CompanyMeetings";
 import ClientOffers from "./components/Clients/ClientOffers";
+import Finals from "./components/Clients/Finals";
 
 const AppRoutes = [
   {
@@ -91,6 +92,10 @@ const AppRoutes = [
   {
     path: '/clientOffers/:id', 
     element: <ClientOffers />
+  },
+  {
+    path: '/finals/:id', 
+    element: <Finals />
   },
   {
     path: '/companyMeetings/:id',

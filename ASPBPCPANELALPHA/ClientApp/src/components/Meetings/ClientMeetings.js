@@ -99,11 +99,11 @@ const ClientMeetings = () => {
     const columns = useMemo(
         () => [
             {
-                accessorKey: 'meetingStatus',
+                accessorKey: 'MeetingStatus',
                 header: 'Meeting Status',
             },
             {
-                accessorKey: 'companyName',
+                accessorKey: 'CompanyName',
                 header: 'Name of the Company',
             },
             {
@@ -119,52 +119,52 @@ const ClientMeetings = () => {
                 header: 'Contact Name',
             },
             {
-                accessorKey: 'pusto',
+                accessorKey: 'Pusto',
                 header: 'Pusto',
             },
             {
-                accessorKey: 'salutation',
+                accessorKey: 'Salutation',
                 header: 'SALUTATION',
             },
             {
-                accessorKey: 'mobile',
+                accessorKey: 'Mobile',
                 header: 'Mobile',
             },
             {
-                accessorKey: 'phone',
+                accessorKey: 'Phone',
                 header: 'Phone',
             },
             {
-                accessorKey: 'email',
+                accessorKey: 'Email',
                 header: 'Email',
             },
             {
-                accessorKey: 'webPage',
+                accessorKey: 'WebPage',
                 header: 'WebPage',
             },
             {
-                accessorKey: 'address',
+                accessorKey: 'Address',
                 header: 'Address',
             },
             {
-                accessorKey: 'comments',
+                accessorKey: 'Comments',
                 header: 'Comments',
                 size: 700
             },
             {
-                accessorKey: 'employees',
+                accessorKey: 'Employees',
                 header: 'Employees',
             },
             {
-                accessorKey: 'experience',
+                accessorKey: 'Experience',
                 header: 'Experience',
             },
             {
-                accessorKey: 'registroMercantil',
+                accessorKey: 'RegistroMercantil',
                 header: 'Registro Mercantil',
             },
             {
-                accessorKey: 'identificacionNacional',
+                accessorKey: 'IdentificacionNacional',
                 header: 'Identificacion Nacional',
             },
             {
@@ -188,14 +188,30 @@ const ClientMeetings = () => {
     const handleExport = () => {
         const headings = [[
             'No',
-            'MEETING DATES',
-            'NAME OF THE COMPANY',
-            'SPAIN TIME'
+            'Meeting Dates',
+            'Meeting Status',
+            'interpreter',
+            'Name Of The Company',
+            'Spain Time',
+            'Irán Time (+)1:30 HRS',
+            'Contact Name',
+            'Pusto',
+            'Salutation',
+            'Mobile',
+            'Phone',
+            'Email',
+            'WebPage',
+            'Address',
+            'Comments',
+            'Employees',
+            'Experience',
+            'Registro Mercantil',
+            'Identificacion Nacional'
         ]];
         const wb = utils.book_new();
         const ws = utils.json_to_sheet([]);
         utils.sheet_add_aoa(ws, headings);
-        utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
+        utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: false});
         utils.book_append_sheet(wb, ws, 'Meetings');
         writeFile(wb, 'Meetings Report.xlsx');
     }

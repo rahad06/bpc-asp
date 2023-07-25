@@ -63,12 +63,12 @@ namespace ASPBPCPANELALPHA.Controllers
                 var meetingDto = new MeetingDto
                 {
                     RowNumber = rowNumber,
-                    MeetingId = m.MeetingId,
-                    ClientName = m.Client.Name,
-                    CompanyName = m.Company.Name,
+                    // MeetingId = m.MeetingId,
+                    // ClientName = m.Client.Name,
                     MeetingDate = m.MeetingDate,
                     MeetingStatus = m.MeetingStatus.Status,
-                    Interpretor = m.Interpreter,
+                    Interpreter = m.Interpreter,
+                    CompanyName = m.Company.Name,
                     SpainTime = m.SpainTime,
                     IranTime = m.IranTime,
                     Employees = m.Company.Employees,
@@ -365,14 +365,44 @@ namespace ASPBPCPANELALPHA.Controllers
         [HttpGet("CompaniesByClient/{clientId}")]
         public async Task<ActionResult<IEnumerable<Company>>> GetCompaniesByClient(int clientId)
         {
-            var companies = await _context.Meetings
+            var clientMeetings = await _context.Meetings
                 .Where(m => m.ClientId == clientId)
-                .Select(m => m.Company)
-                .Distinct()
                 .ToListAsync();
 
-            return companies;
+            var meetingDtos = clientMeetings
+                .Select((m, index) => new MeetingDto
+                {
+                    RowNumber = index + 1,
+                    MeetingDate = m.MeetingDate,
+                    MeetingStatus = m.MeetingStatus?.Status ?? "N/A",
+                    Interpreter = m.Interpreter ?? "N/A",
+                    CompanyName = m.Company?.Name ?? "N/A",
+                    SpainTime = m.SpainTime ?? "N/A",
+                    IranTime = m.IranTime ?? "N/A",
+                    ContactName = m.Company?.ContactName ?? "N/A",
+                    Pusto = m.Company?.Pusto ?? "N/A",
+                    Salutation = m.Company?.Salutation ?? "N/A",
+                    Mobile = m.Company?.Mobile ?? "N/A",
+                    Phone = m.Company?.Phone ?? "N/A",
+                    Email = m.Company?.Email ?? "N/A",
+                    WebPage = m.Company?.WebPage ?? "N/A",
+                    Address = m.Company?.Address ?? "N/A",
+                    Comments = m.Company?.Comments ?? "N/A",
+                    Employees = m.Company?.Employees,
+                    Experience = m.Company?.Experience ?? "N/A",
+                    RegistroMercantil = m.Company?.RegistroMercantil ?? "N/A",
+                    IdentificacionNacional = m.Company?.IdentificacionNacional ?? "N/A",
+                })
+                .ToList();
+
+            var json = JsonConvert.SerializeObject(meetingDtos, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            return Content(json, "application/json");
         }
+
         [HttpGet("ClientsByCompany/{companyId}")]
         public async Task<ActionResult<IEnumerable<Client>>> GetClientsByCompany(int companyId)
         {
@@ -644,24 +674,25 @@ namespace ASPBPCPANELALPHA.Controllers
     {
         [JsonProperty("RowNumber")] public int RowNumber { get; set; }
 
-        public int MeetingId { get; set; }
-        public string ClientName { get; set; }
-        public string CompanyName { get; set; }
         public DateTime MeetingDate { get; set; }
         public string MeetingStatus { get; set; }
-        public string Interpretor { get; set; }
+        public string Interpreter { get; set; }
+        // public int MeetingId { get; set; }
+        // public string ClientName { get; set; }
+        public string CompanyName { get; set; }
         public string SpainTime { get; set; }
         public string IranTime { get; set; }
-        public int? Employees { get; set; }
         public string ContactName { get; set; }
-        public string Salutation { get; set; }
-        public string Comments { get; set; }
         public string Pusto { get; set; }
+        public string Salutation { get; set; }
         public string Mobile { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string WebPage { get; set; }
         public string Address { get; set; }
+        public string Comments { get; set; }
+        public int? Employees { get; set; }
+
         public string Experience { get; set; }
         public string RegistroMercantil { get; set; }
         public string IdentificacionNacional { get; set; }

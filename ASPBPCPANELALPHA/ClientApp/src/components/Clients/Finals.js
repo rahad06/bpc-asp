@@ -10,7 +10,7 @@ import CustomHooked from "../CustomHooked";
 import NewCompany from "../Companies/NewCompany";
 import {utils, writeFile} from "xlsx";
 
-const ClientOffers = () => {
+const Finals = () => {
     const {id} = useParams()
     const [companyIds, setCompanyIds] = useState([]);
     const [columnFilters, setColumnFilters] = useState([]);
@@ -165,7 +165,7 @@ const ClientOffers = () => {
             selectedIds = [...selectedOptions[0].map((option) => option.id)];
             console.log(selectedIds)
             const response = await axios.post(
-                `/api/Companies/export-table?clientId=${id}`,
+                `/api/Companies/export-final?clientId=${id}`,
                 selectedIds
             );
 
@@ -182,9 +182,9 @@ const ClientOffers = () => {
         setSelectedOptions(newValue);
     };
     const addToTable = async () => {
-        
+
     }
-    
+
     return (
         <>
             <Grid container spacing={0} sx={{justifyContent: 'start', alignItems: 'center'}}>
@@ -254,6 +254,6 @@ const ClientOffers = () => {
     );
 };
 
-export default ClientOffers;
+export default Finals;
 
 

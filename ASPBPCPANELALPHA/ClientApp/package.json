@@ -54,6 +54,7 @@
     "workbox-strategies": "^6.5.3",
     "workbox-streams": "^6.5.3",
     "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
