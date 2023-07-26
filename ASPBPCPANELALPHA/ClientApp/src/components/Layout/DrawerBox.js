@@ -1,6 +1,6 @@
 import React from 'react';
-import {styled} from '@mui/system';
-import {Divider, Drawer, List, ListItem, ListItemText} from '@mui/material';
+import { styled } from '@mui/system';
+import { Divider, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import ApartmentIcon from '@mui/icons-material/Apartment';
@@ -13,19 +13,40 @@ import usePanelStore from "../../Store/usePanelStore";
 
 const drawerWidth = '20%';
 
-const StyledDrawer = styled(Drawer)(({theme}) => ({
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: drawerWidth,
     flexShrink: 0,
     '& .MuiDrawer-paper': {
         width: drawerWidth,
-        boxShadow: '0px 2px 4px rgba(116, 125, 140, 0.4) !important',
-        borderRight: '0 !important',
-        backgroundColor: '#202123'
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        borderRight: '0',
+        backgroundColor: '#2D4059',
     },
 }));
 
+const SideNav = styled('div')({
+    padding: '16px',
+    color: '#777777',
+});
+
+const NavItem = styled(ListItem)(({ theme }) => ({
+    marginBottom: '10px',
+    padding: '8px',
+    borderRadius: '4px',
+    color: "#F5F5F5",
+    '&:hover': {
+        backgroundColor: '#F5F5F5',
+        cursor: 'pointer',
+        color: '#2D4059'
+    },
+}));
+
+const Icon = styled('span')({
+    marginRight: '16px',
+});
+
 const DrawerBox = () => {
-    const {setShowSignup, setShow, roles} = usePanelStore()
+    const { setShowSignup, setShow, roles } = usePanelStore();
     const logout = async () => {
         try {
             await axios.post('/api/Users/LogOut');
@@ -37,52 +58,64 @@ const DrawerBox = () => {
         } finally {
             localStorage.removeItem('isLoggedIn');
 
-            setShow(false)
-            setShowSignup(false)
+            setShow(false);
+            setShowSignup(false);
         }
     };
     return (
-        <StyledDrawer variant="permanent">
-            <div className={'side-nav'}>
-                    <List>
-                        <ListItem button component="a" href="/" sx={{margin: 0}}>
-                            <OtherHousesIcon fontSize="large"/>
-                            <ListItemText primary="Home" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
-                        <ListItem button component="a" href="/clients" sx={{margin: 0}}>
-                            <LocationCityIcon fontSize="large"/>
-                            <ListItemText primary="Clients" sx={{fontSize: '20px'}}/>
-                        </ListItem>
+        <StyledDrawer variant="permanent" className={"side-nav"}>
+            <SideNav>
+                <List>
+                    <NavItem button component="a" href="/">
+                        <Icon>
+                            <OtherHousesIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Home" />
+                    </NavItem>
+                    <Divider />
+                    <NavItem button component="a" href="/clients">
+                        <Icon>
+                            <LocationCityIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Clients" />
+                    </NavItem>
 
-                        <ListItem button component="a" href="/meetings" sx={{margin: 0}}>
-                            <GroupsIcon fontSize="large"/>
-                            <ListItemText primary="Meetings" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <ListItem button component="a" href="/interpreters" sx={{margin: 0}}>
-                            <PersonIcon fontSize="large"/>
-                            <ListItemText primary="Interepreters" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
+                    <NavItem button component="a" href="/meetings">
+                        <Icon>
+                            <GroupsIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Meetings" />
+                    </NavItem>
+                    <NavItem button component="a" href="/interpreters">
+                        <Icon>
+                            <PersonIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Interepreters" />
+                    </NavItem>
+                    <Divider />
 
-                        <ListItem button component="a" href="/companies" sx={{margin: 0}}>
-                            <ApartmentIcon fontSize="large"/>
-                            <ListItemText primary="Companies" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <ListItem button component="a" href="/industries" sx={{margin: 0}}>
-                            <FactoryIcon fontSize="large"/>
-                            <ListItemText primary="Industries" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                        <Divider/>
+                    <NavItem button component="a" href="/companies">
+                        <Icon>
+                            <ApartmentIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Companies" />
+                    </NavItem>
+                    <NavItem button component="a" href="/industries">
+                        <Icon>
+                            <FactoryIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Industries" />
+                    </NavItem>
+                    <Divider />
 
-                        <ListItem button component="a" onClick={() => logout()} sx={{margin: 0}}>
-                            <LogoutIcon fontSize="large"/>
-                            <ListItemText primary="Logout" sx={{fontSize: '20px'}}/>
-                        </ListItem>
-                    </List>
-                
-                }
-            </div>
+                    <NavItem button component="a"  onClick={() => logout()}>
+                        <Icon>
+                            <LogoutIcon fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Logout" />
+                    </NavItem>
+                </List>
+            </SideNav>
         </StyledDrawer>
     );
 };

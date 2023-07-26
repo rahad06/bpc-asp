@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Varta:wght@300;400;500;600;700&display=swap');
 
 html, body {
-    background-color: #E6E6EC82;
+    background-color: #F2F6F9;
 }
 
 html, body, h1, h2, h3, h4, h5, h6, p, span, div, li, th, td, a {
@@ -11,13 +11,15 @@ html, body, h1, h2, h3, h4, h5, h6, p, span, div, li, th, td, a {
 p, span, div, td {
     color: #2f3542 !important;
 }
-
+/*.side-nav span {*/
+/*    color: #fff !important;*/
+/*}*/
 h1, h2, h3, h4, h5, th {
     color: #57606f !important;
 }
 
 i, svg {
-    color: #5b5064 !important;
+    color: #405A72 !important;
 }
 
 hr {
@@ -38,11 +40,18 @@ hr {
 }
 
 .side-nav span {
-    padding-top: 8px;
-    font-size: 20px !important;
+    padding-top: 0;
+    /*font-size: 20px !important;*/
     color: #fff !important;
 }
-
+.side-nav span.MuiListItemText-primary {
+    padding-top: 4px;
+    /*font-size: 20px !important;*/
+    color: #fff !important;
+}
+.css-1fudjw9-MuiButtonBase-root-MuiListItem-root:hover span.MuiListItemText-primary {
+    color: #2D4059 !important;
+}
 .btn-outlined-custom {
     background-color: #414141 !important;
     border: 1px solid #414141 !important;

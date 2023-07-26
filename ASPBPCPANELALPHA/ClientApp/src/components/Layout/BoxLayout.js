@@ -5,7 +5,7 @@ const BoxLayout = ({ children }) => {
     // Define color variables
     const primaryColor = '#F44336';
     const secondaryColor = '#3F51B5';
-    const backgroundColor = '#E6E6EC82';
+    const backgroundColor = 'transparent';
 
     return (
         <Box
@@ -13,12 +13,13 @@ const BoxLayout = ({ children }) => {
                 marginTop: '100px',
                 display: 'flex',
                 justifyContent: 'end',
-                alignItems: 'center',
+                alignItems: 'start',
                 // minHeight: '100vh',
                 // height: '100%',
                 backgroundColor: backgroundColor,
+                height: '100vh',
                 width: '1200px',
-                paddingRight: '50px',
+                paddingRight: '40px',
                 marginLeft: 'auto',
                 marginRight: 'auto'
             }}
