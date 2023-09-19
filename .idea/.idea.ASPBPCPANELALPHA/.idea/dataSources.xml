@@ -8,5 +8,19 @@
       <jdbc-url>jdbc:postgresql://aberama.iran.liara.ir:32520/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="@78.46.29.99" uuid="f76d52cd-806a-4024-aab7-4b85e66ab097">
+      <driver-ref>sqlserver.jb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
+      <jdbc-url>Server=78.46.29.99,1430;MultipleActiveResultSets=true</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="BPC.Meetings@87.107.154.159" uuid="a8c15f08-d66c-4559-97d7-210b169a139a">
+      <driver-ref>sqlserver.jb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
+      <jdbc-url>Server=87.107.154.159,12209;Database=BPC.Meetings;MultipleActiveResultSets=true</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

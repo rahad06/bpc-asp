@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Client> Clients { get; set; }
     public DbSet<MeetingStatus> MeetingStatuses { get; set; }
     public DbSet<Meeting> Meetings { get; set; }
+    public DbSet<Agenda> Agendas { get; set; }
     public DbSet<DayOfWeekMeetings> DayOfWeekMeetings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

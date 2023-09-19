@@ -175,9 +175,9 @@ const ClientMeetings = () => {
                     <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.meetingId)}>
                         <EditIcon sx={{fontSize: '18px'}}/>
                     </span>
-                        {/*    <span style={{cursor: "pointer"}} onClick={() => handleDelete(row)}>*/}
-                        {/*    <Delete sx={{fontSize: '18px'}}/>*/}
-                        {/*</span>*/}
+                            <span style={{cursor: "pointer"}} onClick={() => handleDelete(row)}>
+                            <Delete sx={{fontSize: '18px'}}/>
+                        </span>
                     </div>
                 ),
             },

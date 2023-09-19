@@ -80,79 +80,99 @@ const ClientOffers = () => {
 
     const columns = useMemo(
         () => [
-            {
-                accessorKey: 'id',
-                header: 'No'
-            },
-            {
-                accessorKey: 'meetingStatus',
-                header: 'Meeting Status',
-            },
-            {
-                accessorKey: 'companyName',
-                header: 'Name of the Company',
-            },
-            {
-                accessorKey: 'spainTime',
-                header: 'Spain Time',
-            },
-            {
-                accessorKey: 'iranTime',
-                header: 'Irán TIME (+)1:30 HRS',
-            },
-            {
-                accessorKey: 'contactName',
-                header: 'Contact Name',
-            },
-            {
-                accessorKey: 'pusto',
-                header: 'Pusto',
-            },
-            {
-                accessorKey: 'salutation',
-                header: 'SALUTATION',
-            },
-            {
-                accessorKey: 'mobile',
-                header: 'Mobile',
-            },
-            {
-                accessorKey: 'phone',
-                header: 'Phone',
-            },
-            {
-                accessorKey: 'email',
-                header: 'Email',
-            },
-            {
-                accessorKey: 'webPage',
-                header: 'WebPage',
-            },
-            {
-                accessorKey: 'address',
-                header: 'Address',
-            },
-            {
-                accessorKey: 'comments',
-                header: 'Comments',
-                size: 1000
-            },
-            {
-                accessorKey: 'employees',
-                header: 'Employees',
-            },
-            {
-                accessorKey: 'experience',
-                header: 'Experience',
-            },
-            {
-                accessorKey: 'registroMercantil',
-                header: 'Registro Mercantil',
-            },
-            {
-                accessorKey: 'identificacionNacional',
-                header: 'Identificacion Nacional',
-            },
+            // {
+            //     accessorKey: 'id',
+            //     header: 'No'
+            // },
+            // {
+            //     accessorKey: 'clientName',
+            //     header: 'Spanish Company Associated',
+            // },
+            // {
+            //     accessorKey: 'agenda',
+            //     header: 'Agenda/Research Name',
+            // },
+            // {
+            //     accessorKey: 'companyName',
+            //     header: 'Sub-Client Name',
+            // },
+            // {
+            //     accessorKey: 'registroMercantil',
+            //     header: 'Registro Mercantil',
+            // },
+            // {
+            //     accessorKey: 'identificacionNacional',
+            //     header: 'Identificacion Nacional',
+            // },
+            // {
+            //     accessorKey: 'salutation',
+            //     header: 'SALUTATION',
+            // },
+            // {
+            //     accessorKey: 'contactName',
+            //     header: 'Contact Name',
+            // },
+            // {
+            //     accessorKey: 'pusto',
+            //     header: 'Pusto',
+            // },
+            // {
+            //     accessorKey: 'email',
+            //     header: 'Email',
+            // },
+            // {
+            //     accessorKey: 'webPage',
+            //     header: 'WebPage',
+            // },
+            // {
+            //     accessorKey: 'phone',
+            //     header: 'PHONE',
+            // },
+            // {
+            //     accessorKey: 'mobile',
+            //     header: 'MOBILE',
+            // },
+            // {
+            //     accessorKey: 'stage',
+            //     header: 'STAGE',
+            // },
+            // {
+            //     accessorKey: 'industryName',
+            //     header: 'SECTOR',
+            // },
+            // {
+            //     accessorKey: 'companyType',
+            //     header: 'TYPE OF COMPANY',
+            // },
+            // {
+            //     accessorKey: 'city',
+            //     header: 'ADDRESS/CITY',
+            // },
+            // {
+            //     accessorKey: 'country',
+            //     header: 'COUNTRY',
+            // },
+            // {
+            //     accessorKey: 'description',
+            //     header: 'DESCRIPTION OF THE COMPANY',
+            //     size: 1000
+            // },
+            // {
+            //     accessorKey: 'rating',
+            //     header: 'Valoración de 1 a 5 (1 - TOP, 5 - LOW)',
+            // },
+            // {
+            //     accessorKey: 'marketResearch',
+            //     header: 'If Research (Market Research). Conclussion',
+            // },
+            // {
+            //     accessorKey: 'experience',
+            //     header: 'Experience',
+            // },
+            // {
+            //     accessorKey: 'employees',
+            //     header: 'Employees',
+            // },
         ],
         []
     );
