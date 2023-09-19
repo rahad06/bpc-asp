@@ -5,7 +5,7 @@ public class Company
 {
     [Key]
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public int? IndustryId { get; set; } // Foreign key for Industry
     public Industry? Industry { get; set; } // Navigation property
 
@@ -37,8 +37,9 @@ public class Company
     
     public string? Country { get; set; }
     public string? City { get; set; }
+    public string? EqCity { get; set; }
     public string? Research { get; set; }
-    public string? Stage { get; set; }
     public int? Rating { get; set; }
     public string? Type { get; set; }
+    public string? Description { get; set; }
 }

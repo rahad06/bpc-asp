@@ -10,7 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import usePanelStore from "../../Store/usePanelStore";
-
+import {EventNote} from "@mui/icons-material";
 const drawerWidth = '20%';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -85,6 +85,12 @@ const DrawerBox = () => {
                             <GroupsIcon fontSize="large" />
                         </Icon>
                         <ListItemText primary="Meetings" />
+                    </NavItem>
+                    <NavItem button component="a" href="/agendas">
+                        <Icon>
+                            <EventNote fontSize="large" />
+                        </Icon>
+                        <ListItemText primary="Agendas" />
                     </NavItem>
                     <NavItem button component="a" href="/interpreters">
                         <Icon>

@@ -16,6 +16,8 @@ public class Client
 
 
     public int? IndustryId { get; set; } // Foreign key for Industry
+    public int? AgendaId { get; set; } // Foreign key for agenda
     public Industry? Industry { get; set; } // Navigation property
+    public Agenda? Agenda { get; set; } 
 }
 

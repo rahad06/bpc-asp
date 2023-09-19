@@ -21,7 +21,7 @@ function ClientCard(props) {
                     {client.industry?.name}
                 </Typography>
                 <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 1}} sx={{margin: 0}}>
-                    <Grid xs={6} sx={{padding: '0 16px'}}>
+                    <Grid item={true} xs={6} sx={{padding: '0 16px'}}>
                         <Typography>
                             {client.website}
                         </Typography>

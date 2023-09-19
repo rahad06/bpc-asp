@@ -26,7 +26,10 @@ namespace ASPBPCPANELALPHA.Controllers
             [FromQuery] int pageIndex = 0,
             [FromQuery] int pageSize = 10)
         {
-            var queryable = _context.Clients.AsQueryable();
+            var queryable = _context.Clients
+                .Include(c => c.Industry) // Include Industry
+                .Include(c => c.Agenda)   // Include Agenda
+                .AsQueryable();
 
             // Apply search
             if (!string.IsNullOrEmpty(searchQuery))
@@ -54,7 +57,10 @@ namespace ASPBPCPANELALPHA.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Client>> GetClient(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _context.Clients
+                .Include(c => c.Industry) // Include Industry
+                .Include(c => c.Agenda)   // Include Agenda
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (client == null)
             {

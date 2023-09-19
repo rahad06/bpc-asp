@@ -13,6 +13,7 @@ import {utils, writeFile} from "xlsx";
 const ClientOffers = () => {
     const {id} = useParams()
     const [companyIds, setCompanyIds] = useState([]);
+    const [clientName, setClientName] = useState("");
     const [columnFilters, setColumnFilters] = useState([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState([]);
@@ -31,29 +32,13 @@ const ClientOffers = () => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            if (globalFilter !== "") {
-                const response = await axios.get('/api/Companies', {
-                    params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
-                        searchQuery: globalFilter,
-                    },
-                });
-                setCompanyIds(response.data);
-                setIsError(false);
-            } else {
-                const response = await axios.get('/api/Companies', {
-                    params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
-                    },
-                });
-                setCompanyIds(response.data);
-                setIsError(false);
-            }
-
+            const response = await axios.get('/api/Companies');
+            setCompanyIds(response.data);
+            const client = await axios.get(`/api/Clients/${id}`);
+            console.log(client.data)
+            setClientName(client.data?.name)
         } catch (error) {
-            setIsError(true);
+            console.error(error);
         }
 
         setIsLoading(false);
@@ -61,118 +46,118 @@ const ClientOffers = () => {
 
     useEffect(() => {
         fetchData().then(r => r)
-    },[])
+    }, [])
 
     const handleExport = () => {
         const headings = [[
             'No',
-            'MEETING DATES',
-            'NAME OF THE COMPANY',
-            'SPAIN TIME'
+            'Spanish Company Associated',
+            'Agenda/Research Name',
+            'Sub-Client Name'
         ]];
         const wb = utils.book_new();
         const ws = utils.json_to_sheet([]);
         utils.sheet_add_aoa(ws, headings);
         utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
-        utils.book_append_sheet(wb, ws, 'Meetings');
-        writeFile(wb, 'Meetings Report.xlsx');
+        utils.book_append_sheet(wb, ws, 'FINAL LIST OF COMPANIES');
+        writeFile(wb, `CARRETILLASAMATE- FINAL LIST OF COMPANIES - ESKZ PARS-${clientName}-IRAN - ${new Date().getFullYear()}.xlsx`);
     }
 
     const columns = useMemo(
         () => [
-            // {
-            //     accessorKey: 'id',
-            //     header: 'No'
-            // },
-            // {
-            //     accessorKey: 'clientName',
-            //     header: 'Spanish Company Associated',
-            // },
-            // {
-            //     accessorKey: 'agenda',
-            //     header: 'Agenda/Research Name',
-            // },
-            // {
-            //     accessorKey: 'companyName',
-            //     header: 'Sub-Client Name',
-            // },
-            // {
-            //     accessorKey: 'registroMercantil',
-            //     header: 'Registro Mercantil',
-            // },
-            // {
-            //     accessorKey: 'identificacionNacional',
-            //     header: 'Identificacion Nacional',
-            // },
-            // {
-            //     accessorKey: 'salutation',
-            //     header: 'SALUTATION',
-            // },
-            // {
-            //     accessorKey: 'contactName',
-            //     header: 'Contact Name',
-            // },
-            // {
-            //     accessorKey: 'pusto',
-            //     header: 'Pusto',
-            // },
-            // {
-            //     accessorKey: 'email',
-            //     header: 'Email',
-            // },
-            // {
-            //     accessorKey: 'webPage',
-            //     header: 'WebPage',
-            // },
-            // {
-            //     accessorKey: 'phone',
-            //     header: 'PHONE',
-            // },
-            // {
-            //     accessorKey: 'mobile',
-            //     header: 'MOBILE',
-            // },
-            // {
-            //     accessorKey: 'stage',
-            //     header: 'STAGE',
-            // },
-            // {
-            //     accessorKey: 'industryName',
-            //     header: 'SECTOR',
-            // },
-            // {
-            //     accessorKey: 'companyType',
-            //     header: 'TYPE OF COMPANY',
-            // },
-            // {
-            //     accessorKey: 'city',
-            //     header: 'ADDRESS/CITY',
-            // },
-            // {
-            //     accessorKey: 'country',
-            //     header: 'COUNTRY',
-            // },
-            // {
-            //     accessorKey: 'description',
-            //     header: 'DESCRIPTION OF THE COMPANY',
-            //     size: 1000
-            // },
-            // {
-            //     accessorKey: 'rating',
-            //     header: 'Valoración de 1 a 5 (1 - TOP, 5 - LOW)',
-            // },
-            // {
-            //     accessorKey: 'marketResearch',
-            //     header: 'If Research (Market Research). Conclussion',
-            // },
-            // {
-            //     accessorKey: 'experience',
-            //     header: 'Experience',
-            // },
-            // {
-            //     accessorKey: 'employees',
-            //     header: 'Employees',
-            // },
+            {
+                accessorKey: 'id',
+                header: 'No'
+            },
+            {
+                accessorKey: 'clientName',
+                header: 'Spanish Company Associated',
+            },
+            {
+                accessorKey: 'agenda',
+                header: 'Agenda/Research Name',
+            },
+            {
+                accessorKey: 'name',
+                header: 'Sub-Client Name',
+            },
+            {
+                accessorKey: 'registroMercantil',
+                header: 'Registro Mercantil',
+            },
+            {
+                accessorKey: 'identificacionNacional',
+                header: 'Identificacion Nacional',
+            },
+            {
+                accessorKey: 'salutation',
+                header: 'SALUTATION',
+            },
+            {
+                accessorKey: 'contactName',
+                header: 'Contact Name',
+            },
+            {
+                accessorKey: 'pusto',
+                header: 'Pusto',
+            },
+            {
+                accessorKey: 'email',
+                header: 'Email',
+            },
+            {
+                accessorKey: 'webPage',
+                header: 'WebPage',
+            },
+            {
+                accessorKey: 'phone',
+                header: 'PHONE',
+            },
+            {
+                accessorKey: 'mobile',
+                header: 'MOBILE',
+            },
+            {
+                accessorKey: 'agendaStage',
+                header: 'STAGE',
+            },
+            {
+                accessorKey: 'industryName',
+                header: 'SECTOR',
+            },
+            {
+                accessorKey: 'type',
+                header: 'TYPE OF COMPANY',
+            },
+            {
+                accessorKey: 'city',
+                header: 'ADDRESS/CITY',
+            },
+            {
+                accessorKey: 'country',
+                header: 'COUNTRY',
+            },
+            {
+                accessorKey: 'description',
+                header: 'DESCRIPTION OF THE COMPANY',
+                size: 380
+            },
+            {
+                accessorKey: 'rating',
+                header: 'Valoración de 1 a 5 (1 - TOP, 5 - LOW)',
+            },
+            {
+                accessorKey: 'research',
+                header: 'If Research (Market Research). Conclussion',
+            },
+            {
+                accessorKey: 'experience',
+                header: 'Experience',
+            },
+            {
+                accessorKey: 'employees',
+                header: 'Employees',
+            },
         ],
         []
     );
@@ -181,15 +166,36 @@ const ClientOffers = () => {
     const handleExportTable = async () => {
         setIsLoading(true)
         try {
-            let selectedIds = []
-            selectedIds = [...selectedOptions[0].map((option) => option.id)];
-            console.log(selectedIds)
             const response = await axios.post(
                 `/api/Companies/export-table?clientId=${id}`,
-                selectedIds
+                selectedOptions
             );
-
-            setData(response.data[0].companies);
+            let tableTempData= response?.data?.[0]?.companies?.map((c, i) => ({
+                clientName: clientName,
+                agenda: c.agenda?.name,
+                id: c.id,
+                name: c.name,
+                registroMercantil: c.registroMercantil,
+                identificacionNacional: c.identificacionNacional,
+                salutation: c.salutation,
+                contactName: c.contactName,
+                pusto: c.pusto,
+                email: c.email,
+                webPage: c.webPage,
+                phone: c.phone,
+                mobile: c.mobile,
+                agendaStage: c.agenda?.stage,
+                industryName: c.industry?.name,
+                type: c.type,
+                city: c.city,
+                country: c.country,
+                description: c.description,
+                rating: c.rating, 
+                research: c.research,
+                experience: c.experience,
+                employees: c.employees
+            }))
+            setData(tableTempData);
         } catch (error) {
             console.error('Error fetching data:', error);
             // Handle error if needed
@@ -199,12 +205,13 @@ const ClientOffers = () => {
     };
 
     const handleAutocompleteChange = (newValue) => {
-        setSelectedOptions(newValue);
+        console.log(newValue[0].map(v => v.id))
+        setSelectedOptions(newValue[0].map(v => v.id));
     };
     const addToTable = async () => {
-        
+
     }
-    
+
     return (
         <>
             <Grid container spacing={0} sx={{justifyContent: 'start', alignItems: 'center'}}>

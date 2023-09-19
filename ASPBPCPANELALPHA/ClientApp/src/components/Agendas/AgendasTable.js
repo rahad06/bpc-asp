@@ -8,10 +8,8 @@ import Delete from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
-import Groups2Icon from '@mui/icons-material/Groups2';
-import {MeetingRoom, Webhook} from "@mui/icons-material";
 
-const ClientsTable = () => {
+const AgendasTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState([]);
@@ -29,7 +27,7 @@ const ClientsTable = () => {
 
         try {
             if (globalFilter !== "") {
-                const response = await axios.get('/api/clients', {
+                const response = await axios.get('/api/Agendas', {
                     params: {
                         start: pagination.pageIndex * pagination.pageSize,
                         size: pagination.pageSize,
@@ -39,7 +37,7 @@ const ClientsTable = () => {
                 setData(response.data);
                 setIsError(false);
             } else {
-                const response = await axios.get('/api/clients', {
+                const response = await axios.get('/api/Agendas', {
                     params: {
                         start: pagination.pageIndex * pagination.pageSize,
                         size: pagination.pageSize,
@@ -61,93 +59,61 @@ const ClientsTable = () => {
     }, [pagination, globalFilter]);
     const navigate = useNavigate();
 
-    const handleEdit = (clientId) => {
-        navigate(`/newClient/${clientId}`);
+    const handleEdit = (agendaId) => {
+        navigate(`/newAgenda/${agendaId}`);
     };
-    const handleOffers = (clientId) => {
-        navigate(`/clientOffers/${clientId}`);
-    };
-    const handleFinals = (clientId) => {
-        navigate(`/finals/${clientId}`);
-    };
-    const handleDelete = async (clientId) => {
+    const handleDelete = async (agendaId) => {
         try {
-            await axios.delete(`/api/Clients/${clientId}`);
-            console.log('Successfully deleted client:', clientId);
+            await axios.delete(`/api/Agendas/${agendaId}`);
+            console.log('Successfully deleted agenda:', agendaId);
             // Refresh the data after deletion
             fetchData();
         } catch (error) {
-            console.error('Error deleting client:', error);
+            console.error('Error deleting agenda:', error);
         }
     };
 
-    const handleMeetings = (id) => {
-        navigate(`/clientMeetings/${id}`);
-    }
     const columns = useMemo(
-            () => [
-                {
-                    accessorKey: 'id',
-                    header: 'Id'
-                },
-                {
-                    accessorKey: 'name',
-                    header: 'Name',
-                },
-                {
-                    accessorKey: 'website',
-                    header: 'Website',
-                },
-                {
-                    accessorKey: 'representative',
-                    header: 'Representative',
-                },
-                {
-                    accessorKey: 'industry.name',
-                    header: 'Industry',
-                },
-                {
-                    accessorKey: 'agenda.name',
-                    header: 'Agenda/Research',
-                    size: 320
-                },
-                {
-                    accessorKey: 'actions',
-                    header: 'Actions',
-                    Cell: ({row}) => (
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                             <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.id)}>
+        () => [
+            {
+                accessorKey: 'id',
+                header: 'Id'
+            },
+            {
+                accessorKey: 'name',
+                header: 'Agenda/Research Name',
+            },
+            {
+                accessorKey: 'stage',
+                header: 'Stage',
+            },
+            {
+                accessorKey: 'actions',
+                header: 'Actions',
+                Cell: ({row}) => (
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <span style={{cursor: "pointer"}} onClick={() => handleEdit(row.original.id)}>
                         <EditIcon sx={{fontSize: '18px'}}/>
                     </span>
-                            <span style={{cursor: "pointer"}} onClick={() => handleDelete(row.original.id)}>
+                        <span style={{cursor: "pointer"}} onClick={() => handleDelete(row.original.id)}>
                         <Delete sx={{fontSize: '18px'}}/>
                     </span>
-                            <span style={{cursor: "pointer"}} onClick={() => handleMeetings(row.original.id)}>
-                                <Groups2Icon sx={{fontSize: '18px'}}/>
-                            </span>
-                            <span style={{cursor: "pointer"}} onClick={() => handleOffers(row.original.id)}>
-                                <Webhook sx={{fontSize: '18px'}}/>
-                            </span>
-                            <span style={{cursor: "pointer"}} onClick={() => handleFinals(row.original.id)}>
-                                <MeetingRoom sx={{fontSize: '18px'}}/>
-                            </span>
-                        </div>
-                    ),
-                },
-            ],
-            []
-        )
-    ;
+                    </div>
+                ),
+            },
+        ],
+        []
+    );
 
     return (
         <>
             <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
+                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newAgenda'}>Add</Button>
             </Stack>
             <MaterialReactTable
                 columns={columns}
                 data={data}
-                initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
+                initialState={{showColumnFilters: false, columnVisibility: { id: false } }}
                 manualPagination
                 manualGlobalFilter
                 muiToolbarAlertBannerProps={
@@ -180,4 +146,4 @@ const ClientsTable = () => {
     );
 };
 
-export default ClientsTable;
+export default AgendasTable;

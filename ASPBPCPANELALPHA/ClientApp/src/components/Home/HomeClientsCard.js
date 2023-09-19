@@ -24,7 +24,7 @@ function HomeClientsCard(props) {
     return (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ margin: '0 !important', gap: '28px' }}>
             {clients.map((client) => (
-                <Grid key={client.id} xs={5}>
+                <Grid key={client.id} item={true} xs={5}>
                     <ClientCard client={client} />
                 </Grid>
             ))}

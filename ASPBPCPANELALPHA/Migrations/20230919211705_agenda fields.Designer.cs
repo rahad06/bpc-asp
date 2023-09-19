@@ -4,6 +4,7 @@ using ASPBPCPANELALPHA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPBPCPANELALPHA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230919211705_agenda fields")]
+    partial class agendafields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +51,6 @@ namespace ASPBPCPANELALPHA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AgendaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("IndustryId")
                         .HasColumnType("int");
 
@@ -66,8 +65,6 @@ namespace ASPBPCPANELALPHA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AgendaId");
 
                     b.HasIndex("IndustryId");
 
@@ -551,15 +548,9 @@ namespace ASPBPCPANELALPHA.Migrations
 
             modelBuilder.Entity("ASPBPCPANELALPHA.Models.Client", b =>
                 {
-                    b.HasOne("ASPBPCPANELALPHA.Models.Agenda", "Agenda")
-                        .WithMany()
-                        .HasForeignKey("AgendaId");
-
                     b.HasOne("ASPBPCPANELALPHA.Models.Industry", "Industry")
                         .WithMany()
                         .HasForeignKey("IndustryId");
-
-                    b.Navigation("Agenda");
 
                     b.Navigation("Industry");
                 });

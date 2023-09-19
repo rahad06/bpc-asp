@@ -29,6 +29,7 @@ const NewCompany = () => {
     const [country, setCountry] = useState("Iran")
     const [city, setCity] = useState("Tehran")
     const [research, setResearch] = useState("")
+    const [description, setDescription] = useState("")
     const [stage, setStage] = useState("")
     const [rating, setRating] = useState(0)
     const [type, setType] = useState("")
@@ -59,6 +60,7 @@ const NewCompany = () => {
             setCountry(response.data.country)
             setCity(response.data.city)
             setResearch(response.data.research)
+            setDescription(response.data.description)
             setStage(response.data.stage)
             setRating(response.data.rating)
             setType(response.data.type)
@@ -101,7 +103,8 @@ const NewCompany = () => {
                     stage: stage,
                     type: type,
                     rating: rating,
-                    research: research
+                    research: research,
+                    description: description,
                 })
             } catch (err) {
                 console.log(err)
@@ -129,7 +132,8 @@ const NewCompany = () => {
                     stage: stage,
                     type: type,
                     rating: rating,
-                    research: research
+                    research: research,
+                    description: description,
                 })
             } catch (err) {}
         }
@@ -139,7 +143,7 @@ const NewCompany = () => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography variant="h6" component="h2">
-                    Add Company
+                    {id ? 'Edit ' : 'Add '} Company
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -176,14 +180,6 @@ const NewCompany = () => {
                                     label="Website"
                                     value={website}
                                     onChange={e => setWebsite(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Contact Name"
-                                    value={rep}
-                                    onChange={e => setRep(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -292,6 +288,16 @@ const NewCompany = () => {
                                     multiline
                                     rows={4}
                                     onChange={e => setAddress(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Description"
+                                    value={description}
+                                    multiline
+                                    rows={4}
+                                    onChange={e => setDescription(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>

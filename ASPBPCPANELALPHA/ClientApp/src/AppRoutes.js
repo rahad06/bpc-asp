@@ -14,6 +14,8 @@ import NewInterpreter from "./components/Interpreters/NewInterpreter";
 import CompanyMeetings from "./components/Companies/CompanyMeetings";
 import ClientOffers from "./components/Clients/ClientOffers";
 import Finals from "./components/Clients/Finals";
+import AgendasTable from "./components/Agendas/AgendasTable";
+import NewAgenda from "./components/Agendas/NewAgenda";
 
 const AppRoutes = [
   {
@@ -68,6 +70,18 @@ const AppRoutes = [
   {
     path: '/newInterpreter/:id',
     element: <NewInterpreter />
+  },
+  {
+    path: '/agendas',
+    element: <AgendasTable />
+  },
+  {
+    path: '/newAgenda',
+    element: <NewAgenda />
+  },
+  {
+    path: '/newAgenda/:id',
+    element: <NewAgenda />
   },
   {
     path: '/newCompany/:id', 

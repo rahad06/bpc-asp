@@ -5,6 +5,7 @@ import axios from 'axios';
 import {useParams} from "react-router-dom";
 import CustomSearchable from "../CustomSearchable";
 import NewIndustry from "../Industries/NewIndustry";
+import NewAgenda from "../Agendas/NewAgenda";
 
 const NewClient = () => {
     const {id} = useParams()
@@ -14,9 +15,12 @@ const NewClient = () => {
     const [clientName, setClientName] = useState("")
     const [website, setWebsite] = useState("")
     const [rep, setRep] = useState("")
+    const [agenda, setAgenda] = useState("")
+    const [agendas, setAgendas] = useState([])
     const [industryId, setIndustryId] = useState(null)
     useEffect(() => {
         fetchIndustries();
+        fetchAgendas();
         if (id) {
             fetchClient()
         }
@@ -43,6 +47,15 @@ const NewClient = () => {
         }
     };
 
+    const fetchAgendas = async () => {
+        try {
+            const response = await axios.get('/api/Agendas');
+            setAgendas(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const onEdit = async () => {
         try {
             const res = axios.put(`/api/Clients/${id}`, {
@@ -62,14 +75,16 @@ const NewClient = () => {
             data = {
                 name: data.name,
                 representative: data.representative,
-                website: data.website
+                website: data.website,
+                agendaId: agenda
             }
         } else {
             data = {
                 name: data.name,
                 representative: data.representative,
                 website: data.website,
-                industryId: industryId
+                industryId: industryId,
+                agendaId: agenda
             }
         }
         try {
@@ -81,17 +96,17 @@ const NewClient = () => {
     };
 
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
+        <Grid container item={true} spacing={2}>
+            <Grid item={true} xs={12}>
                 <Typography variant="h6" component="h2">
                     Add Client
                 </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item={true} xs={12}>
                 {id ? (
                     <form onSubmit={handleSubmit(onEdit)}>
                         <Grid container spacing={2}>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <FormControl fullWidth>
                                     <CustomSearchable
                                         title={'Industry'}
@@ -100,7 +115,7 @@ const NewClient = () => {
                                     </CustomSearchable>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Client Name"
@@ -108,7 +123,7 @@ const NewClient = () => {
                                     onChange={e => setClientName(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Website"
@@ -116,7 +131,7 @@ const NewClient = () => {
                                     onChange={e => setWebsite(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Representative"
@@ -124,8 +139,16 @@ const NewClient = () => {
                                     onChange={e => setRep(e.target.value)}
                                 />
                             </Grid>
-                            {/* Add more form fields as needed */}
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
+                                <FormControl fullWidth>
+                                    <CustomSearchable
+                                        title={'Agenda'}
+                                        data={agendas} clickFn={setAgenda} value={agenda}>
+                                        <NewAgenda/>
+                                    </CustomSearchable>
+                                </FormControl>
+                            </Grid>
+                            <Grid item={true} xs={12}>
                                 <Button type="submit" variant="contained" color="primary">
                                     Submit
                                 </Button>
@@ -135,7 +158,7 @@ const NewClient = () => {
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2}>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <FormControl fullWidth>
                                     <CustomSearchable
                                         title={'Industry'}
@@ -144,7 +167,7 @@ const NewClient = () => {
                                     </CustomSearchable>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Client Name"
@@ -152,22 +175,30 @@ const NewClient = () => {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Website"
                                     {...register('website')}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Representative"
                                     {...register('representative')}
                                 />
                             </Grid>
-                            {/* Add more form fields as needed */}
-                            <Grid item xs={6}>
+                            <Grid item={true} xs={6}>
+                                <FormControl fullWidth>
+                                    <CustomSearchable
+                                        title={'Agenda'}
+                                        data={agendas} clickFn={setAgenda} value={agenda}>
+                                        <NewAgenda/>
+                                    </CustomSearchable>
+                                </FormControl>
+                            </Grid>
+                            <Grid item={true} xs={12}>
                                 <Button type="submit" variant="contained" color="primary">
                                     Submit
                                 </Button>

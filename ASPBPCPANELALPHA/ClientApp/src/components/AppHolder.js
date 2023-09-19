@@ -25,10 +25,10 @@ function AppHolder(props) {
                     background: '#E6E6EC82',
                 }}
             >
-                <Grid xs={3}>
+                <Grid item={true} xs={3}>
                     <DrawerBox/>
                 </Grid>
-                <Grid xs={7}>
+                <Grid item={true} xs={7}>
                     <TopAppBar/>
                     <BoxLayout>
                         <Routes>
