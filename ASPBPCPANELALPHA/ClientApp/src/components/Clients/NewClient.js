@@ -58,7 +58,7 @@ const NewClient = () => {
     }
     const onSubmit = async (data) => {
         console.log(data)
-        if (data.industryId === "") {
+        if (!industryId) {
             data = {
                 name: data.name,
                 representative: data.representative,
@@ -69,12 +69,11 @@ const NewClient = () => {
                 name: data.name,
                 representative: data.representative,
                 website: data.website,
-                industryId: parseInt(data.industryId)
+                industryId: industryId
             }
         }
         try {
             const response = await axios.post('/api/clients', data);
-            console.log(response.data); // Handle the response as needed
             reset(); // Reset the form after successful submission
         } catch (error) {
             console.error(error);

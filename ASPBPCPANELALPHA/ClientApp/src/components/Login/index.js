@@ -4,10 +4,9 @@ import LoginForm from "./LoginForm";
 function Index(props) {
     return (
         <>
-       <LoginForm/>
+            <LoginForm/>
         </>
-)
-;
+    );
 }
 
 export default Index;
