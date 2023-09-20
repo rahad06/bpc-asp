@@ -53,13 +53,32 @@ const ClientOffers = () => {
             'No',
             'Spanish Company Associated',
             'Agenda/Research Name',
-            'Sub-Client Name'
+            'Sub-Client Name',
+            'Registro Mercantil',
+            'Identificacion Nacional',
+            'SALUTATION',
+            'Contact Name',
+            'Pusto',
+            'Email',
+            'WebPage',
+            'PHONE',
+            'MOBILE',
+            'STAGE',
+            'SECTOR',
+            'TYPE OF COMPANY',
+            'ADDRESS/CITY',
+            'COUNTRY',
+            'DESCRIPTION OF THE COMPANY',
+            'Valoración de 1 a 5 (1 - TOP, 5 - LOW)',
+            'If Research (Market Research). Conclussion',
+            'Experience',
+            'EMPLOYEES'
         ]];
         const wb = utils.book_new();
         const ws = utils.json_to_sheet([]);
         utils.sheet_add_aoa(ws, headings);
         utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
-        utils.book_append_sheet(wb, ws, 'FINAL LIST OF COMPANIES');
+        utils.book_append_sheet(wb, ws, 'CARRETILLASAMATE');
         writeFile(wb, `CARRETILLASAMATE- FINAL LIST OF COMPANIES - ESKZ PARS-${clientName}-IRAN - ${new Date().getFullYear()}.xlsx`);
     }
 

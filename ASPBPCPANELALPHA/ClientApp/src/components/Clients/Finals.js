@@ -10,9 +10,10 @@ import CustomHooked from "../CustomHooked";
 import NewCompany from "../Companies/NewCompany";
 import {utils, writeFile} from "xlsx";
 
-const Finals = () => {
+const ClientOffers = () => {
     const {id} = useParams()
     const [companyIds, setCompanyIds] = useState([]);
+    const [clientName, setClientName] = useState("");
     const [columnFilters, setColumnFilters] = useState([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState([]);
@@ -31,29 +32,13 @@ const Finals = () => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            if (globalFilter !== "") {
-                const response = await axios.get('/api/Companies', {
-                    params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
-                        searchQuery: globalFilter,
-                    },
-                });
-                setCompanyIds(response.data);
-                setIsError(false);
-            } else {
-                const response = await axios.get('/api/Companies', {
-                    params: {
-                        start: pagination.pageIndex * pagination.pageSize,
-                        size: pagination.pageSize,
-                    },
-                });
-                setCompanyIds(response.data);
-                setIsError(false);
-            }
-
+            const response = await axios.get('/api/Companies');
+            setCompanyIds(response.data);
+            const client = await axios.get(`/api/Clients/${id}`);
+            console.log(client.data)
+            setClientName(client.data?.name)
         } catch (error) {
-            setIsError(true);
+            console.error(error);
         }
 
         setIsLoading(false);
@@ -61,21 +46,31 @@ const Finals = () => {
 
     useEffect(() => {
         fetchData().then(r => r)
-    },[])
+    }, [])
 
     const handleExport = () => {
         const headings = [[
             'No',
-            'MEETING DATES',
-            'NAME OF THE COMPANY',
-            'SPAIN TIME'
+            'RAZÓN SOCIAL (100)',
+            'DESCRIPCIÓN (4000)',
+            'TRATAMIENTO (15)',
+            'NOMBRE (75)',
+            'CARGO (100)',
+            'EMAIL (100)',
+            'WEB (200)',
+            'TELÉFONO (15)',
+            'MÓVIL (15)',
+            'DIRECCION (255)',
+            'PAÍS',
+            'CIUDAD',
+            'Escoger CIUDAD equivalente'
         ]];
         const wb = utils.book_new();
         const ws = utils.json_to_sheet([]);
         utils.sheet_add_aoa(ws, headings);
         utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
-        utils.book_append_sheet(wb, ws, 'Meetings');
-        writeFile(wb, 'Meetings Report.xlsx');
+        utils.book_append_sheet(wb, ws, 'CARRETILLASAMATE');
+        writeFile(wb, `Empresas extranjeras para volcar-CARRETILLASAMATE-RAN-${clientName} - ${new Date().getFullYear()}.xlsx`);
     }
 
     const columns = useMemo(
@@ -85,73 +80,56 @@ const Finals = () => {
                 header: 'No'
             },
             {
-                accessorKey: 'meetingStatus',
-                header: 'Meeting Status',
+                accessorKey: 'name',
+                header: 'RAZÓN SOCIAL (100)',
             },
             {
-                accessorKey: 'companyName',
-                header: 'Name of the Company',
-            },
-            {
-                accessorKey: 'spainTime',
-                header: 'Spain Time',
-            },
-            {
-                accessorKey: 'iranTime',
-                header: 'Irán TIME (+)1:30 HRS',
-            },
-            {
-                accessorKey: 'contactName',
-                header: 'Contact Name',
-            },
-            {
-                accessorKey: 'pusto',
-                header: 'Pusto',
+                accessorKey: 'description',
+                header: 'DESCRIPCIÓN (4000)',
+                size: 380
             },
             {
                 accessorKey: 'salutation',
-                header: 'SALUTATION',
+                header: 'TRATAMIENTO (15)',
             },
             {
-                accessorKey: 'mobile',
-                header: 'Mobile',
+                accessorKey: 'contactName',
+                header: 'NOMBRE (75)',
             },
             {
-                accessorKey: 'phone',
-                header: 'Phone',
-            },
-            {
+                accessorKey: 'pusto',
+                header: 'CARGO (100)',
+            },    {
                 accessorKey: 'email',
-                header: 'Email',
+                header: 'EMAIL (100)',
             },
             {
                 accessorKey: 'webPage',
-                header: 'WebPage',
+                header: 'WEB (200)',
+            },
+            {
+                accessorKey: 'phone',
+                header: 'TELÉFONO (15)',
+            },
+            {
+                accessorKey: 'mobile',
+                header: 'MÓVIL (15)',
             },
             {
                 accessorKey: 'address',
-                header: 'Address',
+                header: 'DIRECCION (255)',
             },
             {
-                accessorKey: 'comments',
-                header: 'Comments',
-                size: 1000
+                accessorKey: 'country',
+                header: 'PAÍS',
             },
             {
-                accessorKey: 'employees',
-                header: 'Employees',
+                accessorKey: 'city',
+                header: 'CIUDAD',
             },
             {
-                accessorKey: 'experience',
-                header: 'Experience',
-            },
-            {
-                accessorKey: 'registroMercantil',
-                header: 'Registro Mercantil',
-            },
-            {
-                accessorKey: 'identificacionNacional',
-                header: 'Identificacion Nacional',
+                accessorKey: 'eqCity',
+                header: 'Escoger CIUDAD equivalente',
             },
         ],
         []
@@ -161,30 +139,37 @@ const Finals = () => {
     const handleExportTable = async () => {
         setIsLoading(true)
         try {
-            let selectedIds = []
-            selectedIds = [...selectedOptions[0].map((option) => option.id)];
-            console.log(selectedIds)
             const response = await axios.post(
-                `/api/Companies/export-final?clientId=${id}`,
-                selectedIds
+                `/api/Companies/excel-table?clientId=${id}`,
+                selectedOptions
             );
-
-            setData(response.data[0].companies);
+            let tableTempData= response?.data?.map((c, i) => ({
+                id: c.id,
+                name: c.name,
+                description: c.description ?? "",
+                salutation: c.salutation ?? "",
+                contactName: c.contactName,
+                pusto: c.pusto,
+                email: c.email,
+                webPage: c.webPage,
+                phone: c.phone,
+                mobile: c.mobile,
+                address: c.address,
+                country: c.country,
+                city: c.city ?? "",
+                eqCity: c.eqCity ?? "",
+                }))
+            setData(tableTempData);
         } catch (error) {
             console.error('Error fetching data:', error);
-            // Handle error if needed
         } finally {
             setIsLoading(false)
         }
     };
 
     const handleAutocompleteChange = (newValue) => {
-        setSelectedOptions(newValue);
+        setSelectedOptions(newValue[0].map(v => v.id));
     };
-    const addToTable = async () => {
-
-    }
-
     return (
         <>
             <Grid container spacing={0} sx={{justifyContent: 'start', alignItems: 'center'}}>
@@ -254,6 +239,6 @@ const Finals = () => {
     );
 };
 
-export default Finals;
+export default ClientOffers;
 
 

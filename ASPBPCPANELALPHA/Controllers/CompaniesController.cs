@@ -289,9 +289,8 @@ namespace ASPBPCPANELALPHA.Controllers
 
             return Ok(tableData);
         }
-        // GET: api/companies/export-table
-        [HttpPost("export-final")]
-        public async Task<ActionResult<List<TableData>>> ExportFinalData([FromQuery] int clientId, [FromBody] List<int> companyIds)
+         [HttpPost("excel-table")]
+        public async Task<ActionResult<List<TableData>>> ExcelMeetings([FromQuery] int clientId, [FromBody] List<int> companyIds)
         {
             var client = await _context.Clients.FindAsync(clientId);
 
@@ -303,24 +302,14 @@ namespace ASPBPCPANELALPHA.Controllers
             var companies = await _context.Companies
                 .Where(c => companyIds.Contains(c.Id))
                 .ToListAsync();
-
-            var tableData = new List<TableData>();
-
-            // Add client row
-            var clientRow = new TableData
-            {
-                ClientName = client.Name,
-                Companies = new List<Company>()
-            };
-
-            tableData.Add(clientRow);
-
-            // Add company rows
+            var companyDataList = new List<Company>(); 
             foreach (var company in companies)
             {
                 var companyData = new Company
                 {
+                    Id = company.Id,
                     Name = company.Name,
+                    Description = company.Description,
                     Salutation = company.Salutation,
                     ContactName = company.ContactName,
                     Pusto = company.Pusto,
@@ -329,15 +318,15 @@ namespace ASPBPCPANELALPHA.Controllers
                     Phone = company.Phone,
                     Mobile = company.Mobile,
                     Address = company.Address,
-                    City = company.City,
                     Country = company.Country,
-                    Comments = company.Comments,
+                    City = company.City,
+                    EqCity = company.EqCity
                 };
-
-                clientRow.Companies.Add(companyData);
+                companyDataList.Add(companyData); 
             }
 
-            return Ok(tableData);
+            return Ok(companyDataList);
         }
+     
     }
 }
