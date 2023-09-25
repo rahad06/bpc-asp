@@ -18,7 +18,7 @@ const BoxLayout = ({ children }) => {
                 // height: '100%',
                 backgroundColor: backgroundColor,
                 height: '100vh',
-                width: '1200px',
+                width: '80vw',
                 paddingRight: '40px',
                 marginLeft: 'auto',
                 marginRight: 'auto'

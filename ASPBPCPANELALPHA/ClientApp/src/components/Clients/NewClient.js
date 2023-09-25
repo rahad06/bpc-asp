@@ -17,6 +17,7 @@ const NewClient = () => {
     const [rep, setRep] = useState("")
     const [agenda, setAgenda] = useState("")
     const [agendas, setAgendas] = useState([])
+    const [agendasL, setAgendasL] = useState([])
     const [industryId, setIndustryId] = useState(null)
     useEffect(() => {
         fetchIndustries();
@@ -29,7 +30,6 @@ const NewClient = () => {
     const fetchClient = async () => {
         try {
             const response = await axios.get(`/api/Clients/${id}`);
-            console.log(response.data)
             setClientName(response.data.name)
             setWebsite(response.data.website)
             setRep(response.data.representative)
@@ -48,12 +48,15 @@ const NewClient = () => {
     };
 
     const fetchAgendas = async () => {
+        setAgendasL(true)
         try {
             const response = await axios.get('/api/Agendas');
+            console.log(response.data)
             setAgendas(response.data);
         } catch (error) {
             console.error(error);
         }
+        setAgendasL(false)
     };
 
     const onEdit = async () => {
@@ -63,7 +66,8 @@ const NewClient = () => {
                 name: clientName,
                 website: website,
                 representative: rep,
-                industryId: industryId
+                industryId: industryId,
+                agendaId: agenda
             })
         } catch (err) {
             console.log(err)
@@ -140,6 +144,7 @@ const NewClient = () => {
                                 />
                             </Grid>
                             <Grid item={true} xs={6}>
+                                {agendasL ? null : (
                                 <FormControl fullWidth>
                                     <CustomSearchable
                                         title={'Agenda'}
@@ -147,6 +152,7 @@ const NewClient = () => {
                                         <NewAgenda/>
                                     </CustomSearchable>
                                 </FormControl>
+                                )}
                             </Grid>
                             <Grid item={true} xs={12}>
                                 <Button type="submit" variant="contained" color="primary">
