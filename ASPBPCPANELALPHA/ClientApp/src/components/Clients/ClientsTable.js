@@ -1,7 +1,4 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import {MaterialReactTable} from 'material-react-table';
-import {IconButton, Tooltip} from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
@@ -10,6 +7,7 @@ import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import {MeetingRoom, Webhook} from "@mui/icons-material";
+import ClientTable from "./ClientTable";
 
 const ClientsTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -141,41 +139,57 @@ const ClientsTable = () => {
 
     return (
         <>
-            <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
-            </Stack>
-            <MaterialReactTable
-                columns={columns}
+       <div className={'d-flex align-items-center justify-content-between'}>
+            <h1 className="al-title ng-binding">
+                Clients
+            </h1>
+           <ul className="breadcrumb al-breadcrumb"><li>
+                <a href="/">Home</a></li>
+                <li className="ng-binding">Clients</li></ul>
+       </div>
+    <div className="ng-scope mt-4">
+        <div className=" shift-up ng-scope px-4">
+        <Stack spacing={2} direction="row">
+            <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
+        </Stack>
+            <ClientTable
+                headers={columns}
                 data={data}
-                initialState={{showColumnFilters: false, columnVisibility: {id: false}}}
-                manualPagination
-                manualGlobalFilter
-                muiToolbarAlertBannerProps={
-                    isError
-                        ? {
-                            color: 'error',
-                            children: 'Error loading data',
-                        }
-                        : undefined
-                }
-                onPaginationChange={setPagination}
-                onGlobalFilterChange={setGlobalFilter}
-                renderTopToolbarCustomActions={() => (
-                    <Tooltip arrow title="Refresh Data">
-                        <IconButton onClick={fetchData}>
-                            <RefreshIcon/>
-                        </IconButton>
-                    </Tooltip>
-                )}
-                rowCount={data.length}
-                state={{
-                    isLoading,
-                    pagination,
-                    showAlertBanner: isError,
-                    showProgressBars: false,
-                    globalFilter,
-                }}
             />
+    </div>
+    </div>
+            {/*<MaterialReactTable*/}
+            {/*    columns={columns}*/}
+            {/*    data={data}*/}
+            {/*    initialState={{showColumnFilters: false, columnVisibility: {id: false}}}*/}
+            {/*    manualPagination*/}
+            {/*    manualGlobalFilter*/}
+            {/*    muiToolbarAlertBannerProps={*/}
+            {/*        isError*/}
+            {/*            ? {*/}
+            {/*                color: 'error',*/}
+            {/*                children: 'Error loading data',*/}
+            {/*            }*/}
+            {/*            : undefined*/}
+            {/*    }*/}
+            {/*    onPaginationChange={setPagination}*/}
+            {/*    onGlobalFilterChange={setGlobalFilter}*/}
+            {/*    renderTopToolbarCustomActions={() => (*/}
+            {/*        <Tooltip arrow title="Refresh Data">*/}
+            {/*            <IconButton onClick={fetchData}>*/}
+            {/*                <RefreshIcon/>*/}
+            {/*            </IconButton>*/}
+            {/*        </Tooltip>*/}
+            {/*    )}*/}
+            {/*    rowCount={data.length}*/}
+            {/*    state={{*/}
+            {/*        isLoading,*/}
+            {/*        pagination,*/}
+            {/*        showAlertBanner: isError,*/}
+            {/*        showProgressBars: false,*/}
+            {/*        globalFilter,*/}
+            {/*    }}*/}
+            {/*/>*/}
         </>
     );
 };

@@ -11,12 +11,7 @@ const BoxLayout = ({ children }) => {
         <div className="al-main">
             <div className="al-content">
                     <div className="content-top clearfix">
-                        <h1 className="al-title ng-binding">
-                            Home
-                        </h1><ul className="breadcrumb al-breadcrumb"><li>
-                        <a href="/">Home</a></li>
-                        <li className="ng-binding">Dashboard</li></ul></div>
-                <div className="ng-scope"><div className="row shift-up ng-scope">
+                        {children}
                     {/*<div className="col-xlg-3 col-lg-6 col-md-6 col-xs-12">*/}
                     {/*    <div className="panel xmedium-panel feed-comply-panel with-scroll todo-panel animated zoomIn"*/}
                     {/*         ><div className="panel-heading clearfix">*/}
@@ -46,8 +41,7 @@ const BoxLayout = ({ children }) => {
                     {/*        /!*</div>*!/*/}
                     {/*    </div>*/}
                     {/*    </div></div></div>*/}
-                </div>
-                </div>
+                    </div>
             </div>
         </div>
     );
