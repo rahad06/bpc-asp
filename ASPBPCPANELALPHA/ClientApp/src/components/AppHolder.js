@@ -8,13 +8,12 @@ import DrawerBox from './Layout/DrawerBox';
 import TopAppBar from './Layout/TopAppBar';
 import usePanelStore from '../Store/usePanelStore';
 
+import './styles/app.css'
 function AppHolder(props) {
     const {setAuthenticated, roles} = usePanelStore();
-
-
-
     return (
         <>
+            <TopAppBar/>
             <Grid
                 rowSpacing={1}
                 columnSpacing={{xs: 1, sm: 2, md: 1}}
@@ -25,11 +24,10 @@ function AppHolder(props) {
                     background: '#E6E6EC82',
                 }}
             >
-                <Grid item={true} xs={3}>
+                <Grid item={true} xs={2}>
                     <DrawerBox/>
                 </Grid>
-                <Grid item={true} xs={7}>
-                    <TopAppBar/>
+                <Grid item={true} xs={10}>
                     <BoxLayout>
                         <Routes>
                             {

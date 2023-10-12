@@ -8,39 +8,48 @@ const BoxLayout = ({ children }) => {
     const backgroundColor = 'transparent';
 
     return (
-        <Box
-            sx={{
-                marginTop: '100px',
-                display: 'flex',
-                justifyContent: 'end',
-                alignItems: 'start',
-                // minHeight: '100vh',
-                // height: '100%',
-                backgroundColor: backgroundColor,
-                height: '100vh',
-                width: '80vw',
-                paddingRight: '40px',
-                marginLeft: 'auto',
-                marginRight: 'auto'
-            }}
-        >
-            <Paper
-                sx={{
-                    padding: '1rem',
-                    backgroundColor: 'white',
-                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
-                    width: '90%',
-                    height: 'max-content',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr',
-                    gridTemplateRows: '1fr 10fr',
-                    gap: '18px',
-                    overflow: 'auto'
-                }}
-            >
-                {children}
-            </Paper>
-        </Box>
+        <div className="al-main">
+            <div className="al-content">
+                    <div className="content-top clearfix">
+                        <h1 className="al-title ng-binding">
+                            Home
+                        </h1><ul className="breadcrumb al-breadcrumb"><li>
+                        <a href="/">Home</a></li>
+                        <li className="ng-binding">Dashboard</li></ul></div>
+                <div className="ng-scope"><div className="row shift-up ng-scope">
+                    {/*<div className="col-xlg-3 col-lg-6 col-md-6 col-xs-12">*/}
+                    {/*    <div className="panel xmedium-panel feed-comply-panel with-scroll todo-panel animated zoomIn"*/}
+                    {/*         ><div className="panel-heading clearfix">*/}
+                    {/*        <h3 className="panel-title">To Do List</h3>*/}
+                    {/*    </div><div className="panel-body">*/}
+                    {/*        /!*<div className="ng-scope">*!/*/}
+                    {/*        /!*    <div className="task-todo-container" *!/*/}
+                    {/*        /!*         >*!/*/}
+                    {/*        /!*        <input type="text" value="" *!/*/}
+                    {/*        /!*               className="form-control task-todo ng-pristine ng-untouched ng-valid ng-empty" *!/*/}
+                    {/*        /!*               placeholder="Task to do.."/>*!/*/}
+                    {/*        /!*        <i className="add-item-icon ion-plus-round"></i>*!/*/}
+                    {/*        /!*        <div className="box-shadow-border"></div>*!/*/}
+                    {/*        /!*        <ul className="todo-list ng-pristine ng-untouched ng-valid ng-isolate-scope ui-sortable ng-not-empty" *!/*/}
+                    {/*        /!*            >*!/*/}
+                    {/*        /!*            <li className="ng-scope ui-sortable-handle">*!/*/}
+                    {/*        /!*                <div className="blur-container">*!/*/}
+                    {/*        /!*                    <div className="blur-box"></div></div>*!/*/}
+                    {/*        /!*                <i className="mark" style={{backgroundColor: "#6eba8c"}}></i> *!/*/}
+                    {/*        /!*                <label className="todo-checkbox custom-checkbox custom-input-success">*!/*/}
+                    {/*        /!*                    <input type="checkbox"*!/*/}
+                    {/*        /!*                           className="ng-pristine ng-untouched ng-valid ng-empty"/>*!/*/}
+                    {/*        /!*                    <span className="cut-with-dots ng-binding">Check me out</span></label>*!/*/}
+                    {/*        /!*                <i className="remove-todo ion-ios-close-empty" *!/*/}
+                    {/*        /!*                ></i></li>*!/*/}
+                    {/*        /!*            </ul></div>*!/*/}
+                    {/*        /!*</div>*!/*/}
+                    {/*    </div>*/}
+                    {/*    </div></div></div>*/}
+                </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
