@@ -15,13 +15,16 @@ function LoginForm() {
         register,
         formState: {errors},
     } = useForm();
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
     const {setShow, showSignup, setRoles} = usePanelStore()
     const [remember, setRemember] = useState(false)
-    const onSubmit = (data) => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         axios
             .post('/api/Users/SignIn', {
-                userName: data.userName,
-                password: data.password,
+                userName: userName,
+                password: password,
             })
             .then((response) => {
                 localStorage.setItem('isLoggedIn', 'true');
@@ -30,6 +33,7 @@ function LoginForm() {
             })
             .catch((error) => {
                 console.error(error);
+                alert(error)
                 setShow(false)
             });
     };
@@ -41,58 +45,80 @@ function LoginForm() {
     }
     return (
         <>
-            <Container component="main" maxWidth="sm">
+            <Box component="main" className={'auth-main'}>
                 <Box
                     sx={{
                         boxShadow: 3,
-                        borderRadius: 2,
-                        px: 4,
-                        py: 6,
+                        color: '#fff',
                         marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
+                    className={'auth-block'}
                 >
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h2"
+                    sx={{color: '#fff'}}
+                    >
+                        Welcome to Belganic Pars Panel
+                    </Typography>
+                    <Typography component="h3" variant="h3"
+                    sx={{color: '#fff'}}
+                    >
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="userName"
-                            label="Username"
-                            autoComplete="userName"
-                            autoFocus
-                            {...register('userName', {required: true})}
-                            error={errors.userName}
-                            helperText={errors.userName && 'Username is required'}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            autoComplete="current-password"
-                            {...register('password', {required: true})}
-                            error={errors.password}
-                            helperText={errors.password && 'Password is required'}
-                        />
-                        <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
-                            Sign In
-                        </Button>
-                        {/*<Button type="button"*/}
-                        {/*        onClick={() => setShowSignup(true)}*/}
-                        {/*        fullWidth variant="contained" sx={{mt: 3, mb: 2}}>*/}
-                        {/*    Sign Up*/}
-                        {/*</Button>*/}
-                    </Box>
+                    {/*<Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{mt: 1}}>*/}
+                        <form className="form-horizontal"
+                              onSubmit={onSubmit}
+                        >
+                            <div className="form-group">
+                                <label htmlFor="inputEmail3" className="control-label">User Name</label>
+                                <div className="">
+                                    <input 
+                                        value={userName}
+                                        onChange={e => setUserName(e.target.value)}
+                                        type="text" className="form-control" id="inputEmail3" placeholder="UserName"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="inputPassword3" className="control-label">Password</label>
+                                <div className="">
+                                    <input
+                                        value={password}
+                                        onChange={e => setPassword(e.target.value)}
+                                        type="password" className="form-control" id="inputPassword3" placeholder="Password"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div>
+                                    <button type="submit" className="btn btn-default btn-auth">Sign in</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    {/*<TextField*/}
+                    {/*    margin="normal"*/}
+                    {/*    required*/}
+                    {/*    fullWidth*/}
+                    {/*    name="password"*/}
+                    {/*    label="Password"*/}
+                    {/*    type="password"*/}
+                    {/*    autoComplete="current-password"*/}
+                    {/*    {...register('password', {required: true})}*/}
+                    {/*    error={errors.password}*/}
+                    {/*    helperText={errors.password && 'Password is required'}*/}
+                    {/*/>*/}
+                    {/*<Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>*/}
+                    {/*    Sign In*/}
+                    {/*</Button>*/}
+                    {/*<Button type="button"*/}
+                    {/*        onClick={() => setShowSignup(true)}*/}
+                    {/*        fullWidth variant="contained" sx={{mt: 3, mb: 2}}>*/}
+                    {/*    Sign Up*/}
+                    {/*</Button>*/}
+                    {/*</Box>*/}
                 </Box>
-            </Container>
+            </Box>
         </>
     );
 }

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './custom.css';
 import './components/styles.css';
+import './components/styles/vendor.css'
 import AppHolder from "./components/AppHolder";
 import Login from "./components/Login";
 import UsePanelStore from "./Store/usePanelStore";
