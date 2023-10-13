@@ -28,7 +28,7 @@ namespace ASPBPCPANELALPHA.Controllers
         public async Task<ActionResult<IEnumerable<Industry>>> GetIndustries(
             [FromQuery(Name = "searchQuery")] string? searchQuery = "",
             [FromQuery] int pageIndex = 0,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] int pageSize = 10000)
         {
             var queryable = _context.Industries.AsQueryable();
 

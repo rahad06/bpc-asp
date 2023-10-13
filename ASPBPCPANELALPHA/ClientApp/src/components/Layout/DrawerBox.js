@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { styled } from '@mui/system';
 import { Divider, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
-import LocationCityIcon from '@mui/icons-material/LocationCity';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import GroupsIcon from '@mui/icons-material/Groups';
 import FactoryIcon from '@mui/icons-material/Factory';
@@ -10,8 +9,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import usePanelStore from "../../Store/usePanelStore";
-import {EventNote} from "@mui/icons-material";
 import {Link} from "react-router-dom";
+
 const drawerWidth = '20%';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -48,6 +47,7 @@ const Icon = styled('span')({
 
 const DrawerBox = () => {
     const { setShowSignup, setShow, roles } = usePanelStore();
+    const path = window.location.pathname;
     const logout = async () => {
         try {
             await axios.post('/api/Users/LogOut');
@@ -63,89 +63,30 @@ const DrawerBox = () => {
             setShowSignup(false);
         }
     };
+    const [routeNames, setRouteNames] = useState([
+        {id: 1, name: 'Home', link: '/', component: <GroupsIcon/>},
+        {id: 2, name: 'Clients', link: '/clients', component: <OtherHousesIcon/>},
+        {id: 3, name: 'Companies', link: '/companies', component: <ApartmentIcon/>},
+        {id: 4, name: 'Industries', link: '/industries', component: <FactoryIcon/>},
+        {id: 6, name: 'Agendas', link: '/agendas', component: <LogoutIcon/>},
+        {id: 7, name: 'Interpreters', link: '/interpreters', component: <PersonIcon/>},
+        {id: 8, name: "Meetings", link: '/meetings', component: <GroupsIcon/>}
+    ])
     return (
-        // <StyledDrawer variant="permanent" className={"side-nav"}>
-        //     <SideNav>
-        //         <List>
-        //             <NavItem button component="a" href="/">
-        //                 <Icon>
-        //                     <OtherHousesIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Home" />
-        //             </NavItem>
-        //             <Divider />
-        //             <NavItem button component="a" href="/clients">
-        //                 <Icon>
-        //                     <LocationCityIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Clients" />
-        //             </NavItem>
-        //
-        //             <NavItem button component="a" href="/meetings">
-        //                 <Icon>
-        //                     <GroupsIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Meetings" />
-        //             </NavItem>
-        //             <NavItem button component="a" href="/agendas">
-        //                 <Icon>
-        //                     <EventNote fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Agendas" />
-        //             </NavItem>
-        //             <NavItem button component="a" href="/interpreters">
-        //                 <Icon>
-        //                     <PersonIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Interepreters" />
-        //             </NavItem>
-        //             <Divider />
-        //
-        //             <NavItem button component="a" href="/companies">
-        //                 <Icon>
-        //                     <ApartmentIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Companies" />
-        //             </NavItem>
-        //             <NavItem button component="a" href="/industries">
-        //                 <Icon>
-        //                     <FactoryIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Industries" />
-        //             </NavItem>
-        //             <Divider />
-        //
-        //             <NavItem button component="a"  onClick={() => logout()}>
-        //                 <Icon>
-        //                     <LogoutIcon fontSize="large" />
-        //                 </Icon>
-        //                 <ListItemText primary="Logout" />
-        //             </NavItem>
-        //         </List>
-        //     </SideNav>
-        // </StyledDrawer>
         <aside className="al-sidebar">
             <div className="slimScrollDiv" style={{position: 'relative', overflow: 'hidden', width: 'auto', height: '297px'}}>
                 <ul className="al-sidebar-list"
                     style={{overflow: 'hidden', width: 'auto', height: '297px'}}>
-                    <li 
-                        className="al-sidebar-list-item ng-scope selected">
+                    {routeNames.map(r => (
+                    <li key={`nav-route-${r.id}`}
+                        className={`al-sidebar-list-item ng-scope ${!path || path.toLowerCase() === r.link.toLowerCase() ? 'selected' : ""}`}>
                         <Link
-                        className="al-sidebar-list-link ng-scope" to="/"><i
-                        className="ion-android-home"></i><span
-                        className="ng-binding">Home</span></Link>
-                    </li>
-                    <li className="al-sidebar-list-item ng-scope with-sub-menu"
-                       >
-                        <Link
-                            to={'/Clients'}
-                        className="al-sidebar-list-link ng-scope">
+                        className="al-sidebar-list-link ng-scope" to={r.link}>
+                            {r.component}
                             <span
-                        className="ng-binding">Clients</span> 
-                            <b
-                        className="fa fa-angle-down ng-scope" ></b>
-                    </Link>
+                        className="ng-binding">{r.name}</span></Link>
                     </li>
+                    ))}
                 </ul>
             </div>
             <div className="sidebar-hover-elem show-hover-elem"

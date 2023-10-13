@@ -8,6 +8,8 @@ import Delete from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
+import NewIndustry from "./NewIndustry";
+import IndustryTable from "./IndustryTable";
 
 const IndustriesTable = () => {
     const [columnFilters, setColumnFilters] = useState([]);
@@ -15,7 +17,7 @@ const IndustriesTable = () => {
     const [sorting, setSorting] = useState([]);
     const [pagination, setPagination] = useState({
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 1000,
     });
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -102,43 +104,27 @@ const IndustriesTable = () => {
     );
 
     return (
-        <>
-            <Stack spacing={2} direction="row">
-                <Button variant="outlined" className={'btn-outlined-custom'} href={'/newIndustry'}>Add</Button>
-            </Stack>
-            <MaterialReactTable
-                columns={columns}
-                data={data}
-                initialState={{showColumnFilters: false, columnVisibility: { id: false } }}
-                manualPagination
-                manualGlobalFilter
-                muiToolbarAlertBannerProps={
-                    isError
-                        ? {
-                            color: 'error',
-                            children: 'Error loading data',
-                        }
-                        : undefined
-                }
-                onPaginationChange={setPagination}
-                onGlobalFilterChange={setGlobalFilter}
-                renderTopToolbarCustomActions={() => (
-                    <Tooltip arrow title="Refresh Data">
-                        <IconButton onClick={fetchData}>
-                            <RefreshIcon/>
-                        </IconButton>
-                    </Tooltip>
-                )}
-                rowCount={data.length}
-                state={{
-                    isLoading,
-                    pagination,
-                    showAlertBanner: isError,
-                    showProgressBars: false,
-                    globalFilter,
-                }}
-            />
-        </>
+            <>
+                <div className={'d-flex align-items-center justify-content-between'}>
+                    <h1 className="al-title ng-binding">
+                        Industries
+                    </h1>
+                    <ul className="breadcrumb al-breadcrumb"><li>
+                        <a href="/">Home</a></li>
+                        <li className="ng-binding">Clients</li></ul>
+                </div>
+                <div className="ng-scope mt-4">
+                    <div className=" shift-up ng-scope px-4">
+                        <Stack spacing={2} direction="row">
+                            <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
+                        </Stack>
+                        <IndustryTable
+                            headers={columns}
+                            data={data}
+                        />
+                    </div>
+                </div>
+          </>
     );
 };
 

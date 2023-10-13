@@ -15,7 +15,7 @@ const ClientsTable = () => {
     const [sorting, setSorting] = useState([]);
     const [pagination, setPagination] = useState({
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 10000,
     });
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -158,38 +158,6 @@ const ClientsTable = () => {
             />
     </div>
     </div>
-            {/*<MaterialReactTable*/}
-            {/*    columns={columns}*/}
-            {/*    data={data}*/}
-            {/*    initialState={{showColumnFilters: false, columnVisibility: {id: false}}}*/}
-            {/*    manualPagination*/}
-            {/*    manualGlobalFilter*/}
-            {/*    muiToolbarAlertBannerProps={*/}
-            {/*        isError*/}
-            {/*            ? {*/}
-            {/*                color: 'error',*/}
-            {/*                children: 'Error loading data',*/}
-            {/*            }*/}
-            {/*            : undefined*/}
-            {/*    }*/}
-            {/*    onPaginationChange={setPagination}*/}
-            {/*    onGlobalFilterChange={setGlobalFilter}*/}
-            {/*    renderTopToolbarCustomActions={() => (*/}
-            {/*        <Tooltip arrow title="Refresh Data">*/}
-            {/*            <IconButton onClick={fetchData}>*/}
-            {/*                <RefreshIcon/>*/}
-            {/*            </IconButton>*/}
-            {/*        </Tooltip>*/}
-            {/*    )}*/}
-            {/*    rowCount={data.length}*/}
-            {/*    state={{*/}
-            {/*        isLoading,*/}
-            {/*        pagination,*/}
-            {/*        showAlertBanner: isError,*/}
-            {/*        showProgressBars: false,*/}
-            {/*        globalFilter,*/}
-            {/*    }}*/}
-            {/*/>*/}
         </>
     );
 };
