@@ -21,7 +21,6 @@ function ClientForm(props) {
                             <Grid item={true} xs={6}>
                                 <FormControl fullWidth>
                                     <CustomSearchable
-                                        className={'form-control'}
                                         title={'Industry'}
                                         data={industries} clickFn={setIndustryId} value={industryId}>
                                         <NewIndustry/>

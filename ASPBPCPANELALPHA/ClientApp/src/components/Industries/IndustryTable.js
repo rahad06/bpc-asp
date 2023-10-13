@@ -28,10 +28,6 @@ function IndustryTable(props) {
                             <tr className="ng-scope" key={i}>
                                 <td className="ng-binding table-id">{d.id}</td>
                                 <td className="ng-binding">{d.name}</td>
-                                <td className="ng-binding">{d.website}</td>
-                                <td className="ng-binding">{d.representative}</td>
-                                <td className="ng-binding">{d.industry?.name}</td>
-                                <td className="ng-binding">{d.agenda?.name}</td>
                                 <td>
                                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                     <span style={{cursor: "pointer"}} onClick={() => handleEdit(d.id)}>

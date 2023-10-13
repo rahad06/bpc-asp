@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material';
 import axios from 'axios';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import CustomSearchable from "../CustomSearchable";
 import NewIndustry from "../Industries/NewIndustry";
 
@@ -10,7 +10,7 @@ const NewCompany = () => {
     const {id} = useParams()
     const {handleSubmit, register, reset} = useForm();
     const [industries, setIndustries] = useState([]);
-
+    const navigate = useNavigate()
     const [companyName, setCompanyName] = useState("")
     const [website, setWebsite] = useState("")
     const [rep, setRep] = useState("")
@@ -65,8 +65,10 @@ const NewCompany = () => {
             setRating(response.data.rating)
             setType(response.data.type)
             setIndustryId(response.data.industry.id)
+            navigate('/companies')
         } catch (error) {
             console.error(error);
+            alert(error)
         }
     }
     const fetchIndustries = async () => {
@@ -106,8 +108,10 @@ const NewCompany = () => {
                     research: research,
                     description: description,
                 })
+                navigate('/companies')
             } catch (err) {
                 console.log(err)
+                alert(err)
             }
         } else {
             try {
@@ -135,19 +139,24 @@ const NewCompany = () => {
                     research: research,
                     description: description,
                 })
-            } catch (err) {}
+                navigate('/companies')
+            } catch (err) {
+                alert(err)
+            }
         }
     }
     
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h6" component="h2">
-                    {id ? 'Edit ' : 'Add '} Company
-                </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                    <form onSubmit={handleSubmit(onEdit)}>
+                <div>
+                    <div className="panel with-scroll animated zoomIn">
+                        <div className="panel-heading clearfix">
+                            <h3 className="panel-title">Company</h3></div>
+                        <div className="panel-body">
+                            <div
+                                className="ng-scope">
+                                <form className="ng-pristine ng-valid ng-scope"  onSubmit={handleSubmit(onEdit)}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
@@ -160,6 +169,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Company Name"
                                     value={companyName}
@@ -168,6 +178,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Type of Company"
                                     value={type}
@@ -176,6 +187,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Website"
                                     value={website}
@@ -184,6 +196,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Contact Name"
                                     value={rep}
@@ -192,6 +205,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Pusto"
                                     value={post}
@@ -200,6 +214,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Salutation"
                                     value={salutation}
@@ -208,6 +223,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Mobile"
                                     value={mobile}
@@ -216,6 +232,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Phone"
                                     value={phone}
@@ -224,6 +241,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Email"
                                     value={email}
@@ -232,6 +250,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Employees"
                                     type={'number'}
@@ -241,6 +260,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Rating"
                                     type={'number'}
@@ -250,6 +270,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Registro Mercantil"
                                     value={registroMercantil}
@@ -258,6 +279,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Identificacion Nacional"
                                     value={identificacionNacional}
@@ -266,6 +288,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="City"
                                     value={city}
@@ -274,6 +297,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Country"
                                     value={country}
@@ -282,6 +306,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Address"
                                     value={address}
@@ -292,6 +317,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     label="Description"
                                     value={description}
@@ -302,6 +328,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     multiline
                                     rows={4}
@@ -312,6 +339,7 @@ const NewCompany = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    className='form-group'
                                     fullWidth
                                     multiline
                                     rows={4}
@@ -321,13 +349,17 @@ const NewCompany = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Button type="submit" variant="contained" color="primary">
+                                <Button type="submit" variant="contained" color="primary"
+                                className='btn btn-primary'>
                                     Submit
                                 </Button>
                             </Grid>
                         </Grid>
                     </form>
-             
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Grid>
         </Grid>
     );

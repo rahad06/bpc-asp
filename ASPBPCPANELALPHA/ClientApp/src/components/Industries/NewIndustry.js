@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material';
 import axios from 'axios';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const NewIndustry = () => {
     const {id} = useParams()
@@ -24,40 +24,47 @@ const NewIndustry = () => {
             console.error(error);
         }
     }
-
+const navigate = useNavigate()
     const onEdit = async () => {
         try {
             const res = axios.put(`/api/Industries/${id}`, {
                 id: id,
                 name: name,
             })
+            navigate('/industries')
         } catch (err) {
             console.log(err)
+            alert(err)
         }
     }
     const onSubmit = async (data) => {
-        console.log(data)
         
         try {
             const response = await axios.post('/api/Industries/Create', data);
             console.log(response.data); // Handle the response as needed
             reset(); // Reset the form after successful submission
+            navigate('/industries')
         } catch (error) {
             console.error(error);
+            alert(error)
         }
     };
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h6" component="h2">
-                    Add Industry
-                </Typography>
-            </Grid>
-            <Grid item xs={12}>
+                <div>
+                    <div className="panel with-scroll animated zoomIn">
+                        <div className="panel-heading clearfix">
+                            <h3 className="panel-title">Industry</h3>
+                        </div>
+                        <div className="panel-body">
+                            <div
+                                className="ng-scope">
                 {id ? (
-                    <form onSubmit={handleSubmit(onEdit)}>
-                        <Grid container spacing={2}>
+                    <form className="ng-pristine ng-valid ng-scope"  onSubmit={handleSubmit(onEdit)}>
+
+                    <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
@@ -94,6 +101,11 @@ const NewIndustry = () => {
                         </Grid>
                     </form>
                 )}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Grid>
         </Grid>
     );

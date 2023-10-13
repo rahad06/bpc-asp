@@ -116,7 +116,7 @@ const IndustriesTable = () => {
                 <div className="ng-scope mt-4">
                     <div className=" shift-up ng-scope px-4">
                         <Stack spacing={2} direction="row">
-                            <Button variant="outlined" className={'btn-outlined-custom'} href={'/newClient'}>Add</Button>
+                            <Button variant="outlined" className={'btn-outlined-custom'} href={'/newIndustry'}>Add</Button>
                         </Stack>
                         <IndustryTable
                             headers={columns}
