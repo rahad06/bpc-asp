@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import usePanelStore from "../../Store/usePanelStore";
 import SignUpForm from "./SignUpForm";
+import './../styles/auth.css'
 
 function LoginForm() {
     const {

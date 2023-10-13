@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom";
 import CustomSearchable from "../CustomSearchable";
 import NewIndustry from "../Industries/NewIndustry";
 import NewAgenda from "../Agendas/NewAgenda";
+import ClientForm from "./ClientForm";
 
 const NewClient = () => {
     const {id} = useParams()
@@ -101,11 +102,11 @@ const NewClient = () => {
 
     return (
         <Grid container item={true} spacing={2}>
-            <Grid item={true} xs={12}>
-                <Typography variant="h6" component="h2">
-                    Add Client
-                </Typography>
-            </Grid>
+            {/*<Grid item={true} xs={12}>*/}
+            {/*    <Typography variant="h6" component="h2">*/}
+            {/*        Add Client*/}
+            {/*    </Typography>*/}
+            {/*</Grid>*/}
             <Grid item={true} xs={12}>
                 {id ? (
                     <form onSubmit={handleSubmit(onEdit)}>
@@ -162,55 +163,17 @@ const NewClient = () => {
                         </Grid>
                     </form>
                 ) : (
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Grid container spacing={2}>
-                            <Grid item={true} xs={6}>
-                                <FormControl fullWidth>
-                                    <CustomSearchable
-                                        title={'Industry'}
-                                        data={industries} clickFn={setIndustryId} value={industryId}>
-                                        <NewIndustry/>
-                                    </CustomSearchable>
-                                </FormControl>
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Client Name"
-                                    {...register('name')}
-                                    required
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Website"
-                                    {...register('website')}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Representative"
-                                    {...register('representative')}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <FormControl fullWidth>
-                                    <CustomSearchable
-                                        title={'Agenda'}
-                                        data={agendas} clickFn={setAgenda} value={agenda}>
-                                        <NewAgenda/>
-                                    </CustomSearchable>
-                                </FormControl>
-                            </Grid>
-                            <Grid item={true} xs={12}>
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
+                    <>
+                    <ClientForm
+                    industries={industries}
+                    setIndustryId={setIndustryId}
+                    industryId={industryId}
+                    register={register}
+                    agendas={agendas}
+                    agenda={agenda}
+                    setAgenda={setAgenda}
+                    />
+                    </>
                 )}
             </Grid>
         </Grid>

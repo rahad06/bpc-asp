@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Paper } from '@mui/material';
-
+import '../styles/app.css'
 const BoxLayout = ({ children }) => {
     // Define color variables
     const primaryColor = '#F44336';
