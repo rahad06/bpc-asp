@@ -7,6 +7,7 @@ import CustomSearchable from "../CustomSearchable";
 import NewIndustry from "../Industries/NewIndustry";
 import NewAgenda from "../Agendas/NewAgenda";
 import ClientForm from "./ClientForm";
+import ClientEditForm from "./ClientEditForm";
 
 const NewClient = () => {
     const {id} = useParams()
@@ -71,8 +72,10 @@ const NewClient = () => {
                 industryId: industryId,
                 agendaId: agenda
             })
+            navigate('/clients')
         } catch (err) {
             console.log(err)
+            alert(err)
         }
     }
     const onSubmit = async (data) => {
@@ -99,6 +102,7 @@ const NewClient = () => {
             navigate('/clients')
         } catch (error) {
             console.error(error);
+            alert(error)
         }
     };
 
@@ -111,59 +115,20 @@ const NewClient = () => {
             {/*</Grid>*/}
             <Grid item={true} xs={12}>
                 {id ? (
-                    <form onSubmit={handleSubmit(onEdit)}>
-                        <Grid container spacing={2}>
-                            <Grid item={true} xs={6}>
-                                <FormControl fullWidth>
-                                    <CustomSearchable
-                                        title={'Industry'}
-                                        data={industries} clickFn={setIndustryId} value={industryId}>
-                                        <NewIndustry/>
-                                    </CustomSearchable>
-                                </FormControl>
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Client Name"
-                                    value={clientName}
-                                    onChange={e => setClientName(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Website"
-                                    value={website}
-                                    onChange={e => setWebsite(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Representative"
-                                    value={rep}
-                                    onChange={e => setRep(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item={true} xs={6}>
-                                {agendasL ? null : (
-                                <FormControl fullWidth>
-                                    <CustomSearchable
-                                        title={'Agenda'}
-                                        data={agendas} clickFn={setAgenda} value={agenda}>
-                                        <NewAgenda/>
-                                    </CustomSearchable>
-                                </FormControl>
-                                )}
-                            </Grid>
-                            <Grid item={true} xs={12}>
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
+                   <ClientEditForm
+                       handleSubmit={handleSubmit}
+                       onEdit={onEdit} industries={industries}
+                       setIndustryId={setIndustryId} industryId={industryId}
+                       clientName={clientName} 
+                       setClientName={setClientName}
+                       website={website}
+                       setWebsite={setWebsite}
+                       rep={rep}
+                       setRep={setRep} 
+                       agendasL={agendasL}
+                       agendas={agendas} 
+                       setAgendas={setAgendas} agenda={agenda}
+                   />
                 ) : (
                     <>
                     <ClientForm

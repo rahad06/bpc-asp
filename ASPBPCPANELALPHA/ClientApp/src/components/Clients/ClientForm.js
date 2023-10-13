@@ -19,7 +19,7 @@ function ClientForm(props) {
                         <form className="ng-pristine ng-valid ng-scope"  onSubmit={handleSubmit(onEdit)}>
                             <Grid container spacing={2}>
                             <Grid item={true} xs={6}>
-                                <FormControl fullWidth className={'form-group'}>
+                                <FormControl fullWidth>
                                     <CustomSearchable
                                         className={'form-control'}
                                         title={'Industry'}
@@ -64,7 +64,6 @@ function ClientForm(props) {
                                     <CustomSearchable
                                         title={'Agenda'}
                                         data={agendas} clickFn={setAgenda} value={agenda}
-                                        className={'form-control'}
                                     >
                                         <NewAgenda/>
                                     </CustomSearchable>

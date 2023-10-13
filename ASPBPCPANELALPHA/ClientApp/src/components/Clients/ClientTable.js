@@ -1,6 +1,19 @@
 ﻿import React from 'react';
-
+import EditIcon from "@mui/icons-material/Edit";
+import Delete from "@mui/icons-material/Delete";
+import Groups2Icon from "@mui/icons-material/Groups2";
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import {useNavigate} from "react-router-dom";
 function ClientTable(props) {
+    const navigate = useNavigate()
+const handleEdit = (id) => {
+        navigate(`/newClient/${id}`)
+}
+const handleDelete = () => {}
+const handleMeetings = () => {}
+const handleOffer = () => {}
+const handleFinal = () => {}
     return (
         <div className="panel-body">
             <div className="ng-scope">
@@ -22,9 +35,25 @@ function ClientTable(props) {
                                 <td className="ng-binding">{d.representative}</td>
                                 <td className="ng-binding">{d.industry?.name}</td>
                                 <td className="ng-binding">{d.agenda?.name}</td>
-                            <td><a className="email-link ng-binding"
-                                   href="mailto:mdo@gmail.com">mdo@gmail.com</a></td>
-                            <td className="ng-binding">28</td>
+                            <td>
+                                <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <span style={{cursor: "pointer"}} onClick={() => handleEdit(d.id)}>
+                        <EditIcon sx={{fontSize: '18px'}}/>
+                    </span>
+                                    <span style={{cursor: "pointer"}} onClick={() => handleDelete(d.id)}>
+                        <Delete sx={{fontSize: '18px'}}/>
+                    </span>
+                                    <span style={{cursor: "pointer"}} onClick={() => handleMeetings(d.id)}>
+                                <Groups2Icon sx={{fontSize: '18px'}}/>
+                            </span>
+                                    <span style={{cursor: "pointer"}} onClick={() => handleOffer(d.id)}>
+                                <LocalOfferIcon sx={{fontSize: '18px'}}/>
+                            </span>
+                                    <span style={{cursor: "pointer"}} onClick={() => handleFinal(d.id)}>
+                                <MeetingRoomIcon sx={{fontSize: '18px'}}/>
+                            </span>
+                                </div>
+                            </td>
                         </tr>
                         ))}
                         </tbody>

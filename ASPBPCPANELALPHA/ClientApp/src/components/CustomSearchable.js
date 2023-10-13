@@ -72,6 +72,7 @@ export default function CustomSearchable(props) {
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 freeSolo
                 renderInput={(params) => <TextField {...params} label={props.title}/>}
+                className={props.className ?? ""}
             />
             <Dialog open={open} onClose={handleClose}>
                 <Box sx={{padding: '10px'}}>
