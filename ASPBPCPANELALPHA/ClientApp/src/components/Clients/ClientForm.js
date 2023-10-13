@@ -6,7 +6,7 @@ import NewAgenda from "../Agendas/NewAgenda";
 
 function ClientForm(props) {
     const {industryId, setIndustryId, industries, register
-    , agenda, agendas, setAgenda
+    , agenda, agendas, setAgenda, handleSubmit, onEdit
     } = props;
     return (
         <div>
@@ -16,7 +16,7 @@ function ClientForm(props) {
                 <div className="panel-body">
                     <div 
                         className="ng-scope">
-                        <form className="ng-pristine ng-valid ng-scope">
+                        <form className="ng-pristine ng-valid ng-scope"  onSubmit={handleSubmit(onEdit)}>
                             <Grid container spacing={2}>
                             <Grid item={true} xs={6}>
                                 <FormControl fullWidth className={'form-group'}>

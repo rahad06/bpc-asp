@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material';
 import axios from 'axios';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import CustomSearchable from "../CustomSearchable";
 import NewIndustry from "../Industries/NewIndustry";
 import NewAgenda from "../Agendas/NewAgenda";
@@ -10,6 +10,7 @@ import ClientForm from "./ClientForm";
 
 const NewClient = () => {
     const {id} = useParams()
+    const navigate = useNavigate()
     const {handleSubmit, register, reset} = useForm();
     const [industries, setIndustries] = useState([]);
 
@@ -95,6 +96,7 @@ const NewClient = () => {
         try {
             const response = await axios.post('/api/clients', data);
             reset(); // Reset the form after successful submission
+            navigate('/clients')
         } catch (error) {
             console.error(error);
         }
@@ -172,6 +174,8 @@ const NewClient = () => {
                     agendas={agendas}
                     agenda={agenda}
                     setAgenda={setAgenda}
+                    handleSubmit={handleSubmit}
+                    onEdit={onSubmit}
                     />
                     </>
                 )}
